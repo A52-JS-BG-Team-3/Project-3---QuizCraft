@@ -1,7 +1,9 @@
 import { useState } from "react";
 import "./App.css";
 import AppContext from "./context/context";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./views/Home/Home";
+import WithSubnavigation from "./components/NavBar/NavBar";
 
 function App() {
   const [appState, setAppState] = useState({
@@ -13,7 +15,10 @@ function App() {
     <AppContext.Provider value={{ ...appState, setContext: setAppState }}>
       <Router>
         <div className="App">
-          <h1>Sex</h1>
+          <WithSubnavigation />
+          <Routes>
+            <Route path="/home" element={<Home />} />
+          </Routes>
         </div>
       </Router>
     </AppContext.Provider>
