@@ -11,6 +11,9 @@ import {
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import NeonButton from "../NeonButton/NeonButton";
+import { useContext } from "react";
+import AppContext from "../../context/context";
+import { logoutUser } from "../../services/auth.service";
 
 // Define keyframes for pulsating animation
 const pulse = keyframes`
@@ -27,6 +30,15 @@ const pulse = keyframes`
 
 export default function WithSubnavigation() {
   const { isOpen, onToggle } = useDisclosure();
+  const {user, setUser} = useContext(AppContext);
+  
+  const onLogout = () => {
+    logoutUser().then(() => {
+      setUser({
+        user: null,
+      });
+    });
+  };
 
   return (
     <Box className="nav">
@@ -77,8 +89,8 @@ export default function WithSubnavigation() {
           mr={4}
         >
           <NeonButton text="Home" href="/home" />
-          <NeonButton text="Sign In" href="/signin" />
-          <NeonButton text="Sign up" href="/signup" />
+          {user == null && (<NeonButton text="Sign In" href="/signin" /> )}
+          {user == null && (<NeonButton text="Sign up" href="/signup" />)}
         </Stack>
       </Flex>
 

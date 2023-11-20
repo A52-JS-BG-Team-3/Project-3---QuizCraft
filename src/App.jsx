@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./views/Home/Home";
 import WithSubnavigation from "./components/NavBar/NavBar";
 import Register from "./views/Register/Register";
+import Login from "./views/LogIn/Login";
 
 function App() {
   const [appState, setAppState] = useState({
@@ -13,7 +14,7 @@ function App() {
   });
 
   return (
-    <AppContext.Provider value={{ ...appState, setContext: setAppState }}>
+    <AppContext.Provider value={{ ...appState, setUser: setAppState  }}>
       <Router>
         <div className="App">
           <WithSubnavigation />
@@ -21,6 +22,7 @@ function App() {
           <Routes>
             <Route path="/home" element={<Home />} />
             <Route path="/signup" element={<Register />} />
+            <Route path="/signin" element={<Login />} />
           </Routes>
         </div>
       </Router>

@@ -19,27 +19,27 @@ export const getUserData = (uid) => {
   return get(query(ref(db, 'users'), orderByChild('uid'), equalTo(uid)));
 };
 
-// export const fetchUserName = async (uid) => {
-//   const usersRef = ref(db, 'users');
+export const fetchUserName = async (uid) => {
+  const usersRef = ref(db, 'users');
 
-//   try {
-//     const snapshot = await get(usersRef);
-//     if (snapshot.exists()) {
-//       let foundUserName = "Unknown";
-//       snapshot.forEach((childSnapshot) => {
-//         const user = childSnapshot.val();
-//         if (user.uid === uid) {
-//           foundUserName = childSnapshot.key;
-//           return true;
-//         }
-//       });
-//       return foundUserName;
-//     } else {
-//       console.error("No users found in database.");
-//       return "Unknown";
-//     }
-//   } catch (error) {
-//     console.error("Error fetching user names:", error);
-//     return "Unknown";
-//   }
-// };
+  try {
+    const snapshot = await get(usersRef);
+    if (snapshot.exists()) {
+      let foundUserName = "Unknown";
+      snapshot.forEach((childSnapshot) => {
+        const user = childSnapshot.val();
+        if (user.uid === uid) {
+          foundUserName = childSnapshot.key;
+          return true;
+        }
+      });
+      return foundUserName;
+    } else {
+      console.error("No users found in database.");
+      return "Unknown";
+    }
+  } catch (error) {
+    console.error("Error fetching user names:", error);
+    return "Unknown";
+  }
+};
