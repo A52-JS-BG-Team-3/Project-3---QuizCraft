@@ -1,5 +1,3 @@
-"use client";
-
 import {
   Box,
   FormControl,
@@ -13,6 +11,9 @@ import {
   Heading,
   Text,
   useColorModeValue,
+  keyframes,
+  Divider,
+  Image
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useContext } from "react";
@@ -21,6 +22,32 @@ import AuthContext from "../../context/context";
 import { createUserHandle, getUserByHandle } from "../../services/user.service";
 import { registerUser } from "../../services/auth.service";
 import { useNavigate } from "react-router-dom";
+import NeonButton from "../../components/NeonButton/NeonButton";
+
+// const pulse = keyframes`
+//   0% {
+//     box-shadow: 0 0 10px #03001C, 0 0 20px #03001C, 0 0 30px #03001C, 0 0 40px #03001C;
+//   }
+//   50% {
+//     box-shadow: 0 0 15px #301E67, 0 0 25px #301E67, 0 0 35px #301E67, 0 0 45px #301E67;
+//   }
+//   100% {
+//     box-shadow: 0 0 10px #5B8FB9, 0 0 20px #5B8FB9, 0 0 30px #5B8FB9, 0 0 40px #5B8FB9;
+//   }
+// `;
+
+const pulse = keyframes`
+  0% {
+    box-shadow: 0 0 10px #E5E7EB, 0 0 20px #E5E7EB, 0 0 30px #E5E7EB, 0 0 40px #E5E7EB;
+  }
+  50% {
+    box-shadow: 0 0 15px #E5E7EB, 0 0 25px #E5E7EB, 0 0 35px #E5E7EB, 0 0 45px #E5E7EB;
+  }
+  100% {
+    box-shadow: 0 0 10px #E5E7EB, 0 0 20px #E5E7EB, 0 0 30px #E5E7EB, 0 0 40px #E5E7EB;
+  }
+`;
+
 
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
@@ -106,7 +133,7 @@ export default function Register() {
       .then(() => {
         navigate("/home");
       });
-    // Catch and userName errors
+    
   };
 
   return (
@@ -122,93 +149,101 @@ export default function Register() {
       <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
         <Stack
           align={"center"}
-          bg="rgba(255, 255, 255, 0.3)"
+          bg="#03001C"
           rounded="lg"
-          boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.5)"
-          backdropFilter="blur(5px)"
+          boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.5), inset 0 0 10px 0px #8A2BE2, inset 0 0 20px 0px #FF1493"
+          animation={`${pulse} 2s infinite`}
         >
-          <Heading fontSize={"4xl"} textAlign={"center"} color={"#332C30"}>
-            Sign up
-          </Heading>
-          <Text fontSize={"lg"} color={"gray.600"}>
-            (ง ◉ _ ◉)ง
-          </Text>
         </Stack>
         <Box
           rounded={"lg"}
-          bg={useColorModeValue("rgba(255, 255, 255, 0.3)", "gray.700")}
-          boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.5)"
+          bg="#03001C"
+          boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.5), inset 0 0 10px 0px #8A2BE2, inset 0 0 20px 0px #FF1493"
           p={8}
-          backdropFilter="blur(5px)"
+          animation={`${pulse} 5s infinite`}
         >
+          <Heading fontSize={"4xl"} textAlign={"center"} color={"#5B8FB9"}>
+            <Image src="src\assets\ready.jpg"></Image>
+          </Heading>
+          
           <Stack spacing={4}>
             <HStack>
               <Box>
                 <FormControl id="firstName" isRequired>
-                  <FormLabel fontWeight={"bold"}>First Name </FormLabel>
+                  <FormLabel fontWeight={"bold"} color={"#5B8FB9"}>
+                    First Name
+                  </FormLabel>
                   <Input
                     type="text"
                     name="firstName"
                     id="firstName"
                     value={form.firstName}
                     onChange={updateForm("firstName")}
-                    bg={"#FFD580"}
+                    bg={"#B6EADA"}
                   />
                 </FormControl>
               </Box>
               <Box>
                 <FormControl id="lastName" isRequired>
-                  <FormLabel fontWeight={"bold"}>Last Name</FormLabel>
+                  <FormLabel fontWeight={"bold"} color={"#5B8FB9"}>
+                    Last Name
+                  </FormLabel>
                   <Input
                     type="text"
                     name="lastName"
                     id="lastName"
                     value={form.lastName}
                     onChange={updateForm("lastName")}
-                    bg={"#FFD580"}
+                    bg={"#B6EADA"}
                   />
                 </FormControl>
               </Box>
             </HStack>
             <Box>
               <FormControl id="firstName" isRequired>
-                <FormLabel fontWeight={"bold"}>Username </FormLabel>
+                <FormLabel fontWeight={"bold"} color={"#5B8FB9"}>
+                  Username
+                </FormLabel>
                 <Input
                   type="text"
                   name="userName"
                   id="userName"
                   value={form.userName}
                   onChange={updateForm("userName")}
-                  bg={"#FFD580"}
+                  bg={"#B6EADA"}
                 />
               </FormControl>
             </Box>
             <FormControl id="email" isRequired>
-              <FormLabel fontWeight={"bold"}>Email address</FormLabel>
+              <FormLabel fontWeight={"bold"} color={"#5B8FB9"}>
+                Email address
+              </FormLabel>
               <Input
                 type="email"
                 name="email"
                 id="email"
                 value={form.email}
                 onChange={updateForm("email")}
-                bg={"#FFD580"}
+                bg={"#B6EADA"}
               />
-              <Box>
-              <FormControl id="firstName" isRequired>
-                <FormLabel fontWeight={"bold"}>Phone Number </FormLabel>
-                <Input
-                  type="text"
-                  name="phoneNumber"
-                  id="phoneNumber"
-                  value={form.phoneNumber}
-                  onChange={updateForm("phoneNumber")}
-                  bg={"#FFD580"}
-                />
-              </FormControl>
-            </Box>
+            </FormControl>
+            <FormControl id="firstName" isRequired>
+              <FormLabel fontWeight={"bold"} color={"#5B8FB9"}>
+                Phone Number{" "}
+              </FormLabel>
+              <Input
+                type="text"
+                name="phoneNumber"
+                id="phoneNumber"
+                value={form.phoneNumber}
+                onChange={updateForm("phoneNumber")}
+                bg={"#B6EADA"}
+              />
             </FormControl>
             <FormControl id="password" isRequired>
-              <FormLabel fontWeight={"bold"}>Password</FormLabel>
+              <FormLabel fontWeight={"bold"} color={"#5B8FB9"}>
+                Password
+              </FormLabel>
               <InputGroup>
                 <Input
                   type="password"
@@ -216,7 +251,7 @@ export default function Register() {
                   id="password"
                   value={form.password}
                   onChange={updateForm("password")}
-                  bg={"#FFD580"}
+                  bg={"#B6EADA"}
                 />
                 <InputRightElement h={"full"}>
                   <Button
@@ -231,7 +266,12 @@ export default function Register() {
               </InputGroup>
             </FormControl>
             <Stack spacing={10} pt={2}>
-              <Button
+              <NeonButton
+                text={"Sign Up"}
+                onClick={onRegister}
+                loadingText="Submitting"
+              />
+              {/* <Button
                 onClick={onRegister}
                 loadingText="Submitting"
                 border={"none"}
@@ -242,7 +282,7 @@ export default function Register() {
                 }}
               >
                 Sign up
-              </Button>
+              </Button> */}
             </Stack>
             <Stack pt={6}></Stack>
           </Stack>

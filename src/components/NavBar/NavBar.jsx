@@ -15,7 +15,7 @@ import { useContext } from "react";
 import AppContext from "../../context/context";
 import { logoutUser } from "../../services/auth.service";
 
-// Define keyframes for pulsating animation
+
 const pulse = keyframes`
   0% {
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.5), inset 0 0 10px 0px #8A2BE2, inset 0 0 20px 0px #FF1493;
@@ -30,8 +30,8 @@ const pulse = keyframes`
 
 export default function WithSubnavigation() {
   const { isOpen, onToggle } = useDisclosure();
-  const {user, setUser} = useContext(AppContext);
-  
+  const { user, setUser } = useContext(AppContext);
+
   const onLogout = () => {
     logoutUser().then(() => {
       setUser({
@@ -45,11 +45,9 @@ export default function WithSubnavigation() {
       <Flex
         bg="#03001C"
         boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.5), inset 0 0 10px 0px #8A2BE2, inset 0 0 20px 0px #FF1493"
-        backdropFilter="blur(5px)"
         color={useColorModeValue("gray.600", "white")}
         py={{ base: 1 }}
         px={{ base: 4, md: 4 }}
-        borderColor={useColorModeValue("gray.200", "gray.900")}
         align={"center"}
         justify="space-between"
         position="fixed"
@@ -82,15 +80,16 @@ export default function WithSubnavigation() {
         <Flex as="nav" align="center" justify="center" wrap="wrap"></Flex>
         <Stack
           flex={{ base: 1, md: 0 }}
-          justify={"flex-end"}
+          justify={{ base: "center", md: "flex-end" }}
           direction={"row"}
           spacing={6}
           pr={4}
           mr={4}
+          ml={{ base: 0, md: "auto" }}
         >
           <NeonButton text="Home" href="/home" />
-          {user == null && (<NeonButton text="Sign In" href="/signin" /> )}
-          {user == null && (<NeonButton text="Sign up" href="/signup" />)}
+          {user == null && <NeonButton text="Sign In" href="/signin" />}
+          {user == null && <NeonButton text="Sign up" href="/signup" />}
         </Stack>
       </Flex>
 
