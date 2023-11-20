@@ -30,15 +30,8 @@ const pulse = keyframes`
 
 export default function WithSubnavigation() {
   const { isOpen, onToggle } = useDisclosure();
-  const {user, setUser} = useContext(AppContext);
+  const {user} = useContext(AppContext);
   
-  const onLogout = () => {
-    logoutUser().then(() => {
-      setUser({
-        user: null,
-      });
-    });
-  };
 
   return (
     <Box className="nav">
@@ -90,6 +83,7 @@ export default function WithSubnavigation() {
           <NeonButton text="Home" href="/home" />
           {user == null && (<NeonButton text="Sign In" href="/signin" /> )}
           {user == null && (<NeonButton text="Sign up" href="/signup" />)}
+          {user ? <UserPanel /> : null}
         </Stack>
       </Flex>
 
