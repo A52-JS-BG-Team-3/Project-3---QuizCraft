@@ -76,8 +76,9 @@ export default function WithSubnavigation() {
           pr={4}
           mr={4}
         >
-          <NeonButton text="Home" />
-          <NeonButton text="Sign in" />
+          <NeonButton text="Home" href="/home" />
+          <NeonButton text="Sign In" href="/signin" />
+          <NeonButton text="Sign up" href="/signup" />
         </Stack>
       </Flex>
 
@@ -96,12 +97,18 @@ const MobileNav = () => {
       display={{ md: "none" }}
     >
       <Box as="a" href="#" py={2} _hover={{ textDecoration: "none" }}>
-        <Text fontWeight={600} color={useColorModeValue("gray.600", "gray.200")}>
+        <Text
+          fontWeight={600}
+          color={useColorModeValue("gray.600", "gray.200")}
+        >
           Mobile Link 1
         </Text>
       </Box>
       <Box as="a" href="#" py={2} _hover={{ textDecoration: "none" }}>
-        <Text fontWeight={600} color={useColorModeValue("gray.600", "gray.200")}>
+        <Text
+          fontWeight={600}
+          color={useColorModeValue("gray.600", "gray.200")}
+        >
           Mobile Link 2
         </Text>
       </Box>
