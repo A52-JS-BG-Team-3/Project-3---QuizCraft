@@ -10,6 +10,8 @@ import { auth, db } from "./config/firebase-config";
 import { onAuthStateChanged } from "firebase/auth";
 import { ref, get } from "firebase/database";
 import { fetchUserName } from "./services/user.service";
+import Quiz from "../src/components/Quiz/Quiz";
+import TeacherProfile from "./views/TeacherProfile/TeacherProfile";
 
 function App() {
   const [appState, setAppState] = useState({
@@ -69,6 +71,8 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/signup" element={<Register />} />
             <Route path="/signin" element={<Login />} />
+            <Route path="/quiz" element={<Quiz />} />
+            <Route path="/teacher" element={<TeacherProfile />} />
           </Routes>
         </div>
       </Router>
