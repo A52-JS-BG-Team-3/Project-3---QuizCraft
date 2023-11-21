@@ -10,6 +10,7 @@ import { auth, db } from "./config/firebase-config";
 import { onAuthStateChanged } from "firebase/auth";
 import { ref, get } from "firebase/database";
 import { fetchUserName } from "./services/user.service";
+import UserProfile from "./components/UserProfile/UserProfile";
 
 function App() {
   const [appState, setAppState] = useState({
@@ -69,6 +70,11 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/signup" element={<Register />} />
             <Route path="/signin" element={<Login />} />
+            {appState.user && (
+              <>
+                <Route path="/userprofile" element={<UserProfile />} />
+              </>
+            )}
           </Routes>
         </div>
       </Router>
