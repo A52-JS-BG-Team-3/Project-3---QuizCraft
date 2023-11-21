@@ -1,0 +1,25 @@
+@keyframes float {
+    0%, 100% {
+      transform: translate(0, 0);
+    }
+    50% {
+      transform: translate(5px, 5px);
+    }
+  }
+  
+  .floating-image {
+    animation: float 3s ease-in-out infinite;
+    width: auto; /* Adjust if you want to set a specific width */
+    height: auto; /* Adjust if you want to set a specific height */
+    max-width: 80%; /* This should not be too small; otherwise, it will restrict the image size */
+  }
+  
+  
+  .glowing-heading {
+    color: #fff; /* Choose your text color */
+    text-shadow: 0 0 10px #00e6e6, 0 0 20px #00e6e6, 0 0 30px #00e6e6, 0 0 40px #00e6e6, 0 0 70px #00e6e6; /* Adjust the glow color */
+  }
+  
+  .lobster-heading {
+    font-family: 'Lobster', cursive;
+  }
