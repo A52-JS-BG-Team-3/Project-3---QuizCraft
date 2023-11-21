@@ -15,18 +15,14 @@ import { useContext } from "react";
 import AppContext from "../../context/context";
 import { UserPanel } from "../UserPanel/UserPanel";
 
-
-const pulse = keyframes`
-  0% {
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.5), inset 0 0 10px 0px #8A2BE2, inset 0 0 20px 0px #FF1493;
-  }
-  50% {
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.5), inset 0 0 15px 5px #8A2BE2, inset 0 0 25px 5px #301E67;
-  }
-  100% {
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.5), inset 0 0 10px 0px #8A2BE2, inset 0 0 20px 0px #5B8FB9;
-  }
+const neonBoxShadow = `
+  0 0 10px rgba(0, 255, 255, 0.8),
+  0 0 20px rgba(0, 255, 255, 0.8),
+  0 0 30px rgba(0, 255, 255, 0.8),
+  0 0 40px rgba(0, 255, 255, 0.8),
+  0 0 70px rgba(0, 255, 255, 0.8)
 `;
+
 
 export default function WithSubnavigation() {
   const { isOpen, onToggle } = useDisclosure();
@@ -37,7 +33,7 @@ export default function WithSubnavigation() {
     <Box className="nav">
       <Flex
         bg="#03001C"
-        boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.5), inset 0 0 10px 0px #8A2BE2, inset 0 0 20px 0px #FF1493"
+        boxShadow={neonBoxShadow}
         color={useColorModeValue("gray.600", "white")}
         py={{ base: 1 }}
         px={{ base: 4, md: 4 }}
@@ -53,8 +49,8 @@ export default function WithSubnavigation() {
         p={0}
         height={{ base: "auto", md: "55px" }}
         zIndex={10}
-        borderRadius="10px"
-        animation={`${pulse} 2s infinite`}
+        
+        // animation={`${pulse} 2s infinite`}
       >
         <Flex
           flex={{ base: 1, md: "auto" }}
