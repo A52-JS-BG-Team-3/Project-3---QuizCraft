@@ -1,4 +1,3 @@
-import from "react";
 import GroupForm from "./GroupForm";
 import GroupList from "./GroupList";
 
