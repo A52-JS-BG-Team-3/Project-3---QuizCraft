@@ -9,13 +9,17 @@ import {
 import { db, auth } from "../../../config/firebase-config";
 import { ref, get, update } from "firebase/database";
 import { fetchUserName} from "../../../services/user.service";
-
+import { updatePassword, reauthenticateWithCredential, EmailAuthProvider } from "firebase/auth";
+import { useNavigate } from 'react-router-dom';
 function AccountSettings() {
-  const currentUserUid = auth.currentUser.uid;
   const [userName, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [password, setPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [userProvidedPassword, setUserProvidedPassword] = useState('');
+  const [confirmNewPassword, setConfirmNewPassword] = useState('');
+  const currentUserUid = auth.currentUser.uid;
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -29,7 +33,6 @@ function AccountSettings() {
           const user = snapshot.val();
           setFirstName(user.firstName || "");
           setLastName(user.lastName || "");
-          setPassword(user.password || "");
         } else {
           console.error("No user found in database.");
         }
@@ -43,13 +46,24 @@ function AccountSettings() {
 
   const handleUpdate = async () => {
     const usersRef = ref(db, `users/${userName}`);
+    const user = auth.currentUser;
     try {
       await update(usersRef, {
         firstName,
         lastName,
-        password,
       });
-      alert("User information updated successfully!");
+
+      if (newPassword) {
+        const passwordCredential = EmailAuthProvider.credential(user.email, userProvidedPassword);
+        await reauthenticateWithCredential(user, passwordCredential);
+
+        await updatePassword(user, newPassword);
+        
+        await auth.signOut();
+        navigate('/home');
+
+        alert('Password updated successfully. Please log in again with the new password.');
+      }
     } catch (error) {
       console.error("Error updating user information:", error);
     }
@@ -81,16 +95,7 @@ function AccountSettings() {
             onChange={(e) => setLastName(e.target.value)}
           />
         </FormControl>
-        <FormControl id="password">
-          <FormLabel fontWeight="bold">Password</FormLabel>
-          <Input
-            focusBorderColor="brand.blue"
-            type="password"
-            bg="#FFD580"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </FormControl>
+       
       </Grid>
       <Grid xs={12} md={6} justifyContent="center">
       </Grid>
@@ -98,7 +103,37 @@ function AccountSettings() {
         "People, who can’t throw something important away, can never hope to
         change anything." ~ Armin Arlert{" "}
       </FormLabel>
+      <FormControl id="newPassword">
+        <FormLabel fontWeight="bold">New Password</FormLabel>
+        <Input
+          focusBorderColor="brand.blue"
+          type="password"
+          bg="#FFD580"
+          value={newPassword}
+          onChange={(e) => setNewPassword(e.target.value)}
+        />
+      </FormControl>
+      <FormControl id="confirmNewPassword">
+        <FormLabel fontWeight="bold">Confirm New Password</FormLabel>
+        <Input
+          focusBorderColor="brand.blue"
+          type="password"
+          bg="#FFD580"
+          value={confirmNewPassword}
+          onChange={(e) => setConfirmNewPassword(e.target.value)}
+        />
+      </FormControl>
 
+      <FormControl id="userProvidedPassword"> 
+        <FormLabel fontWeight="bold">Current Password</FormLabel>
+        <Input
+          focusBorderColor="brand.blue"
+          type="password"
+          bg="#FFD580"
+          value={userProvidedPassword}
+          onChange={(e) => setUserProvidedPassword(e.target.value)}
+        />
+      </FormControl>
       <Button
         onClick={handleUpdate}
         fontSize={"sm"}
