@@ -1,9 +1,8 @@
 import {
   Box,
-  Button,
+  Image,
   Checkbox,
   FormLabel,
-  Heading,
   Input,
   Stack,
   Text,
@@ -15,6 +14,15 @@ import { useNavigate } from "react-router";
 import { db } from "../../config/firebase-config";
 import { ref, get } from "@firebase/database";
 import { fetchUserName } from "../../services/user.service";
+import NeonButton from "../../components/NeonButton/NeonButton";
+
+const neonBoxShadow = `
+  0 0 10px rgba(253, 253, 150, 0.8),
+  0 0 20px rgba(253, 253, 150, 0.8),
+  0 0 30px rgba(253, 253, 150, 0.8),
+  0 0 40px rgba(253, 253, 150, 0.8),
+  0 0 70px rgba(253, 253, 150, 0.8)
+`;
 
 function Login() {
   const { setUser } = useContext(AppContext);
@@ -63,77 +71,55 @@ function Login() {
     }
   };
   return (
-    <div
-      style={{
-        width: "100%",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        height: "100vh",
-      }}
+    <Box
+      width="100%"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      height="100vh"
     >
       <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
-        <Stack
-          align={"center"}
-          bg="rgba(255, 255, 255, 0.3)"
-          rounded="lg"
-          boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.5)"
-          backdropFilter="blur(5px)"
-        >
-          <Heading fontSize={"4xl"} textAlign={"center"} color={"#332C30"}>
-            Sign in
-          </Heading>
-          <Text fontSize={"lg"} color={"gray.600"}>
-            (づ๑•ᴗ•๑)づ♡
-          </Text>
-        </Stack>
+        <Image src="src\assets\are_you_ready.png"></Image>
         <Box
           align={"center"}
           rounded={"lg"}
-          boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.5)"
-          bg="rgba(255, 255, 255, 0.3)"
+          boxShadow={neonBoxShadow}
+          bg="#03001C"
           p={8}
           backdropFilter="blur(5px)"
         >
-          <FormLabel fontWeight={"bold"}>Email address</FormLabel>
+          <FormLabel fontWeight={"bold"} color="#5B8FB9">
+            Email address
+          </FormLabel>
           <Input
             isRequired
             type="email"
             value={form.email}
             onChange={updateForm("email")}
             mb={4}
-            bg={"#FFD580"}
+            bg="#B6EAD"
           />
-          <FormLabel fontWeight={"bold"}>Password</FormLabel>
+          <FormLabel fontWeight={"bold"} color="#5B8FB9">
+            Password
+          </FormLabel>
           <Input
             isRequired
             type="password"
             value={form.password}
             onChange={updateForm("password")}
             mb={6}
-            bg={"#FFD580"}
+            bg="#B6EAD"
           />
-          <Checkbox mb={6} fontWeight={"bold"}>
+          <Checkbox mb={6} fontWeight={"bold"} color="#5B8FB9">
             Remember me
           </Checkbox>
-          <Text color={"#332C30"} mb={6} fontWeight={"bold"}>
+          <Text color="#5B8FB9" mb={6} fontWeight={"bold"}>
             Forgot password?
           </Text>
-          <Button
-            onClick={onLogin}
-            colorScheme={"blue"}
-            variant={"solid"}
-            bg={"#DE6F3A"}
-            color={"#332C30"}
-            _hover={{
-              bg: "#efa00b",
-            }}
-          >
-            Sign in
-          </Button>
+          <NeonButton text="Log In" onClick={onLogin} />
         </Box>
       </Stack>
-    </div>
+    </Box>
   );
 }
 

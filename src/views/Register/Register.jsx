@@ -4,15 +4,12 @@ import {
   FormLabel,
   Input,
   InputGroup,
-  InputRightElement,
   Stack,
-  keyframes,
   Flex,
-  Image,
+  // keyframes,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useContext } from "react";
-import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import AuthContext from "../../context/context";
 import { createUserHandle, getUserByHandle } from "../../services/user.service";
 import { registerUser } from "../../services/auth.service";
@@ -23,24 +20,24 @@ const neonBoxShadow = `
   0 0 10px rgba(250, 0, 255, 0.8),
   0 0 20px rgba(250, 0, 255, 0.8),
   0 0 30px rgba(250, 0, 255, 0.8),
-  0 0 40px rgba(300, 0, 255, 0.8),
+  0 0 40px rgba(250, 0, 255, 0.8),
   0 0 70px rgba(250, 0, 255, 0.8)
 `;
 
-const pulse = keyframes`
-  0% {
-    box-shadow: 0 0 10px #E5E7EB, 0 0 20px #E5E7EB, 0 0 30px #E5E7EB, 0 0 40px #E5E7EB;
-  }
-  50% {
-    box-shadow: 0 0 15px #E5E7EB, 0 0 25px #E5E7EB, 0 0 35px #E5E7EB, 0 0 45px #E5E7EB;
-  }
-  100% {
-    box-shadow: 0 0 10px #E5E7EB, 0 0 20px #E5E7EB, 0 0 30px #E5E7EB, 0 0 40px #E5E7EB;
-  }
-`;
+// const pulse = keyframes`
+//   0% {
+//     box-shadow: 0 0 10px #E5E7EB, 0 0 20px #E5E7EB, 0 0 30px #E5E7EB, 0 0 40px #E5E7EB;
+//   }
+//   50% {
+//     box-shadow: 0 0 15px #E5E7EB, 0 0 25px #E5E7EB, 0 0 35px #E5E7EB, 0 0 45px #E5E7EB;
+//   }
+//   100% {
+//     box-shadow: 0 0 10px #E5E7EB, 0 0 20px #E5E7EB, 0 0 30px #E5E7EB, 0 0 40px #E5E7EB;
+//   }
+// `;
 
 export default function Register() {
-  const [showPassword, setShowPassword] = useState(false);
+  // const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({
     firstName: "",
     lastName: "",
