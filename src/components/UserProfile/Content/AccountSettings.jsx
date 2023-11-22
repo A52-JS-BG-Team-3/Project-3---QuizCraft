@@ -88,7 +88,7 @@ function AccountSettings() {
             type="password"
             bg="#FFD580"
             value={password}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </FormControl>
       </Grid>
