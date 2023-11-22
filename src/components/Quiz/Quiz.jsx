@@ -1,66 +1,128 @@
-import { useState, useEffect } from 'react';
-import { Box, Button, Text } from '@chakra-ui/react';
+// QuizPicker.jsx
+import { useState, useEffect } from "react";
+import {
+  Box,
+  Select,
+  Button,
+  Spinner,
+  FormControl,
+  FormLabel,
+  Flex,
+  Heading,
+  UnorderedList,
+  ListItem
+} from "@chakra-ui/react";
 
-const Quiz = () => {
+const QuizPicker = () => {
   const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [token, setToken] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [loadingCategories, setLoadingCategories] = useState(true);
+  const [selectedQuiz, setSelectedQuiz] = useState(null);
+  const [loadingQuiz, setLoadingQuiz] = useState(false);
 
-  // Fetch categories on component mount
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await fetch('https://opentdb.com/api_category.php');
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
+    // Fetch categories on component mount
+    fetch("https://opentdb.com/api_category.php")
+      .then((response) => response.json())
+      .then((data) => {
         setCategories(data.trivia_categories);
-      } catch (error) {
-        console.error("Failed to fetch categories:", error);
-      }
-    };
-
-    fetchCategories();
+        setLoadingCategories(false);
+      });
   }, []);
 
-  // Fetch a new session token
-  useEffect(() => {
-    const fetchToken = async () => {
-      try {
-        const response = await fetch('https://opentdb.com/api_token.php?command=request');
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        if (data.response_code === 0) {
-          setToken(data.token);
-        }
-      } catch (error) {
-        console.error("Failed to fetch session token:", error);
-      }
-    };
+  const handleCategoryChange = (e) => {
+    setSelectedCategory(e.target.value);
+  };
 
-    fetchToken();
-  }, []);
+  const handleFetchQuiz = () => {
+    setLoadingQuiz(true);
+    
+    // Fetch quiz based on the selected category
+    fetch(
+      `https://opentdb.com/api.php?amount=10&category=${selectedCategory}&type=multiple`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        const quiz = data.results.map((question) => {
+          if (question.type === "multiple") {
+            return {
+              ...question,
+              choices: [...question.incorrect_answers, question.correct_answer],
+            };
+          } else {
+            return {
+              ...question,
+              choices: [question.correct_answer],
+            };
+          }
+        });
 
-  const startQuiz = async (categoryId) => {
-    setSelectedCategory(categoryId);
-    // Here you would implement fetching questions for the selected category using the session token
-    // Make sure to handle the different response codes as per the API documentation
+        // Set the selected quiz
+        setSelectedQuiz(quiz);
+        setLoadingQuiz(false);
+      });
   };
 
   return (
-    <Box>
-      {categories.map((category) => (
-        <Button key={category.id} onClick={() => startQuiz(category.id)} m={2}>
-          {category.name}
-        </Button>
-      ))}
-      {/* Render quiz questions and handle quiz logic here */}
-      {/* Use the selectedCategory and token state variables to fetch and handle questions */}
-    </Box>
+    <Flex
+      p={4}
+      width="100%"
+      alignItems="center"
+      justifyContent="center"
+      pt={{ base: "5%", md: "10%" }}
+    >
+      <FormControl alignItems={"left"} justifyContent={"left"}>
+        <FormLabel>Select a Category:</FormLabel>
+        <Select
+          id="category"
+          onChange={handleCategoryChange}
+          value={selectedCategory}
+          mb={2}
+        >
+          <option value="">Any Category</option>
+          {categories.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.name}
+            </option>
+          ))}
+        </Select>
+      </FormControl>
+      <Button onClick={handleFetchQuiz} colorScheme="teal" ml={2}>
+        Fetch Random Quiz
+      </Button>
+      {loadingCategories && <Spinner size="md" color="teal" ml={2} />}
+      <Box textAlign="center" p={8} bg={"white"}>
+        {loadingQuiz ? (
+          <Spinner size="xl" color="teal" />
+        ) : (
+          selectedQuiz && (
+            <div>
+            <Heading as="h2" mb={4}>
+              Random Quiz
+            </Heading>
+            {/* Render the quiz questions here */}
+            <UnorderedList>
+              {selectedQuiz.map((question, index) => (
+                <ListItem key={index} mb={4}>
+                  {/* Render the HTML-encoded text */}
+                  <div dangerouslySetInnerHTML={{ __html: question.question }} />
+                  <UnorderedList ml={4}>
+                    {question.choices.map((choice, choiceIndex) => (
+                      <ListItem key={choiceIndex}>
+                        {/* Render the HTML-encoded text for choices */}
+                        <div dangerouslySetInnerHTML={{ __html: choice }} />
+                      </ListItem>
+                    ))}
+                  </UnorderedList>
+                </ListItem>
+              ))}
+            </UnorderedList>
+          </div>
+          )
+        )}
+      </Box>
+    </Flex>
   );
 };
 
-export default Quiz;
+export default QuizPicker;
