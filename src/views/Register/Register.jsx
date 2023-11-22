@@ -4,11 +4,10 @@ import {
   FormLabel,
   Input,
   InputGroup,
-  HStack,
   InputRightElement,
   Stack,
-  Button,
   keyframes,
+  Flex,
   Image,
 } from "@chakra-ui/react";
 import { useState } from "react";
@@ -21,11 +20,11 @@ import { useNavigate } from "react-router-dom";
 import NeonButton from "../../components/NeonButton/NeonButton";
 
 const neonBoxShadow = `
-  0 0 10px rgba(255, 0, 255, 0.8),
-  0 0 20px rgba(255, 0, 255, 0.8),
-  0 0 30px rgba(255, 0, 255, 0.8),
-  0 0 40px rgba(250, 0, 255, 0.8),
-  0 0 70px rgba(0, 0, 255, 0.8)
+  0 0 10px rgba(250, 0, 255, 0.8),
+  0 0 20px rgba(250, 0, 255, 0.8),
+  0 0 30px rgba(250, 0, 255, 0.8),
+  0 0 40px rgba(300, 0, 255, 0.8),
+  0 0 70px rgba(250, 0, 255, 0.8)
 `;
 
 const pulse = keyframes`
@@ -132,50 +131,53 @@ export default function Register() {
       display="flex"
       alignItems="center"
       justifyContent="center"
-      pt={"5%"}
+      pt={{ base: "5%", md: "10%" }}
     >
       <Stack
         spacing={8}
         width={{ base: "90%", sm: "80%", md: "60%", lg: "30%" }}
-        height="75vh !important"
+        height="100% !important"
       >
-        {/* <Image src="src\assets\ready.jpg"></Image> */}
         <Box
-          height="75vh !important"
+          height="100% !important"
           bg="#03001C"
           boxShadow={neonBoxShadow}
-          p={12}
+          p={{ base: 6, md: 12 }}
           // animation={`${pulse} 5s infinite`}
         >
-          <Stack spacing={4} height="75vh !important">
-            <FormControl id="firstName" isRequired>
-              <FormLabel fontWeight="bold" color="#5B8FB9">
-                First Name
-              </FormLabel>
-              <Input
-                type="text"
-                name="firstName"
-                id="firstName"
-                value={form.firstName}
-                onChange={updateForm("firstName")}
-                bg="#B6EADA"
-              />
-            </FormControl>
-            <FormControl id="lastName" isRequired>
-              <FormLabel fontWeight="bold" color="#5B8FB9">
-                Last Name
-              </FormLabel>
-              <Input
-                type="text"
-                name="lastName"
-                id="lastName"
-                value={form.lastName}
-                onChange={updateForm("lastName")}
-                bg="#B6EADA"
-              />
-            </FormControl>
-            <Box>
+          <Flex
+            direction={{ base: "column", md: "row" }}
+            justify="space-between"
+          >
+            {/* First Column */}
+            <Stack spacing={4}>
               <FormControl id="firstName" isRequired>
+                <FormLabel fontWeight="bold" color="#5B8FB9">
+                  First Name
+                </FormLabel>
+                <Input
+                  type="text"
+                  name="firstName"
+                  id="firstName"
+                  value={form.firstName}
+                  onChange={updateForm("firstName")}
+                  bg="#B6EADA"
+                />
+              </FormControl>
+              <FormControl id="lastName" isRequired>
+                <FormLabel fontWeight="bold" color="#5B8FB9">
+                  Last Name
+                </FormLabel>
+                <Input
+                  type="text"
+                  name="lastName"
+                  id="lastName"
+                  value={form.lastName}
+                  onChange={updateForm("lastName")}
+                  bg="#B6EADA"
+                />
+              </FormControl>
+              <FormControl id="userName" isRequired>
                 <FormLabel fontWeight="bold" color="#5B8FB9">
                   Username
                 </FormLabel>
@@ -188,65 +190,59 @@ export default function Register() {
                   bg="#B6EADA"
                 />
               </FormControl>
-            </Box>
-            <FormControl id="email" isRequired>
-              <FormLabel fontWeight="bold" color="#5B8FB9">
-                Email address
-              </FormLabel>
-              <Input
-                type="email"
-                name="email"
-                id="email"
-                value={form.email}
-                onChange={updateForm("email")}
-                bg="#B6EADA"
-              />
-            </FormControl>
-            <FormControl id="firstName" isRequired>
-              <FormLabel fontWeight="bold" color="#5B8FB9">
-                Phone Number{" "}
-              </FormLabel>
-              <Input
-                type="text"
-                name="phoneNumber"
-                id="phoneNumber"
-                value={form.phoneNumber}
-                onChange={updateForm("phoneNumber")}
-                bg="#B6EADA"
-              />
-            </FormControl>
-            <FormControl id="password" isRequired>
-              <FormLabel fontWeight="bold" color="#5B8FB9">
-                Password
-              </FormLabel>
-              <InputGroup>
+            </Stack>
+
+            {/* Second Column */}
+            <Stack spacing={4}>
+              <FormControl id="email" isRequired>
+                <FormLabel fontWeight="bold" color="#5B8FB9">
+                  Email address
+                </FormLabel>
                 <Input
-                  type="password"
-                  name="password"
-                  id="password"
-                  value={form.password}
-                  onChange={updateForm("password")}
+                  type="email"
+                  name="email"
+                  id="email"
+                  value={form.email}
+                  onChange={updateForm("email")}
                   bg="#B6EADA"
                 />
-                <InputRightElement h="full">
-                  {/* <Button
-                    variant="ghost"
-                    onClick={() =>
-                      setShowPassword((showPassword) => !showPassword)
-                    }
-                    >
-                    {showPassword ? <ViewIcon /> : <ViewOffIcon />}
-                  </Button> */}
-                </InputRightElement>
-              </InputGroup>
-            </FormControl>
-            <NeonButton
-              text="Sign Up"
-              onClick={onRegister}
-              loadingText="Submitting"
-            />
-          </Stack>
+              </FormControl>
+              <FormControl id="phoneNumber" isRequired>
+                <FormLabel fontWeight="bold" color="#5B8FB9">
+                  Phone Number
+                </FormLabel>
+                <Input
+                  type="text"
+                  name="phoneNumber"
+                  id="phoneNumber"
+                  value={form.phoneNumber}
+                  onChange={updateForm("phoneNumber")}
+                  bg="#B6EADA"
+                />
+              </FormControl>
+              <FormControl id="password" isRequired>
+                <FormLabel fontWeight="bold" color="#5B8FB9">
+                  Password
+                </FormLabel>
+                <InputGroup>
+                  <Input
+                    type="password"
+                    name="password"
+                    id="password"
+                    value={form.password}
+                    onChange={updateForm("password")}
+                    bg="#B6EADA"
+                  />
+                </InputGroup>
+              </FormControl>
+            </Stack>
+          </Flex>
         </Box>
+        <NeonButton
+          text="Sign Up"
+          onClick={onRegister}
+          loadingText="Submitting"
+        />
       </Stack>
     </Box>
   );
