@@ -1,11 +1,10 @@
-// GroupForm.jsx
 import { useState, useContext } from "react";
 import { ref, push, get, update } from "firebase/database";
 import { db } from "../../config/firebase-config";
 import AppContext from "../../context/context";
-import { fetchUserName } from "../../services/user.service";
 import PropTypes from "prop-types";
 import { Box, Heading, Input, Button } from "@chakra-ui/react";
+import { fetchUserName } from "../../services/user.service";
 
 const GroupForm = ({ actionType }) => {
   const [groupName, setGroupName] = useState("");
@@ -16,12 +15,11 @@ const GroupForm = ({ actionType }) => {
       const groupsRef = ref(db, "groups");
       const userUserName = await fetchUserName(user.uid);
 
-      
       if (actionType === "create") {
         push(groupsRef, { name: groupName });
       }
 
-      
+   
       if (actionType === "join") {
         const groupRef = ref(db, `groups/${groupName}`);
         const groupSnapshot = await get(groupRef);
@@ -31,20 +29,19 @@ const GroupForm = ({ actionType }) => {
           const userSnapshot = await get(userRef);
 
           if (userSnapshot.exists()) {
-            const userData = userSnapshot.val();
-
+         
             await update(userRef, {
               groupId: groupName,
               groupName: groupSnapshot.val().name,
             });
 
-            
+          
             await update(groupRef, {
               members: {
                 [user.uid]: {
                   userName: userUserName,
-                  displayName: userData.displayName,
                 },
+                
               },
             });
 
@@ -57,6 +54,7 @@ const GroupForm = ({ actionType }) => {
         }
       }
 
+      
       setGroupName("");
     }
   };
