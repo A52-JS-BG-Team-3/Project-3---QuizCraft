@@ -18,10 +18,10 @@ import {
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";
-import { ref, uploadBytes, getDownloadURL, getStorage } from 'firebase/storage';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { storage, db, auth } from "../../../config/firebase-config";
 import { fetchUserName } from "../../../services/user.service";
 import { ref as dbRef, update, get } from 'firebase/database'
-import { auth, db } from "../../../config/firebase-config";
 
 function Profile() {
   const [userProfile, setUserProfile] = useState(null);
@@ -53,31 +53,32 @@ function Profile() {
     profileImage.current.click();
   };
   const changeProfileImage = async (event) => {
-    const ALLOWED_TYPES = ['image/png', 'image/jpeg', 'image/jpg'];
+    const ALLOWED_EXTENSIONS = ['png', 'jpeg', 'jpg'];
     const selected = event.target.files[0];
-    
-    if (selected && ALLOWED_TYPES.includes(selected.type)) {
-      try {
-        
-        const storageRef = ref(getStorage, `profileAvatars/${userName}`);
-        await uploadBytes(storageRef, selected);
   
-        
-        const downloadURL = await getDownloadURL(storageRef);
+    if (selected) {
+      const fileName = selected.name;
+      const fileExtension = fileName.split('.').pop().toLowerCase();
   
-        
-        setUserProfile(downloadURL);
+      if (ALLOWED_EXTENSIONS.includes(fileExtension)) {
+        try {
+          const storageRef = ref(storage, `profileAvatars/${userName}`);
+          await uploadBytes(storageRef, selected);
   
-        
-        const userRef = dbRef(db, `users/${userName}`);
-        update(userRef, { profileImage: downloadURL });
-        alert('Avatar uploaded successfully')
-      } catch (error) {
-        console.error('Error uploading file to Firebase Storage:', error);
+          const downloadURL = await getDownloadURL(storageRef);
+  
+          setUserProfile(downloadURL);
+  
+          const userRef = dbRef(db, `users/${userName}`);
+          update(userRef, { profileImage: downloadURL });
+          alert('Avatar uploaded successfully');
+        } catch (error) {
+          console.error('Error uploading file to Firebase Storage:', error);
+          onOpen();
+        }
+      } else {
         onOpen();
       }
-    } else {
-      onOpen();
     }
   };
 

@@ -69,12 +69,12 @@ function App() {
           <WithSubnavigation />
 
           <Routes>
-            <Route path="/home" element={<Home />} />
             <Route path="/signup" element={<Register />} />
             <Route path="/signin" element={<Login />} />
+            {appState.user && (<Route path="/userprofile" element={<UserProfile />} />)}
             <Route path="/quiz" element={<Quiz />} />
             <Route path="/teacher" element={<TeacherProfile />} />
-            {appState.user && (<Route path="/userprofile" element={<UserProfile />} />)}
+            <Route path="/home" element={<Home />} />
           </Routes>
         </div>
       </Router>
