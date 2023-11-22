@@ -13,6 +13,7 @@ import { fetchUserName } from "./services/user.service";
 import Quiz from "../src/components/Quiz/Quiz";
 import TeacherProfile from "./views/TeacherProfile/TeacherProfile";
 import UserProfile from "./components/UserProfile/UserProfile";
+import GroupManagement from "./components/Groups/GropManagment";
 
 function App() {
   const [appState, setAppState] = useState({
@@ -72,6 +73,7 @@ function App() {
             <Route path="/signup" element={<Register />} />
             <Route path="/signin" element={<Login />} />
             {appState.user && (<Route path="/userprofile" element={<UserProfile />} />)}
+            <Route path ="/groups" element={<GroupManagement/>} />
             <Route path="/quiz" element={<Quiz />} />
             <Route path="/teacher" element={<TeacherProfile />} />
             <Route path="/home" element={<Home />} />
