@@ -59,6 +59,15 @@ export const UserPanel = () => {
     }
   };
 
+  const goToGroups = () => {
+    if (user !== null) {
+      navigate("/groups");
+    } else {
+      navigate("/signin");
+      alert("Please Sign In!");
+    }
+  };
+
   const handleLogout = () => {
     logoutUser();
     navigate("/home"); // Redirect to home after logout
@@ -105,6 +114,10 @@ export const UserPanel = () => {
         <MenuList bg={"#FFD580"} border={"none"}>
           <MenuItem onClick={goToUserProfile} bg={"#FFD580"}>
             Profile Settings
+          </MenuItem>
+          <MenuDivider />
+          <MenuItem onClick={goToGroups} bg={"#FFD580"}>
+            Groups
           </MenuItem>
           <MenuDivider />
           <MenuItem onClick={handleLogout} bg={"#FFD580"}>
