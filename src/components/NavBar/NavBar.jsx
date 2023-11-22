@@ -8,12 +8,14 @@ import {
   useColorModeValue,
   useDisclosure,
   keyframes,
+  Image
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import NeonButton from "../NeonButton/NeonButton";
 import { useContext } from "react";
 import AppContext from "../../context/context";
 import { UserPanel } from "../UserPanel/UserPanel";
+import logo from "../../assets/logo.png";
 
 const neonBoxShadow = `
   0 0 10px rgba(0, 255, 255, 0.8),
@@ -57,6 +59,7 @@ export default function WithSubnavigation() {
           ml={{ base: -2 }}
           display={{ base: "flex", md: "none" }}
         >
+         
           <IconButton
             onClick={onToggle}
             icon={
@@ -76,6 +79,7 @@ export default function WithSubnavigation() {
           mr={4}
           ml={{ base: 0, md: "auto" }}
         >
+          <Image src={logo} alt="logo" height="60px" />
           <NeonButton text="Home" href="/home" />
           {user == null && (<NeonButton text="Sign In" href="/signin" /> )}
           {user == null && (<NeonButton text="Sign up" href="/signup" />)}
