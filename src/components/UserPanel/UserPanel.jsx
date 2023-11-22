@@ -59,6 +59,11 @@ export const UserPanel = () => {
     }
   };
 
+  const handleLogout = () => {
+    logoutUser();
+    navigate("/home"); // Redirect to home after logout
+  };
+
   return (
     <Flex alignItems={"center"}>
       <Menu>
@@ -102,7 +107,7 @@ export const UserPanel = () => {
             Profile Settings
           </MenuItem>
           <MenuDivider />
-          <MenuItem onClick={logoutUser} bg={"#FFD580"}>
+          <MenuItem onClick={handleLogout} bg={"#FFD580"}>
             Log Out
           </MenuItem>
         </MenuList>
