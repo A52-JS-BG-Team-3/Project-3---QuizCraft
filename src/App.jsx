@@ -90,7 +90,7 @@ function App() {
                 <Route path="/quiz" element={<Quiz />} />
                 <Route path="/teacher" element={<TeacherProfile />} />
                 <Route path="/" element={<Home />} />
-                {appState.isAdmin && <Route path="/createquiz" element={<CreateQuiz />} />}
+                 <Route path="/createquiz" element={<CreateQuiz />} />
                 <Route path="/group/:groupId" element={<GroupDetails />} />
           </Routes>
             </>
