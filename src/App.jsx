@@ -1,18 +1,18 @@
-import { useState, useEffect } from "react";
 import "./App.css";
-import AppContext from "./context/context";
+import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./views/Home/Home";
-import WithSubnavigation from "./components/NavBar/NavBar";
-import Register from "./views/Register/Register";
-import Login from "./views/LogIn/Login";
 import { auth, db } from "./config/firebase-config";
 import { onAuthStateChanged } from "firebase/auth";
 import { ref, get } from "firebase/database";
 import { fetchUserName } from "./services/user.service";
+import AppContext from "./context/context";
+import WithSubnavigation from "./components/NavBar/NavBar";
+import Home from "./views/Home/Home";
+import Register from "./views/Register/Register";
+import Login from "./views/LogIn/Login";
 import Quiz from "../src/components/Quiz/Quiz";
 import TeacherProfile from "./views/TeacherProfile/TeacherProfile";
-import UserProfile from "./components/UserProfile/UserProfile";
+import UserProfile from "./views/UserProfile/UserProfile";
 import GroupManagement from "./components/Groups/GropManagment";
 import CreateQuiz from "./components/CreateQuiz/CreateQuiz";
 

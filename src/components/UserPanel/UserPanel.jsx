@@ -85,12 +85,7 @@ export const UserPanel = () => {
   return (
     <Flex alignItems={"center"}>
       <Menu>
-        <Divider
-          orientation="vertical"
-          mx={4}
-          height="40px"
-          borderColor="#332C30"
-        />
+        
         <MenuButton
           as={Button}
           rounded={"full"}
@@ -115,12 +110,7 @@ export const UserPanel = () => {
             {userName}
           </Text>
         </Box>
-        <Divider
-          orientation="vertical"
-          mx={4}
-          height="40px"
-          borderColor="#332C30"
-        />
+       
         <MenuList bg={"#B6EADA"} border={"solid"} borderColor={"#5B8FB9"}>
           <MenuItem onClick={goToUserProfile} bg={"#B6EADA"}>
             Profile Settings

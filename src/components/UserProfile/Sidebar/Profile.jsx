@@ -83,7 +83,7 @@ function Profile() {
   };
 
   return (
-    <VStack spacing={3} py={5} borderBottomWidth={1} borderColor="black">
+    <VStack spacing={3} py={5} px={4} borderBottomWidth={1} borderColor="#5B8FB9">
       <Avatar
         size="2xl"
         name={userName}
@@ -130,7 +130,7 @@ function Profile() {
         </ModalContent>
       </Modal>
       <VStack spacing={1}>
-      <Heading as="h3" fontSize="xl" color="brand.dark">
+      <Heading as="h3" fontSize="xl" color="#5B8FB9">
           {userName}'s Profile
         </Heading>
       </VStack>

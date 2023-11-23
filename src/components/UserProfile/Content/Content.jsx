@@ -1,68 +1,71 @@
 import {
-    Box,
-    TabPanels,
-    Tabs,
-    Text,
-    Button,
-    Flex,
-    Divider,
-  } from "@chakra-ui/react";
-  import AccountSettings from "./AccountSettings";
+  Box,
+  TabPanels,
+  Tabs,
+  Button,
+  Flex,
+  Divider,
+  Center
+} from "@chakra-ui/react";
+import AccountSettings from "./AccountSettings";
 import { useContext, useEffect, useState } from "react";
 import AppContext from "../../../context/context";
 import { fetchUserName } from "../../../services/user.service";
 import { ref, get } from "firebase/database";
 import { db } from "../../../config/firebase-config";
 import { Link } from "react-router-dom";
+import Sidebar from "../Sidebar/Sidebar";
+
+const neonBoxShadow = `
+  0 0 10px rgba(200, 200, 9, 0.8),
+  0 0 20px rgba(200, 200, 9, 0.8),
+  0 0 30px rgba(200, 200, 9, 0.8),
+  0 0 40px rgba(200, 200, 9, 0.8),
+  0 0 70px rgba(200, 200, 9, 0.8)
+`;
 
 const Content = () => {
-    const { user } = useContext(AppContext);
-    const [adminUserData, setAdminUserData] = useState(null);
-  
-    useEffect(() => {
-       const fetchAdminUserData = async () => {
-        if (user && user.uid) {
-          try {
-            const adminUserName = await fetchUserName(user.uid);
-            const adminUsersRef = ref(db, `users/${adminUserName}`);
-            const adminSnapshot = await get(adminUsersRef);
-            if (adminSnapshot.exists()) {
-              setAdminUserData(adminSnapshot.val());
-            }
-          } catch (error) {
-            console.error("Error fetching admin data:", error);
+  const { user } = useContext(AppContext);
+  const [adminUserData, setAdminUserData] = useState(null);
+
+  useEffect(() => {
+    const fetchAdminUserData = async () => {
+      if (user && user.uid) {
+        try {
+          const adminUserName = await fetchUserName(user.uid);
+          const adminUsersRef = ref(db, `users/${adminUserName}`);
+          const adminSnapshot = await get(adminUsersRef);
+          if (adminSnapshot.exists()) {
+            setAdminUserData(adminSnapshot.val());
           }
+        } catch (error) {
+          console.error("Error fetching admin data:", error);
         }
-      };
-  
-      fetchAdminUserData();
-    }, [user]);
-  
-    return (
+      }
+    };
+
+    fetchAdminUserData();
+  }, [user]);
+
+  return (
+    <Center>
       <Box
         as="main"
         flex={3}
         d="flex"
-        flexDir="column"
+        flexDirection="column"
         justifyContent="space-between"
-        pt={5}
-        rounded="md"
-        borderWidth={1}
-        border={"none"}
-        style={{ transform: "translateY(-100px)" }}
-        boxShadow={
-          "0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.5)"
-        }
-        bg="rgba(255, 255, 255, 0.3)"
-        backdropFilter="blur(5px)"
+        bg={"#03001C"}
+        width={{ base: "90%", md: "70%" }}
+        boxShadow={neonBoxShadow}
+        margin="auto" // Center the box horizontally
       >
         <Tabs>
-          <Box textAlign={"center"} fontWeight={"bold"}>
+          <Box textAlign={"center"} fontWeight={"bold"} color="#5B8FB9">
             Account Settings
           </Box>
-          <Text textAlign={"center"}>🥺</Text>
-          <Text textAlign={"center"}>👉👈</Text>
-          <Divider orientation="horizontal" borderColor="#332C30" />
+
+          <Divider orientation="horizontal" borderColor="#5B8FB9" color="#5B8FB9" />
           {adminUserData && adminUserData.isAdmin && (
             <Link to="/adminpanel" style={{ textDecoration: "none" }}>
               <Flex justify="space-between" alignItems="center" pt="4">
@@ -89,12 +92,13 @@ const Content = () => {
             </Link>
           )}
           <TabPanels px={3} mt={5}>
+            <Sidebar />
             <AccountSettings />
           </TabPanels>
         </Tabs>
       </Box>
-    );
-  };
-  
-  export default Content;
-  
+    </Center>
+  );
+};
+
+export default Content;
