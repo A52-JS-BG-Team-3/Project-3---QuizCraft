@@ -113,7 +113,7 @@ export const UserPanel = () => {
        
         <MenuList bg={"#B6EADA"} border={"solid"} borderColor={"#5B8FB9"}>
           <MenuItem onClick={goToUserProfile} bg={"#B6EADA"}>
-            Profile Settings
+            Account Settings
           </MenuItem>
           <MenuDivider />
           <MenuItem onClick={goToGroups} bg={"#B6EADA"}>
