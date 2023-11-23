@@ -78,11 +78,10 @@ function Login() {
       justifyContent="center"
       height="100vh"
     >
-      <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
+      <Stack spacing={8} mx={"auto"} maxW={{ base: "90%", sm: "80%", md: "60%", lg: "40%" }} py={12} px={6}>
         <Image src="src\assets\are_you_ready.png"></Image>
         <Box
           align={"center"}
-          rounded={"lg"}
           boxShadow={neonBoxShadow}
           bg="#03001C"
           p={8}
