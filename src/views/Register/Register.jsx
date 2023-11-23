@@ -7,7 +7,6 @@ import {
   Stack,
   Flex,
   Select,
-  Text
   useToast,
 } from "@chakra-ui/react";
 import { useState, useContext } from "react";
