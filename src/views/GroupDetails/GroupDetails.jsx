@@ -1,15 +1,13 @@
 import { Box, Heading, VStack, Avatar, AvatarBadge, Textarea, Button } from '@chakra-ui/react';
 import { get, ref, update } from 'firebase/database';
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState} from 'react';
 import { useParams } from 'react-router-dom';
 import { db } from '../../config/firebase-config';
 import fetchUser from '../../services/user.service';
-import AppContext from '../../context/context';
 import { useToast } from '@chakra-ui/react';
 
 const GroupDetails = () => {
   const { groupId } = useParams();
-  const { user } = useContext(AppContext);
   const [group, setGroup] = useState(null);
   const [members, setMembers] = useState([]);
   const [isEditingDescription, setIsEditingDescription] = useState(false);

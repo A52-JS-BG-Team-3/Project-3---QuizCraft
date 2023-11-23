@@ -5,8 +5,7 @@ import {
   Grid,
   Input,
   VStack,
-  Button,
-  Box,
+  useToast,
 } from "@chakra-ui/react";
 import { db, auth } from "../../../config/firebase-config";
 import { ref, get, update } from "firebase/database";
@@ -28,6 +27,7 @@ function AccountSettings() {
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const currentUserUid = auth.currentUser.uid;
   const navigate = useNavigate();
+  const toast = useToast();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -73,12 +73,29 @@ function AccountSettings() {
         await auth.signOut();
         navigate("/");
 
-        alert(
-          "Password updated successfully. Please log in again with the new password."
-        );
+        toast({
+          title: "Password updated successfully.",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
       }
+
+      toast({
+        title: "User information updated successfully.",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
     } catch (error) {
       console.error("Error updating user information:", error);
+
+      toast({
+        title: "Error updating user information.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
     }
   };
 

@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { ref, push, get, update, set } from "firebase/database";
+import { ref, get, update, set } from "firebase/database";
 import { db } from "../../config/firebase-config";
 import AppContext from "../../context/context";
 import PropTypes from "prop-types";
@@ -14,7 +14,6 @@ const GroupForm = ({ actionType }) => {
 
   const handleGroupAction = async () => {
     if (groupName.trim() !== "") {
-      const groupsRef = ref(db, "groups");
       const userUserName = await fetchUserName(user.uid);
   
       if (actionType === "create") {
