@@ -25,7 +25,10 @@ const QuizForm = ({ onAddQuestion }) => {
     const newQuestion = {
       questionText,
       correctAnswer: options[selectedOption],
-      options: Object.values(options),
+      optionA: options.A,
+      optionB: options.B,
+      optionC: options.C,
+      optionD: options.D,
     };
     onAddQuestion(newQuestion);
     setQuestionText("");
