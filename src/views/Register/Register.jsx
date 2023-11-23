@@ -6,12 +6,14 @@ import {
   InputGroup,
   Stack,
   Flex,
-  // keyframes,
+  useToast,
 } from "@chakra-ui/react";
-import { useState } from "react";
-import { useContext } from "react";
+import { useState, useContext } from "react";
 import AuthContext from "../../context/context";
-import { createUserHandle, getUserByHandle } from "../../services/user.service";
+import {
+  createUserHandle,
+  getUserByHandle,
+} from "../../services/user.service";
 import { registerUser } from "../../services/auth.service";
 import { useNavigate } from "react-router-dom";
 import NeonButton from "../../components/NeonButton/NeonButton";
@@ -24,20 +26,7 @@ const neonBoxShadow = `
   0 0 70px rgba(250, 0, 255, 0.8)
 `;
 
-// const pulse = keyframes`
-//   0% {
-//     box-shadow: 0 0 10px #E5E7EB, 0 0 20px #E5E7EB, 0 0 30px #E5E7EB, 0 0 40px #E5E7EB;
-//   }
-//   50% {
-//     box-shadow: 0 0 15px #E5E7EB, 0 0 25px #E5E7EB, 0 0 35px #E5E7EB, 0 0 45px #E5E7EB;
-//   }
-//   100% {
-//     box-shadow: 0 0 10px #E5E7EB, 0 0 20px #E5E7EB, 0 0 30px #E5E7EB, 0 0 40px #E5E7EB;
-//   }
-// `;
-
 export default function Register() {
-  // const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({
     firstName: "",
     lastName: "",
@@ -50,6 +39,7 @@ export default function Register() {
   const { setUser } = useContext(AuthContext);
 
   const navigate = useNavigate();
+  const toast = useToast();
 
   const updateForm = (field) => (e) => {
     setForm({
@@ -58,68 +48,55 @@ export default function Register() {
     });
   };
 
-  const onRegister = (event) => {
+  const onRegister = async (event) => {
     event.preventDefault();
-    if (!form.firstName) {
-      alert("First name is required");
-      return;
-    }
-    if (!form.lastName) {
-      alert("Last name is required");
-      return;
-    }
-    if (!form.email) {
-      alert("Email is required");
-      return;
-    }
-    if (!form.userName) {
-      alert("Username is required!");
-      return;
-    }
-    if (!form.phoneNumber) {
-      alert("Phone number is required!");
-      return;
-    }
-    if (!form.password && form.password.length < 6) {
-      alert("Password is required and must be at least 6 characters long!");
-      return;
-    }
-    if (
-      form.firstName.length < 4 ||
-      (form.firstName.length > 32 && form.lastName.length < 4) ||
-      form.lastName.length > 32
-    ) {
-      alert("First and last names must be between 4 adn 32 symbols");
-    }
 
-    getUserByHandle(form.userName)
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          alert("User already exists");
-          return;
-        }
+    try {
+      if (!form.firstName || !form.lastName || !form.email || !form.userName || !form.phoneNumber || !form.password || form.password.length < 6 || form.firstName.length < 4 || form.firstName.length > 32 || form.lastName.length < 4 || form.lastName.length > 32) {
+        throw new Error("Invalid input. Please check your form data.");
+      }
 
-        return registerUser(form.email, form.password);
-      })
-      .then((credential) => {
-        return createUserHandle({
-          isAdmin: false,
-          role: "student",
-          uid: credential.user.uid,
-          email: credential.user.email,
-          phoneNumber: form.phoneNumber,
-          userName: form.userName,
-          firstName: form.firstName,
-          lastName: form.lastName,
-        }).then(() => {
-          setUser({
-            user: credential.user,
-          });
-        });
-      })
-      .then(() => {
-        navigate("/");
+      const snapshot = await getUserByHandle(form.userName);
+
+      if (snapshot.exists()) {
+        throw new Error("User already exists");
+      }
+
+      const credential = await registerUser(form.email, form.password);
+
+      await createUserHandle({
+        isAdmin: false,
+        role: "student",
+        uid: credential.user.uid,
+        email: credential.user.email,
+        phoneNumber: form.phoneNumber,
+        userName: form.userName,
+        firstName: form.firstName,
+        lastName: form.lastName,
       });
+
+      setUser({
+        user: credential.user,
+      });
+
+      navigate("/");
+      toast({
+        title: "Registration successful.",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+    } catch (error) {
+      console.error("Error during registration:", error);
+
+      toast({
+        title: "Error during registration.",
+        description: error.message || "An unexpected error occurred.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
   };
 
   return (
@@ -246,3 +223,17 @@ export default function Register() {
     </Box>
   );
 }
+
+
+
+// const pulse = keyframes`
+//   0% {
+//     box-shadow: 0 0 10px #E5E7EB, 0 0 20px #E5E7EB, 0 0 30px #E5E7EB, 0 0 40px #E5E7EB;
+//   }
+//   50% {
+//     box-shadow: 0 0 15px #E5E7EB, 0 0 25px #E5E7EB, 0 0 35px #E5E7EB, 0 0 45px #E5E7EB;
+//   }
+//   100% {
+//     box-shadow: 0 0 10px #E5E7EB, 0 0 20px #E5E7EB, 0 0 30px #E5E7EB, 0 0 40px #E5E7EB;
+//   }
+// `;
