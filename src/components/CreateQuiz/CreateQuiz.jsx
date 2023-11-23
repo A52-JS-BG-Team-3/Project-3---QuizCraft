@@ -60,7 +60,7 @@ const CreateQuiz = () => {
       <form onSubmit={handleSubmit}>
       <VStack spacing={3}>
         <FormControl isRequired>
-          <FormLabel htmlFor="quizTitle">Title</FormLabel>
+          <FormLabel htmlFor="quizTitle" color={"white"}>Title</FormLabel>
           <Input
             id="quizTitle"
             value={quizTitle}
@@ -70,7 +70,7 @@ const CreateQuiz = () => {
           />
         </FormControl>
         <FormControl isRequired>
-          <FormLabel htmlFor="quizCategory">Category</FormLabel>
+          <FormLabel htmlFor="quizCategory" color={"white"}>Category</FormLabel>
           <Input
              id="quizCategory"
              value={quizCategory}
@@ -80,7 +80,7 @@ const CreateQuiz = () => {
           />
         </FormControl>
         <FormControl isRequired>
-            <FormLabel htmlFor="quizType">Type</FormLabel>
+            <FormLabel htmlFor="quizType" color={"white"}>Type</FormLabel>
             <Select
                 id="quizType"
                 value={quizType}
@@ -92,7 +92,7 @@ const CreateQuiz = () => {
             </Select>
         </FormControl>
         <FormControl isRequired>
-            <FormLabel htmlFor="timeLimit">Time Limit</FormLabel>
+            <FormLabel htmlFor="timeLimit" color={"white"}>Time Limit</FormLabel>
             <Input
                 id="timeLimit"
                 value={timeLimit}

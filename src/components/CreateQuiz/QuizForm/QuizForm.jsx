@@ -37,25 +37,27 @@ const QuizForm = ({ onAddQuestion }) => {
     <Box>
       <VStack spacing={3}>
         <FormControl isRequired>
-          <FormLabel>Question</FormLabel>
+          <FormLabel color={"white"}>Question</FormLabel>
           <Textarea
             value={questionText}
             onChange={(e) => setQuestionText(e.target.value)}
             placeholder="Enter question"
+            textColor={questionText.length > 0 ? "white" : "red.500"}
           />
         </FormControl>
         {["A", "B", "C", "D"].map((option) => (
           <FormControl key={option} isRequired>
-            <FormLabel>Option {option}</FormLabel>
+            <FormLabel color={"white"}>Option {option}</FormLabel>
             <Textarea
               value={options[option]}
               onChange={(e) => handleOptionChange(option, e.target.value)}
               placeholder={`Enter option ${option}`}
+              textColor={questionText.length > 0 ? "white" : "red.500"}
             />
           </FormControl>
         ))}
         <FormControl as="fieldset" isRequired>
-          <FormLabel as="legend">Correct Answer</FormLabel>
+          <FormLabel as="legend" color={"white"}>Correct Answer</FormLabel>
           <RadioGroup onChange={setSelectedOption} value={selectedOption}>
             <HStack spacing="24px">
               {["A", "B", "C", "D"].map((option) => (
