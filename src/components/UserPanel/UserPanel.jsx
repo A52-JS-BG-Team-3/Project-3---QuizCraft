@@ -79,7 +79,7 @@ export const UserPanel = () => {
 
   const handleLogout = () => {
     logoutUser();
-    navigate("/home"); 
+    navigate("/"); 
   };
 
   return (

@@ -118,7 +118,7 @@ export default function Register() {
         });
       })
       .then(() => {
-        navigate("/home");
+        navigate("/");
       });
   };
 

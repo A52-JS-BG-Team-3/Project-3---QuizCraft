@@ -62,7 +62,7 @@ function Login() {
 
       if (userSnapshot.exists()) {
         console.log("Login successful!");
-        navigate("/home");
+        navigate("/");
       } else {
         console.error("User data not found.");
       }
