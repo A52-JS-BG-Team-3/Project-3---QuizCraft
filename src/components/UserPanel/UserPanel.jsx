@@ -105,10 +105,11 @@ export const UserPanel = () => {
         </MenuButton>
         <Box
           border={"solid"}
-          bg={"#FFD580"}
+          borderColor={"#5B8FB9"}
+          bg={"#B6EADA"}
           pr={"2"}
           pl={""}
-          borderRadius={"50px"}
+         
         >
           <Text ml={2} fontWeight="bold">
             {userName}
@@ -120,20 +121,20 @@ export const UserPanel = () => {
           height="40px"
           borderColor="#332C30"
         />
-        <MenuList bg={"#FFD580"} border={"none"}>
-          <MenuItem onClick={goToUserProfile} bg={"#FFD580"}>
+        <MenuList bg={"#B6EADA"} border={"solid"} borderColor={"#5B8FB9"}>
+          <MenuItem onClick={goToUserProfile} bg={"#B6EADA"}>
             Profile Settings
           </MenuItem>
           <MenuDivider />
-          <MenuItem onClick={goToGroups} bg={"#FFD580"}>
+          <MenuItem onClick={goToGroups} bg={"#B6EADA"}>
             Groups
           </MenuItem>
           <MenuDivider />
-          <MenuItem onClick={goToCreateQuizz} bg={"#FFD580"}>
+          <MenuItem onClick={goToCreateQuizz} bg={"#B6EADA"}>
             Create Quizz
           </MenuItem>
           <MenuDivider />
-          <MenuItem onClick={handleLogout} bg={"#FFD580"}>
+          <MenuItem onClick={handleLogout} bg={"#B6EADA"}>
             Log Out
           </MenuItem>
         </MenuList>

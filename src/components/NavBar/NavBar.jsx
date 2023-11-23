@@ -8,7 +8,7 @@ import {
   useColorModeValue,
   useDisclosure,
   keyframes,
-  Image
+  Image,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import NeonButton from "../NeonButton/NeonButton";
@@ -25,11 +25,9 @@ const neonBoxShadow = `
   0 0 70px rgba(0, 255, 255, 0.8)
 `;
 
-
 export default function WithSubnavigation() {
   const { isOpen, onToggle } = useDisclosure();
-  const {user} = useContext(AppContext);
-  
+  const { user } = useContext(AppContext);
 
   return (
     <Box className="nav">
@@ -51,7 +49,7 @@ export default function WithSubnavigation() {
         p={0}
         height={{ base: "auto", md: "55px" }}
         zIndex={10}
-        
+
         // animation={`${pulse} 2s infinite`}
       >
         <Flex
@@ -59,7 +57,6 @@ export default function WithSubnavigation() {
           ml={{ base: -2 }}
           display={{ base: "flex", md: "none" }}
         >
-         
           <IconButton
             onClick={onToggle}
             icon={
@@ -69,6 +66,7 @@ export default function WithSubnavigation() {
             aria-label={"Toggle Navigation"}
           />
         </Flex>
+        <Image src={logo} alt="logo" height="60px" />
         <Flex as="nav" align="center" justify="center" wrap="wrap"></Flex>
         <Stack
           flex={{ base: 1, md: 0 }}
@@ -79,10 +77,9 @@ export default function WithSubnavigation() {
           mr={4}
           ml={{ base: 0, md: "auto" }}
         >
-          <Image src={logo} alt="logo" height="60px" />
           <NeonButton text="Home" href="/home" />
-          {user == null && (<NeonButton text="Sign In" href="/signin" /> )}
-          {user == null && (<NeonButton text="Sign up" href="/signup" />)}
+          {user == null && <NeonButton text="Sign In" href="/signin" />}
+          {user == null && <NeonButton text="Sign up" href="/signup" />}
           {user ? <UserPanel /> : null}
         </Stack>
       </Flex>
@@ -92,7 +89,6 @@ export default function WithSubnavigation() {
       </Collapse>
     </Box>
   );
-  
 }
 
 const MobileNav = () => {
