@@ -4,21 +4,23 @@ import Content from "../../components/UserProfile/Content/Content";
 export default function UserProfile() {
   return (
     <Flex
-      direction="column"
       alignItems="center"
       justifyContent="center"
+      width="100%"
       height="100vh"
       background={`url(src/assets/on_air.png) center center / cover no-repeat`}
     >
-      <Container
-       maxH="80%"
-       maxW="80%"
-       width="70vh"
-       paddingX={{ base: 4, sm: 6, md: 8 }}
-       paddingY={{ base: 4, sm: 8, md: 9 }}
+      <Flex
+        direction="column"
+        alignItems="center"
+        maxW="80%"
+        width={{ base: "90%", sm: "70%", md: "40%" }} 
+        height={{ base: "50%", sm: "30%", md: "80%" }}
+        paddingX={{ base: 4, sm: 6, md: 8 }}
+        paddingY={{ base: 4, sm: 8, md: 9 }}
       >
         <Content />
-      </Container>
+      </Flex>
     </Flex>
   );
 }
