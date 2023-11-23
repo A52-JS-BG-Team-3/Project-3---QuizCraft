@@ -34,7 +34,6 @@ const GroupList = () => {
             <Link to={`/group/${group.id}`} style={{ textDecoration: 'none' }}>
               <Heading size="md">{group.name}</Heading>
             </Link>
-            <p>Group ID: {group.id}</p>
           </Box>
         ))}
         {groups.length === 0 && <p>No groups available</p>}

@@ -1,14 +1,19 @@
-import { Box, Heading, VStack, Avatar, AvatarBadge } from '@chakra-ui/react';
-import { get, ref } from 'firebase/database';
-import { useEffect, useState } from 'react';
+import { Box, Heading, VStack, Avatar, AvatarBadge, Textarea, Button } from '@chakra-ui/react';
+import { get, ref, update } from 'firebase/database';
+import { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { db } from '../../config/firebase-config';
 import fetchUser from '../../services/user.service';
+import AppContext from '../../context/context';
+import { useToast } from '@chakra-ui/react';
 
 const GroupDetails = () => {
   const { groupId } = useParams();
+  const { user } = useContext(AppContext);
   const [group, setGroup] = useState(null);
   const [members, setMembers] = useState([]);
+  const [isEditingDescription, setIsEditingDescription] = useState(false);
+  const [newDescription, setNewDescription] = useState('');
 
   useEffect(() => {
     const groupRef = ref(db, `groups/${groupId}`);
@@ -18,6 +23,7 @@ const GroupDetails = () => {
         const snapshot = await get(groupRef);
         if (snapshot.exists()) {
           setGroup(snapshot.val());
+          setNewDescription(snapshot.val().description || '');
           renderMembers(snapshot.val().members);
         } else {
           console.error('Group not found');
@@ -43,6 +49,26 @@ const GroupDetails = () => {
     fetchGroupDetails();
   }, [groupId]);
 
+  const toast = useToast();
+
+  const handleEditDescription = () => {
+    setIsEditingDescription(true);
+  };
+
+  const handleSaveDescription = async () => {
+    const groupRef = ref(db, `groups/${groupId}`);
+    await update(groupRef, { description: newDescription });
+
+    setIsEditingDescription(false);
+    toast({
+      title: 'Description Updated',
+      description: 'The group description has been successfully updated.',
+      status: 'success',
+      duration: 3000,
+      isClosable: true,
+    });
+  };
+
   return (
     <Box>
       <Heading mb={4} textAlign="center" color={"white"}>
@@ -52,7 +78,18 @@ const GroupDetails = () => {
         <VStack align="center" spacing={4}>
           <Box borderWidth="1px" p={4} borderRadius="md" width="300px" color={"white"}>
             <Heading size="md">{group.name}</Heading>
-            <p>Group ID: {groupId}</p>
+            {isEditingDescription ? (
+              <Textarea
+                value={newDescription}
+                onChange={(e) => setNewDescription(e.target.value)}
+                mb={4}
+              />
+            ) : (
+              <p>{group.description}</p>
+            )}
+            <Button onClick={isEditingDescription ? handleSaveDescription : handleEditDescription}>
+              {isEditingDescription ? 'Save Description' : 'Edit Description'}
+            </Button>
             <p>Members:</p>
             <VStack>
               {members.map((member, index) => (
