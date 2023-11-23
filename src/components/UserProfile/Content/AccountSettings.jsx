@@ -60,7 +60,7 @@ function AccountSettings() {
         await updatePassword(user, newPassword);
         
         await auth.signOut();
-        navigate('/home');
+        navigate('/');
 
         alert('Password updated successfully. Please log in again with the new password.');
       }
@@ -100,8 +100,8 @@ function AccountSettings() {
       <Grid xs={12} md={6} justifyContent="center">
       </Grid>
       <FormLabel fontWeight="bold">
-        "People, who can’t throw something important away, can never hope to
-        change anything." ~ Armin Arlert{" "}
+        &quot;People, who can’t throw something important away, can never hope to
+        change anything.&quot; ~ Armin Arlert{" "}
       </FormLabel>
       <FormControl id="newPassword">
         <FormLabel fontWeight="bold">New Password</FormLabel>

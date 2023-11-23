@@ -118,7 +118,7 @@ export default function Register() {
         });
       })
       .then(() => {
-        navigate("/home");
+        navigate("/");
       });
   };
 
@@ -145,9 +145,11 @@ export default function Register() {
           <Flex
             direction={{ base: "column", md: "row" }}
             justify="space-between"
+            flexWrap={"wrap"}
+            spa
           >
             {/* First Column */}
-            <Stack spacing={4}>
+            <Stack spacing={4} flex="1" mr={4}>
               <FormControl id="firstName" isRequired>
                 <FormLabel fontWeight="bold" color="#5B8FB9">
                   First Name
@@ -190,7 +192,7 @@ export default function Register() {
             </Stack>
 
             {/* Second Column */}
-            <Stack spacing={4}>
+            <Stack spacing={4} flex="1">
               <FormControl id="email" isRequired>
                 <FormLabel fontWeight="bold" color="#5B8FB9">
                   Email address
