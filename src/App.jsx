@@ -16,13 +16,14 @@ import UserProfile from "./components/UserProfile/UserProfile";
 import GroupManagement from "./components/Groups/GropManagment";
 import CreateQuiz from "./components/CreateQuiz/CreateQuiz";
 import GroupDetails from "./views/GroupDetails/GroupDetails";
+import { Spinner } from "@chakra-ui/react";
 
 function App() {
   const [appState, setAppState] = useState({
     user: null,
     userData: null,
     isAdmin: false,
-    isLoading: true, // Added loading state
+    isLoading: true, 
   });
 
   useEffect(() => {
@@ -41,14 +42,14 @@ function App() {
               user,
               userData,
               isAdmin,
-              isLoading: false, // Loading completed
+              isLoading: false, 
             });
           } else {
             setAppState({
               user,
               userData: null,
               isAdmin: false,
-              isLoading: false, // Loading completed
+              isLoading: false, 
             });
           }
         } catch (error) {
@@ -57,7 +58,7 @@ function App() {
             user: null,
             userData: null,
             isAdmin: false,
-            isLoading: false, // Loading completed
+            isLoading: false, 
           });
         }
       } else {
@@ -65,7 +66,7 @@ function App() {
           user: null,
           userData: null,
           isAdmin: false,
-          isLoading: false, // Loading completed
+          isLoading: false,
         });
       }
     });
@@ -76,9 +77,16 @@ function App() {
   return (
     <AppContext.Provider value={{ ...appState, setUser: setAppState }}>
       <Router>
-        <div className="App">
+        <div className="App" style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
           {appState.isLoading ? (
-            <div>Loading...</div> // Show loading indicator or similar message
+           <Spinner
+           thickness="4px"
+           speed="0.65s"
+           emptyColor="gray.200"
+           color="brand.blue"
+           size="xl"
+           mt="20%"
+         />
           ) : (
             <>
               <WithSubnavigation />
