@@ -10,10 +10,10 @@
 - [ ] Users can be educators or students.
 
 ### Quiz
-- [ ] Title is between 3 and 30 characters and unique.
+- [x] Title is between 3 and 30 characters and unique.
 - [ ] Quiz is associated with its creator.
 - [ ] Category can be reused from previous quizzes.
-- [ ] Option to include a timer for quiz completion.
+- [x] Option to include a timer for quiz completion.
 - [ ] Total points available are indicated.
 - [ ] Quizzes include a scoreboard for participant rankings.
 - [ ] Quizzes can be marked as public or private.
@@ -28,7 +28,7 @@
 ## Private Part
 - [ ] All quizzes page is different for Educators and Students.
 - **For Educators:**
-  - [ ] Set up a new Quiz with custom questions and answers.
+  - [x] Set up a new Quiz with custom questions and answers.
   - [ ] Manage quizzes created, including editing or deleting them.
   - [ ] Invite students to take quizzes.
   - [ ] View Ongoing and Finished quizzes.

@@ -6,6 +6,8 @@ import {
   InputGroup,
   Stack,
   Flex,
+  Select,
+  Text
   // keyframes,
 } from "@chakra-ui/react";
 import { useState } from "react";
@@ -38,6 +40,7 @@ const neonBoxShadow = `
 
 export default function Register() {
   // const [showPassword, setShowPassword] = useState(false);
+  const [selectedRole, setSelectedRole] = useState("student");
   const [form, setForm] = useState({
     firstName: "",
     lastName: "",
@@ -50,6 +53,10 @@ export default function Register() {
   const { setUser } = useContext(AuthContext);
 
   const navigate = useNavigate();
+
+  const updateRole = (e) => {
+    setSelectedRole(e.target.value);
+  };
 
   const updateForm = (field) => (e) => {
     setForm({
@@ -104,7 +111,7 @@ export default function Register() {
       .then((credential) => {
         return createUserHandle({
           isAdmin: false,
-          role: "student",
+          role: selectedRole,
           uid: credential.user.uid,
           email: credential.user.email,
           phoneNumber: form.phoneNumber,
@@ -219,6 +226,7 @@ export default function Register() {
                   bg="#B6EADA"
                 />
               </FormControl>
+
               <FormControl id="password" isRequired>
                 <FormLabel fontWeight="bold" color="#5B8FB9">
                   Password
@@ -233,6 +241,15 @@ export default function Register() {
                     bg="#B6EADA"
                   />
                 </InputGroup>
+              </FormControl>
+              <FormControl id="role" isRequired>
+                <FormLabel fontWeight="bold" color="#5B8FB9">
+                  Select Role
+                </FormLabel>
+                <Select value={selectedRole} onChange={updateRole} bg="#B6EADA">
+                  <option value="student">Student</option>
+                  <option value="teacher">Teacher</option>
+                </Select>
               </FormControl>
             </Stack>
           </Flex>
