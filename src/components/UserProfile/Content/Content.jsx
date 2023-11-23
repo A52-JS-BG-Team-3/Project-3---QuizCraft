@@ -56,7 +56,7 @@ const Content = () => {
         flexDirection="column"
         justifyContent="space-between"
         bg={"#03001C"}
-        width={{ base: "90%", md: "70%" }}
+        width="100%"
         boxShadow={neonBoxShadow}
         margin="auto" // Center the box horizontally
       >

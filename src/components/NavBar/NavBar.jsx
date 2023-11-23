@@ -49,9 +49,9 @@ export default function WithSubnavigation() {
         p={0}
         height={{ base: "auto", md: "55px" }}
         zIndex={10}
-
-        // animation={`${pulse} 2s infinite`}
       >
+        <Image src={logo} alt="logo" height="60px" />
+
         <Flex
           flex={{ base: 1, md: "auto" }}
           ml={{ base: -2 }}
@@ -66,7 +66,6 @@ export default function WithSubnavigation() {
             aria-label={"Toggle Navigation"}
           />
         </Flex>
-        <Image src={logo} alt="logo" height="60px" />
         <Flex as="nav" align="center" justify="center" wrap="wrap"></Flex>
         <Stack
           flex={{ base: 1, md: 0 }}
@@ -77,10 +76,9 @@ export default function WithSubnavigation() {
           mr={4}
           ml={{ base: 0, md: "auto" }}
         >
-          <Image src={logo} alt="logo" height="60px" />
           <NeonButton text="Home" href="/" />
-          {user == null && (<NeonButton text="Sign In" href="/signin" /> )}
-          {user == null && (<NeonButton text="Sign up" href="/signup" />)}
+          {user == null && <NeonButton text="Sign In" href="/signin" />}
+          {user == null && <NeonButton text="Sign up" href="/signup" />}
           {user ? <UserPanel /> : null}
         </Stack>
       </Flex>
