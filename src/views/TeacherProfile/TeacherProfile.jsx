@@ -12,13 +12,12 @@ const TeacherProfile = () => {
         <Flex align="center" justify="center" width="full">
           <Box mr={10}> {/* You can adjust the margin as needed */}
           <Image src={quizTimeImage} className="floating-image" />
-
           </Box>
           <VStack spacing={4} align="stretch" width="full" maxW="lg"> {/* Adjust the width as needed */}
             <Input placeholder="Search Quizzes..." size="lg" />
-            <Button colorScheme="blue" isFullWidth>Live Quiz</Button>
-            <Button colorScheme="green" isFullWidth>Create Quiz</Button>
-            <Button colorScheme="teal" isFullWidth>Send Invitation</Button>
+            <Button colorScheme="blue" width="full">Live Quiz</Button>
+            <Button colorScheme="green" width="full">Create Quiz</Button>
+            <Button colorScheme="teal" width="full">Send Invitation</Button>
           </VStack>
         </Flex>
       </Flex>
