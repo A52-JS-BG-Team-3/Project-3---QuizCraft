@@ -1,20 +1,14 @@
-import {
-  Box,
-  Image,
-  Checkbox,
-  FormLabel,
-  Input,
-  Stack,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Image, Checkbox, FormLabel, Input, Stack, Text, useToast } from "@chakra-ui/react";
 import { useContext, useState } from "react";
 import AppContext from "../../context/context";
 import { loginUser } from "../../services/auth.service";
 import { useNavigate } from "react-router";
-import { db } from "../../config/firebase-config";
+import { db, auth } from "../../config/firebase-config";
 import { ref, get } from "@firebase/database";
 import { fetchUserName } from "../../services/user.service";
 import NeonButton from "../../components/NeonButton/NeonButton";
+import { useEffect } from "react";
+import { onAuthStateChanged } from "@firebase/auth";
 
 const neonBoxShadow = `
   0 0 10px rgba(253, 253, 150, 0.8),
@@ -27,11 +21,24 @@ const neonBoxShadow = `
 function Login() {
   const { setUser } = useContext(AppContext);
   const navigate = useNavigate();
-
+  const [loading, setLoading] = useState(true); 
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
+  const toast = useToast(); 
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setLoading(false); 
+      if (user) {
+        setUser(user);
+        navigate('/'); 
+      }
+    });
+
+    return () => unsubscribe(); 
+  }, [setUser, navigate]);
 
   const updateForm = (field) => (e) => {
     setForm({
@@ -43,11 +50,21 @@ function Login() {
   const onLogin = async () => {
     try {
       if (!form.email) {
-        alert("Email is required");
+        toast({
+          title: "Email is required",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
         return;
       }
       if (!form.password || form.password.length < 6) {
-        alert("Password is required and must be at least 6 characters long");
+        toast({
+          title: "Password is required and must be at least 6 characters long",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
         return;
       }
 
@@ -61,15 +78,27 @@ function Login() {
       const userSnapshot = await get(userRef);
 
       if (userSnapshot.exists()) {
-        console.log("Login successful!");
+        toast({
+          title: "Login successful!",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
         navigate("/");
       } else {
         console.error("User data not found.");
       }
     } catch (error) {
       console.error("Error during login:", error);
+      toast({
+        title: "Wrong password or email.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
     }
   };
+
   return (
     <Box
       width="100%"

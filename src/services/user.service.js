@@ -1,5 +1,6 @@
 import { get, set, ref, query, equalTo, orderByChild } from 'firebase/database';
 import { db } from '../config/firebase-config';
+import { ref as storageRef, getDownloadURL , getStorage} from 'firebase/storage';
 
 export const getUserByHandle = (userName) => {
 
@@ -43,3 +44,30 @@ export const fetchUserName = async (uid) => {
     return "Unknown";
   }
 };
+
+const fetchUser = async (userName) => {
+  try {
+    const userRef = ref(db, `users/${userName}`);
+    const userSnapshot = await get(userRef);
+
+    if (userSnapshot.exists()) {
+      // const userData = userSnapshot.val();
+
+      const avatarRef = storageRef(getStorage(), `profileAvatars/${userName}`);
+      const avatarUrl = await getDownloadURL(avatarRef);
+
+      return {
+        userName,
+        avatar: avatarUrl,
+      };
+    } else {
+      console.error(`User with username ${userName} not found.`);
+      return null;
+    }
+  } catch (error) {
+    console.error('Error fetching user details:', error);
+    return null;
+  }
+};
+
+export default fetchUser;
