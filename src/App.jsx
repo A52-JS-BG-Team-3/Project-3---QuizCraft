@@ -77,7 +77,7 @@ function App() {
             <Route path ="/groups" element={<GroupManagement/>} />
             <Route path="/quiz" element={<Quiz />} />
             <Route path="/teacher" element={<TeacherProfile />} />
-            <Route path="/home" element={<Home />} />
+            <Route path="/" element={<Home />} />
             <Route path="/createquiz" element={<CreateQuiz />} />
           </Routes>
         </div>
