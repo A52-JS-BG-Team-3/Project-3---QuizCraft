@@ -15,6 +15,7 @@ import TeacherProfile from "./views/TeacherProfile/TeacherProfile";
 import UserProfile from "./components/UserProfile/UserProfile";
 import GroupManagement from "./components/Groups/GropManagment";
 import CreateQuiz from "./components/CreateQuiz/CreateQuiz";
+import GroupDetails from "./views/GroupDetails/GroupDetails";
 
 function App() {
   const [appState, setAppState] = useState({
@@ -79,6 +80,7 @@ function App() {
             <Route path="/teacher" element={<TeacherProfile />} />
             <Route path="/" element={<Home />} />
             <Route path="/createquiz" element={<CreateQuiz />} />
+            <Route path="/group/:groupId" element={<GroupDetails />} />
           </Routes>
         </div>
       </Router>

@@ -23,28 +23,22 @@ const GroupForm = ({ actionType }) => {
       if (actionType === "join") {
         const groupRef = ref(db, `groups/${groupName}`);
         const groupSnapshot = await get(groupRef);
-
+      
         if (groupSnapshot.exists()) {
           const userRef = ref(db, `users/${userUserName}`);
           const userSnapshot = await get(userRef);
-
+      
           if (userSnapshot.exists()) {
-         
-            await update(userRef, {
-              groupId: groupName,
-              groupName: groupSnapshot.val().name,
-            });
-
-          
-            await update(groupRef, {
-              members: {
-                [user.uid]: {
-                  userName: userUserName,
-                },
-                
+            const existingMembers = groupSnapshot.val().members || {};
+            const updatedMembers = {
+              ...existingMembers,
+              [user.uid]: {
+                userName: userUserName,
               },
-            });
-
+            };
+      
+            await update(groupRef, { members: updatedMembers });
+      
             alert(`Successfully joined group ${groupName}`);
           } else {
             alert("Error fetching user data.");
