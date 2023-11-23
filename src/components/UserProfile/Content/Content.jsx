@@ -5,7 +5,6 @@ import {
   Button,
   Flex,
   Divider,
-  Center
 } from "@chakra-ui/react";
 import AccountSettings from "./AccountSettings";
 import { useContext, useEffect, useState } from "react";
@@ -17,10 +16,10 @@ import { Link } from "react-router-dom";
 import Sidebar from "../Sidebar/Sidebar";
 
 const neonBoxShadow = `
-  0 0 10px rgba(200, 200, 9, 0.8),
   0 0 20px rgba(200, 200, 9, 0.8),
   0 0 30px rgba(200, 200, 9, 0.8),
   0 0 40px rgba(200, 200, 9, 0.8),
+  0 0 50px rgba(200, 200, 9, 0.8),
   0 0 70px rgba(200, 200, 9, 0.8)
 `;
 
@@ -48,17 +47,15 @@ const Content = () => {
   }, [user]);
 
   return (
-    <Center>
       <Box
         as="main"
         flex={3}
         d="flex"
-        flexDirection="column"
         justifyContent="space-between"
         bg={"#03001C"}
-        width={{ base: "90%", md: "70%" }}
+        width="70%"
         boxShadow={neonBoxShadow}
-        margin="auto" // Center the box horizontally
+        margin={"auto"}
       >
         <Tabs>
           <Box textAlign={"center"} fontWeight={"bold"} color="#5B8FB9">
@@ -97,7 +94,6 @@ const Content = () => {
           </TabPanels>
         </Tabs>
       </Box>
-    </Center>
   );
 };
 

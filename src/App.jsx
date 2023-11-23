@@ -12,7 +12,7 @@ import Register from "./views/Register/Register";
 import Login from "./views/LogIn/Login";
 import Quiz from "../src/components/Quiz/Quiz";
 import TeacherProfile from "./views/TeacherProfile/TeacherProfile";
-import UserProfile from "./views/UserProfile/UserProfile";
+import UserProfile from "./views/UserProfile/UserProfileView";
 import GroupManagement from "./components/Groups/GropManagment";
 import CreateQuiz from "./components/CreateQuiz/CreateQuiz";
 import GroupDetails from "./views/GroupDetails/GroupDetails";
