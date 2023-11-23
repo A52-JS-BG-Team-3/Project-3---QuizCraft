@@ -7,16 +7,17 @@ export default function UserProfile() {
       alignItems="center"
       justifyContent="center"
       width="100%"
-      height="100vh"
+      height="100%"
       background={`url(src/assets/on_air.png) center center / cover no-repeat`}
-    
     >
       <Flex
         direction="column"
         alignItems="center"
-        width={{ base: "90%", sm: "70%", md: "85%" }}
+        width={{ base: "90%", sm: "70%", md: "100%" }}
         height={{ base: "70%", sm: "50%", md: "80%" }}
-        padding={{ base: 4, sm: 6, md: 8 }}
+        paddingTop={"1%"}
+        paddingLeft={"20%"}
+        paddingBottom={"1%"}
         overflow="auto"
         css={{
           overflowX: "auto",
