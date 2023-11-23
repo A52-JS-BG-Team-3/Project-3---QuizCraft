@@ -77,9 +77,10 @@ export default function WithSubnavigation() {
           mr={4}
           ml={{ base: 0, md: "auto" }}
         >
-          <NeonButton text="Home" href="/home" />
-          {user == null && <NeonButton text="Sign In" href="/signin" />}
-          {user == null && <NeonButton text="Sign up" href="/signup" />}
+          <Image src={logo} alt="logo" height="60px" />
+          <NeonButton text="Home" href="/" />
+          {user == null && (<NeonButton text="Sign In" href="/signin" /> )}
+          {user == null && (<NeonButton text="Sign up" href="/signup" />)}
           {user ? <UserPanel /> : null}
         </Stack>
       </Flex>
