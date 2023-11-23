@@ -68,9 +68,18 @@ export const UserPanel = () => {
     }
   };
 
+  const goToCreateQuizz = () => {
+    if (user !== null) {
+      navigate("/createquiz")
+    }else{
+      navigate("/signin");
+      alert("Please Sign In!");
+    }
+  }
+
   const handleLogout = () => {
     logoutUser();
-    navigate("/home"); // Redirect to home after logout
+    navigate("/home"); 
   };
 
   return (
@@ -118,6 +127,10 @@ export const UserPanel = () => {
           <MenuDivider />
           <MenuItem onClick={goToGroups} bg={"#FFD580"}>
             Groups
+          </MenuItem>
+          <MenuDivider />
+          <MenuItem onClick={goToCreateQuizz} bg={"#FFD580"}>
+            Create Quizz
           </MenuItem>
           <MenuDivider />
           <MenuItem onClick={handleLogout} bg={"#FFD580"}>
