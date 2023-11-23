@@ -33,6 +33,7 @@ const GroupList = () => {
           <Box key={group.id} borderWidth="1px" p={4} borderRadius="md" width="300px" color={"white"}>
             <Link to={`/group/${group.id}`} style={{ textDecoration: 'none' }}>
               <Heading size="md">{group.name}</Heading>
+              {group.description && <p>{group.description}</p>}
             </Link>
           </Box>
         ))}
