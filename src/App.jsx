@@ -21,6 +21,8 @@ function App() {
   const [appState, setAppState] = useState({
     user: null,
     userData: null,
+    isAdmin: false,
+    isLoading: true, // Added loading state
   });
 
   useEffect(() => {
@@ -39,25 +41,31 @@ function App() {
               user,
               userData,
               isAdmin,
-              loading: false,
+              isLoading: false, // Loading completed
             });
           } else {
             setAppState({
               user,
               userData: null,
               isAdmin: false,
-              loading: false,
+              isLoading: false, // Loading completed
             });
           }
         } catch (error) {
           console.error("Error fetching user data:", error);
+          setAppState({
+            user: null,
+            userData: null,
+            isAdmin: false,
+            isLoading: false, // Loading completed
+          });
         }
       } else {
         setAppState({
           user: null,
           userData: null,
           isAdmin: false,
-          loading: false,
+          isLoading: false, // Loading completed
         });
       }
     });
@@ -69,19 +77,24 @@ function App() {
     <AppContext.Provider value={{ ...appState, setUser: setAppState }}>
       <Router>
         <div className="App">
-          <WithSubnavigation />
-
-          <Routes>
-            <Route path="/signup" element={<Register />} />
-            <Route path="/signin" element={<Login />} />
-            {appState.user && (<Route path="/userprofile" element={<UserProfile />} />)}
-            <Route path ="/groups" element={<GroupManagement/>} />
-            <Route path="/quiz" element={<Quiz />} />
-            <Route path="/teacher" element={<TeacherProfile />} />
-            <Route path="/" element={<Home />} />
-            <Route path="/createquiz" element={<CreateQuiz />} />
-            <Route path="/group/:groupId" element={<GroupDetails />} />
+          {appState.isLoading ? (
+            <div>Loading...</div> // Show loading indicator or similar message
+          ) : (
+            <>
+              <WithSubnavigation />
+              <Routes>
+                <Route path="/signup" element={<Register />} />
+                <Route path="/signin" element={<Login />} />
+                {appState.user && (<Route path="/userprofile" element={<UserProfile />} />)}
+                <Route path="/groups" element={<GroupManagement />} />
+                <Route path="/quiz" element={<Quiz />} />
+                <Route path="/teacher" element={<TeacherProfile />} />
+                <Route path="/" element={<Home />} />
+                {appState.isAdmin && <Route path="/createquiz" element={<CreateQuiz />} />}
+                <Route path="/group/:groupId" element={<GroupDetails />} />
           </Routes>
+            </>
+          )}
         </div>
       </Router>
     </AppContext.Provider>

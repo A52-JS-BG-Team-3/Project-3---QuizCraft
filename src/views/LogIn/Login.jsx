@@ -11,10 +11,13 @@ import { useContext, useState } from "react";
 import AppContext from "../../context/context";
 import { loginUser } from "../../services/auth.service";
 import { useNavigate } from "react-router";
-import { db } from "../../config/firebase-config";
+import { db, auth } from "../../config/firebase-config";
 import { ref, get } from "@firebase/database";
 import { fetchUserName } from "../../services/user.service";
 import NeonButton from "../../components/NeonButton/NeonButton";
+import { useEffect } from "react";
+import { onAuthStateChanged } from "@firebase/auth";
+
 
 const neonBoxShadow = `
   0 0 10px rgba(253, 253, 150, 0.8),
@@ -27,11 +30,23 @@ const neonBoxShadow = `
 function Login() {
   const { setUser } = useContext(AppContext);
   const navigate = useNavigate();
-
+  const [loading, setLoading] = useState(true); // Added loading state
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
+  
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setLoading(false); // Set loading to false when auth state is known
+      if (user) {
+        setUser(user);
+        navigate('/'); // Redirect to home if already logged in
+      }
+    });
+
+    return () => unsubscribe(); // Cleanup the subscription
+  }, [setUser, navigate]);
 
   const updateForm = (field) => (e) => {
     setForm({
@@ -70,6 +85,11 @@ function Login() {
       console.error("Error during login:", error);
     }
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <Box
       width="100%"
