@@ -8,9 +8,10 @@ import {
   Select,
   VStack,
 } from "@chakra-ui/react";
-import { ref, set } from "firebase/database";
+import { ref, set, push } from "firebase/database";
 import { auth, db } from "../../config/firebase-config";
 import QuizForm from "../CreateQuiz/QuizForm/QuizForm";
+import { useNavigate } from "react-router-dom";
 
 const CreateQuiz = () => {
   const [quizTitle, setQuizTitle] = useState("");
@@ -18,6 +19,7 @@ const CreateQuiz = () => {
   const [quizType, setQuizType] = useState("open");
   const [timeLimit, setTimeLimit] = useState("");
   const [questions, setQuestions] = useState([]);
+  const navigate = useNavigate();
 
   const handleAddQuestion = (newQuestion) => {
     setQuestions((prevQuestions) => [...prevQuestions, newQuestion]);
@@ -42,18 +44,21 @@ const CreateQuiz = () => {
       createdBy: user.uid,
     };
     try {
-        const newQuizRef = ref(db, 'quizzes/' + newQuiz.title);
-        await set(newQuizRef, newQuiz);
-        alert("Quiz created successfully!");
-        setQuizTitle("");
-        setQuizCategory("");
-        setQuizType("open");
-        setTimeLimit("");
-        setQuestions([]);
-      } catch (error) {
-        console.error("Error saving to Realtime Database: ", error);
-      }
-    };
+      const quizzesRef = ref(db, 'quizzes');
+      const newQuizRef = push(quizzesRef);
+      await set(newQuizRef, { quizId: newQuizRef.key});
+      newQuiz.id = newQuizRef.key;
+      alert("Quiz created successfully with ID: " + newQuizRef.key);
+      setQuizTitle("");
+      setQuizCategory("");
+      setQuizType("open");
+      setTimeLimit("");
+      setQuestions([]);
+      navigate(`/edit-quiz/${newQuizRef.key}`);
+    } catch (error) {
+      console.error("Error saving to Realtime Database: ", error);
+    }
+  };
 
   return (
     <Box pt={{ base: "100px", md: "120px" }} px={{ base: "5", md: "10" }}>
