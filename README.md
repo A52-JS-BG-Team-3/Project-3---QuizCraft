@@ -12,9 +12,9 @@
 ### Quiz
 - [x] Title is between 3 and 30 characters and unique.
 - [x] Quiz is associated with its creator.
-- [ ] Category can be reused from previous quizzes.
+- [x] Category can be reused from previous quizzes.
 - [x] Option to include a timer for quiz completion.
-- [ ] Total points available are indicated.
+- [x] Total points available are indicated.
 - [ ] Quizzes include a scoreboard for participant rankings.
 - [x] Quizzes can be marked as public or private.
 

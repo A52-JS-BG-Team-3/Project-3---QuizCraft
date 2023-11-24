@@ -37,8 +37,8 @@ const CreateQuiz = () => {
   };
 
   const handleCategorySelect = (category) => {
-    setQuizCategory(category.name);
-  };
+    setQuizCategory(category.name || "");
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -109,13 +109,13 @@ const CreateQuiz = () => {
           <FormControl isRequired>
             <Categories onSelectCategory={handleCategorySelect} />
             <FormControl isRequired>
-              <Input
-                id="quizCategory"
-                value={quizCategory}
-                onChange={(e) => setQuizCategory(e.target.value)}
-                placeholder="Enter quiz category"
-                textColor={quizCategory.length > 3 ? "white" : "red.500"}
-              />
+            <Input
+    id="quizCategory"
+    value={quizCategory || ""}
+    onChange={(e) => setQuizCategory(e.target.value)}
+    placeholder="Enter quiz category"
+    textColor={quizCategory?.length > 3 ? "white" : "red.500"}
+/>
             </FormControl>
           </FormControl>
           <FormControl isRequired>

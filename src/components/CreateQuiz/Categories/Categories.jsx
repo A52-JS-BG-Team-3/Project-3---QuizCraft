@@ -11,14 +11,16 @@ const Categories = ({ onSelectCategory }) => {
         fetch("https://opentdb.com/api_category.php")
             .then((response) => response.json())
             .then((data) => {
-                setCategories(data.trivia_categories);
+                setCategories(data.trivia_categories); // Това трябва да е масив от категории
                 setLoading(false);
             });
     }, []);
+    
 
     const handleCategoryChange = (e) => {
-        onSelectCategory(e.target.value);
-    }
+        const selectedCategory = categories.find(cat => cat.id.toString() === e.target.value);
+        onSelectCategory(selectedCategory || {});
+    };
 
     if (loading) return <p>Loading categories...</p>;
 
@@ -27,11 +29,13 @@ const Categories = ({ onSelectCategory }) => {
         Categories <br/>  
         <select onChange={handleCategoryChange}>
             <option value="">Select category</option>
-            {categories.map((category) => (
-                <option key={category.id} value={category.id}>
-                    {category.name}
-                </option>
-            ))}
+            {categories.map((category) => {
+    return (
+        <option key={category.id} value={category.id}>
+            {category.name}
+        </option>
+    );
+})}
         </select>
         </FormLabel>
     );
