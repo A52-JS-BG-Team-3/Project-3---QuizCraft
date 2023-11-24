@@ -13,7 +13,7 @@ import { ref, set, push } from "firebase/database";
 import { auth, db } from "../../config/firebase-config";
 import QuizForm from "../CreateQuiz/QuizForm/QuizForm";
 import { useNavigate } from "react-router-dom";
-
+import Categories from "./Categories/Categories";
 
 const CreateQuiz = () => {
   const [quizTitle, setQuizTitle] = useState("");
@@ -36,10 +36,19 @@ const CreateQuiz = () => {
     });
   };
 
-  
+  const handleCategorySelect = (category) => {
+    setQuizCategory(category.name);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (quizTitle.length < 3 || quizTitle.length > 30) {
+      alert("Quiz title must be between 3 and 30 characters.");
+      return;
+    }
+
+    const scorePerQuestion = 100 / questions.length;
 
     const user = auth.currentUser;
 
@@ -60,6 +69,7 @@ const CreateQuiz = () => {
         optionB: q.optionB,
         optionC: q.optionC,
         optionD: q.optionD,
+        score: scorePerQuestion,
       })),
       createdBy: user.uid,
     };
@@ -74,14 +84,14 @@ const CreateQuiz = () => {
       setQuizType("open");
       setTimeLimit("");
       setQuestions([]);
-      navigate(`/edit-quiz/${newQuizRef.key}`);
+      navigate(`/userquizzes`);
     } catch (error) {
       console.error("Error saving to Realtime Database: ", error);
     }
   };
 
   return (
-    <Box pt={{ base: "100px", md: "100px" }} px={{ base: "5", md: "10" }}>
+    <Box pt={{ base: "100px", md: "800px" }} px={{ base: "5", md: "10" }}>
       <form onSubmit={handleSubmit}>
         <VStack spacing={3}>
           <FormControl isRequired>
@@ -93,20 +103,20 @@ const CreateQuiz = () => {
               value={quizTitle}
               onChange={(e) => setQuizTitle(e.target.value)}
               placeholder="Enter quiz title"
-              textColor={quizTitle.length > 20 ? "white" : "red.500"}
+              textColor={3 < quizTitle.length < 30 ? "white" : "red.500"}
             />
           </FormControl>
           <FormControl isRequired>
-            <FormLabel htmlFor="quizCategory" color={"white"}>
-              Category
-            </FormLabel>
-            <Input
-              id="quizCategory"
-              value={quizCategory}
-              onChange={(e) => setQuizCategory(e.target.value)}
-              placeholder="Enter quiz category"
-              textColor={quizCategory.length > 3 ? "white" : "red.500"}
-            />
+            <Categories onSelectCategory={handleCategorySelect} />
+            <FormControl isRequired>
+              <Input
+                id="quizCategory"
+                value={quizCategory}
+                onChange={(e) => setQuizCategory(e.target.value)}
+                placeholder="Enter quiz category"
+                textColor={quizCategory.length > 3 ? "white" : "red.500"}
+              />
+            </FormControl>
           </FormControl>
           <FormControl isRequired>
             <FormLabel htmlFor="quizType" color={"white"}>
@@ -139,7 +149,6 @@ const CreateQuiz = () => {
             Create Quiz
           </Button>
         </VStack>
-        {/* Display added questions */}
         {questions.map((question, index) => (
           <Box key={index}>
             <p>{question.questionText}</p>
