@@ -13,7 +13,7 @@ import {
   ListItem
 } from "@chakra-ui/react";
 
-const QuizPicker = () => {
+const RandomQuiz = () => {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [loadingCategories, setLoadingCategories] = useState(true);
@@ -125,4 +125,4 @@ const QuizPicker = () => {
   );
 };
 
-export default QuizPicker;
+export default RandomQuiz;

@@ -10,7 +10,7 @@ import WithSubnavigation from "./components/NavBar/NavBar";
 import Home from "./views/Home/Home";
 import Register from "./views/Register/Register";
 import Login from "./views/LogIn/Login";
-import Quiz from "../src/components/Quiz/Quiz";
+import RandomQuiz from "./components/RandomQuiz/RandomQuiz";
 import TeacherProfile from "./views/TeacherProfile/TeacherProfile";
 import UserProfile from "./views/UserProfile/UserProfileView";
 import GroupManagement from "./components/Groups/GropManagment";
@@ -96,13 +96,13 @@ function App() {
               <Routes>
                 <Route path="/signup" element={<Register />} />
                 <Route path="/signin" element={<Login />} />
-                {appState.user && (<Route path="/userprofile" element={<UserProfile />} />)}
-                <Route path="/groups" element={<GroupManagement />} />
-                <Route path="/quiz" element={<Quiz />} />
-                <Route path="/teacher" element={<TeacherProfile />} />
                 <Route path="/" element={<Home />} />
-                <Route path="/createquiz" element={<CreateQuiz />} />
+                {appState.user && (<Route path="/userprofile" element={<UserProfile />} />)}
+                <Route path="/teacher" element={<TeacherProfile />} />
+                <Route path="/groups" element={<GroupManagement />} />
                 <Route path="/group/:groupId" element={<GroupDetails />} />
+                <Route path="/quiz" element={<RandomQuiz />} />
+                <Route path="/createquiz" element={<CreateQuiz />} />
                 <Route path="/userquizzes" element={<UserQuizzes />} />
                 <Route path="/edit-quiz/:quizId" element={<EditQuiz />} />
                 <Route path="/quizzesoverview" element={<QuizzesOverview />} />

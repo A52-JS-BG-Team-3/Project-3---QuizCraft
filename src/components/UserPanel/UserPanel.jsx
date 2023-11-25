@@ -30,11 +30,9 @@ export const UserPanel = () => {
       if (user !== null) {
         try {
           const fetchedUserName = await fetchUserName(user.uid);
-          // console.log('fetchedUserName:', fetchedUserName);
 
           const usersRef = ref(db, `users/${fetchedUserName}`);
           const snapshot = await get(usersRef);
-          // console.log('snapshot.val():', snapshot.val());
 
           if (snapshot.exists()) {
             const userData = snapshot.val();
@@ -59,6 +57,15 @@ export const UserPanel = () => {
     }
   };
 
+  const goToTeacherProfile = () => {
+    if (user !== null) {
+      navigate("/teacher");
+    } else {
+      navigate("/signin");
+      alert("Please Sign In!");
+    }
+  };
+
   const goToGroups = () => {
     if (user !== null) {
       navigate("/groups");
@@ -68,24 +75,32 @@ export const UserPanel = () => {
     }
   };
 
-  const goToCreateQuizz = () => {
+  const goToQuizes = () => {
     if (user !== null) {
-      navigate("/createquiz")
-    }else{
+      navigate("/quizzesoverview");
+    } else {
       navigate("/signin");
       alert("Please Sign In!");
     }
-  }
+  };
+
+  const goToCreateQuizz = () => {
+    if (user !== null) {
+      navigate("/createquiz");
+    } else {
+      navigate("/signin");
+      alert("Please Sign In!");
+    }
+  };
 
   const handleLogout = () => {
     logoutUser();
-    navigate("/"); 
+    navigate("/");
   };
 
   return (
     <Flex alignItems={"center"}>
       <Menu>
-        
         <MenuButton
           as={Button}
           rounded={"full"}
@@ -104,24 +119,27 @@ export const UserPanel = () => {
           bg={"#B6EADA"}
           pr={"2"}
           pl={""}
-         
         >
           <Text ml={2} fontWeight="bold">
             {userName}
           </Text>
         </Box>
-       
+
         <MenuList bg={"#B6EADA"} border={"solid"} borderColor={"#5B8FB9"}>
           <MenuItem onClick={goToUserProfile} bg={"#B6EADA"}>
             Account Settings
           </MenuItem>
           <MenuDivider />
-          <MenuItem onClick={goToGroups} bg={"#B6EADA"}>
-            Groups
+          <MenuItem onClick={goToQuizes} bg={"#B6EADA"}>
+            Quizzes
           </MenuItem>
           <MenuDivider />
-          <MenuItem onClick={goToCreateQuizz} bg={"#B6EADA"}>
-            Create Quizz
+          <MenuItem onClick={goToTeacherProfile} bg={"#B6EADA"}>
+            Teachers’ Lounge
+          </MenuItem>
+          <MenuDivider />
+          <MenuItem onClick={goToGroups} bg={"#B6EADA"}>
+            Groups
           </MenuItem>
           <MenuDivider />
           <MenuItem onClick={handleLogout} bg={"#B6EADA"}>

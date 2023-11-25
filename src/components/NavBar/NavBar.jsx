@@ -83,36 +83,36 @@ export default function WithSubnavigation() {
         </Stack>
       </Flex>
 
-      <Collapse in={isOpen} animateOpacity>
+      {/* <Collapse in={isOpen} animateOpacity>
         <MobileNav />
-      </Collapse>
+      </Collapse> */}
     </Box>
   );
 }
 
-const MobileNav = () => {
-  return (
-    <Stack
-      bg={useColorModeValue("white", "gray.800")}
-      p={4}
-      display={{ md: "none" }}
-    >
-      <Box as="a" href="#" py={2} _hover={{ textDecoration: "none" }}>
-        <Text
-          fontWeight={600}
-          color={useColorModeValue("gray.600", "gray.200")}
-        >
-          Mobile Link 1
-        </Text>
-      </Box>
-      <Box as="a" href="#" py={2} _hover={{ textDecoration: "none" }}>
-        <Text
-          fontWeight={600}
-          color={useColorModeValue("gray.600", "gray.200")}
-        >
-          Mobile Link 2
-        </Text>
-      </Box>
-    </Stack>
-  );
-};
+// const MobileNav = () => {
+//   return (
+//     <Stack
+//       bg={useColorModeValue("white", "gray.800")}
+//       p={4}
+//       display={{ md: "none" }}
+//     >
+//       <Box as="a" href="#" py={2} _hover={{ textDecoration: "none" }}>
+//         <Text
+//           fontWeight={600}
+//           color={useColorModeValue("gray.600", "gray.200")}
+//         >
+//           Mobile Link 1
+//         </Text>
+//       </Box>
+//       <Box as="a" href="#" py={2} _hover={{ textDecoration: "none" }}>
+//         <Text
+//           fontWeight={600}
+//           color={useColorModeValue("gray.600", "gray.200")}
+//         >
+//           Mobile Link 2
+//         </Text>
+//       </Box>
+//     </Stack>
+//   );
+// };
