@@ -9,7 +9,7 @@ import {
   VStack,
   useToast,
 } from "@chakra-ui/react";
-import { ref, set, push } from "firebase/database";
+import { ref, set, push, get } from "firebase/database";
 import { auth, db } from "../../config/firebase-config";
 import QuizForm from "../CreateQuiz/QuizForm/QuizForm";
 import { useNavigate } from "react-router-dom";
@@ -57,6 +57,31 @@ const CreateQuiz = () => {
       return;
     }
 
+    const fetchUserName = async (uid) => {
+      const usersRef = ref(db, `users`);
+      const snapshot = await get(usersRef);
+    
+      if (snapshot.exists()) {
+        let userName = "Anonymous";
+        const usersData = snapshot.val();
+        Object.keys(usersData).forEach((userKey) => {
+          if (usersData[userKey].uid === uid) {
+            userName = usersData[userKey].userName;
+          }
+        });
+        return userName;
+      } else {
+        console.log("No users found in the database.");
+        return userName; 
+      }
+    };
+    
+    
+    
+    const userName = await fetchUserName(user.uid);
+    console.log("Fetched username: ", userName); 
+
+
     const newQuiz = {
       title: quizTitle,
       category: quizCategory,
@@ -71,7 +96,8 @@ const CreateQuiz = () => {
         optionD: q.optionD,
         score: scorePerQuestion,
       })),
-      createdBy: user.uid,
+      createdBy: userName,
+      creatorUid: user.uid,
     };
     try {
       const quizzesRef = ref(db, "quizzes");

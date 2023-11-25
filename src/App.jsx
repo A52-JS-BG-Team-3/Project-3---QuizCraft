@@ -19,6 +19,7 @@ import GroupDetails from "./views/GroupDetails/GroupDetails";
 import { Spinner } from "@chakra-ui/react";
 import UserQuizzes from "./components/CreateQuiz/UserQuizzes/UserQuizzes";
 import EditQuiz from "./components/CreateQuiz/EditQuiz/EditQuiz";
+import QuizzesOverview from "./components/QuizzesOverview/QuizzesOverview";
 
 function App() {
   const [appState, setAppState] = useState({
@@ -104,6 +105,7 @@ function App() {
                 <Route path="/group/:groupId" element={<GroupDetails />} />
                 <Route path="/userquizzes" element={<UserQuizzes />} />
                 <Route path="/edit-quiz/:quizId" element={<EditQuiz />} />
+                <Route path="/quizzesoverview" element={<QuizzesOverview />} />
           </Routes>
             </>
           )}

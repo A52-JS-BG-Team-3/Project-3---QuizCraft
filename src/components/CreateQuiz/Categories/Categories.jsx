@@ -11,7 +11,7 @@ const Categories = ({ onSelectCategory }) => {
         fetch("https://opentdb.com/api_category.php")
             .then((response) => response.json())
             .then((data) => {
-                setCategories(data.trivia_categories); // Това трябва да е масив от категории
+                setCategories(data.trivia_categories); 
                 setLoading(false);
             });
     }, []);
