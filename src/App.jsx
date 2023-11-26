@@ -99,15 +99,19 @@ function App() {
                 <Route path="/signin" element={<Login />} />
                 <Route path="/" element={<Home />} />
                 {appState.user && (<Route path="/userprofile" element={<UserProfile />} />)}
+                {appState.user && appState.user.role === 'teacher' && (
+                  <>
                 <Route path="/teacher" element={<TeacherProfile />} />
                 <Route path="/groups" element={<GroupManagement />} />
                 <Route path="/group/:groupId" element={<GroupDetails />} />
-                <Route path="/quiz" element={<RandomQuiz />} />
                 <Route path="/createquiz" element={<CreateQuiz />} />
-                <Route path="/userquizzes" element={<UserQuizzes />} />
                 <Route path="/edit-quiz/:quizId" element={<EditQuiz />} />
-                <Route path="/quizzesoverview" element={<QuizzesOverview />} />
                 <Route path="/teacherquizzes/:userName" element={<TeacherQuizzes />} />
+                </>
+                )}
+                <Route path="/quiz" element={<RandomQuiz />} />
+                <Route path="/userquizzes" element={<UserQuizzes />} />
+                <Route path="/quizzesoverview" element={<QuizzesOverview />} />
           </Routes>
             </>
           )}

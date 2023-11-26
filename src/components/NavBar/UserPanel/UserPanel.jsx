@@ -20,7 +20,7 @@ import { ref, get } from "@firebase/database";
 
 export const UserPanel = () => {
   const navigate = useNavigate();
-  const { user } = useContext(AppContext);
+  const { user, userData } = useContext(AppContext);
   const [userProfile, setUserProfile] = useState(null);
   const [userName, setUserName] = useState(null);
 
@@ -114,7 +114,6 @@ export const UserPanel = () => {
             {userName}
           </Text>
         </Box>
-
         <MenuList bg={"#B6EADA"} border={"solid"} borderColor={"#5B8FB9"}>
           <MenuItem onClick={goToUserProfile} bg={"#B6EADA"}>
             Account Settings
@@ -124,14 +123,18 @@ export const UserPanel = () => {
             Quizzes
           </MenuItem>
           <MenuDivider />
-          <MenuItem onClick={goToTeacherProfile} bg={"#B6EADA"}>
-            Teachers’ Lounge
-          </MenuItem>
-          <MenuDivider />
-          <MenuItem onClick={goToGroups} bg={"#B6EADA"}>
-            Groups
-          </MenuItem>
-          <MenuDivider />
+          {userData && userData.role === "teacher" && (
+            <>
+              <MenuItem onClick={goToTeacherProfile} bg={"#B6EADA"}>
+                Teachers’ Lounge
+              </MenuItem>
+              <MenuDivider />
+              <MenuItem onClick={goToGroups} bg={"#B6EADA"}>
+                Groups
+              </MenuItem>
+              <MenuDivider />
+            </>
+          )}
           <MenuItem onClick={handleLogout} bg={"#B6EADA"}>
             Log Out
           </MenuItem>
