@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { get, ref, update } from "firebase/database";
 import { useEffect, useState } from "react";
-import { useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { db } from "../../config/firebase-config";
 import fetchUser from "../../services/user.service";
 import { useToast } from "@chakra-ui/react";
@@ -142,9 +142,9 @@ const GroupDetails = () => {
                     )}
                   </Avatar>
                   <p>{member.userName}</p>
-                  <Link to={`/userquizzes`}>
-                  <Button ml={2}>View Quizzes</Button>
-                </Link>
+                  <Link to={`/teacherquizzes/${member.userName}`}>
+                    <Button ml={2}>View Quizzes</Button>
+                  </Link>
                 </Box>
               ))}
             </VStack>

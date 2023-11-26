@@ -20,6 +20,7 @@ import { Spinner } from "@chakra-ui/react";
 import UserQuizzes from "./components/CreateQuiz/UserQuizzes/UserQuizzes";
 import EditQuiz from "./components/CreateQuiz/EditQuiz/EditQuiz";
 import QuizzesOverview from "/src/views/QuizzesOverview/QuizzesOverview.jsx"
+import TeacherQuizzes from "./views/TeachersQuizzes/TeacherQuizzes";
 
 function App() {
   const [appState, setAppState] = useState({
@@ -106,6 +107,7 @@ function App() {
                 <Route path="/userquizzes" element={<UserQuizzes />} />
                 <Route path="/edit-quiz/:quizId" element={<EditQuiz />} />
                 <Route path="/quizzesoverview" element={<QuizzesOverview />} />
+                <Route path="/teacherquizzes/:userName" element={<TeacherQuizzes />} />
           </Routes>
             </>
           )}
