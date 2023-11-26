@@ -19,7 +19,7 @@ import GroupDetails from "./views/GroupDetails/GroupDetails";
 import { Spinner } from "@chakra-ui/react";
 import UserQuizzes from "./components/CreateQuiz/UserQuizzes/UserQuizzes";
 import EditQuiz from "./components/CreateQuiz/EditQuiz/EditQuiz";
-import QuizzesOverview from "./components/QuizzesOverview/QuizzesOverview";
+import QuizzesOverview from "/src/views/QuizzesOverview/QuizzesOverview.jsx"
 
 function App() {
   const [appState, setAppState] = useState({

@@ -1,17 +1,26 @@
-import { Box, Heading, VStack, Avatar, AvatarBadge, Textarea, Button } from '@chakra-ui/react';
-import { get, ref, update } from 'firebase/database';
-import { useEffect, useState} from 'react';
-import { useParams } from 'react-router-dom';
-import { db } from '../../config/firebase-config';
-import fetchUser from '../../services/user.service';
-import { useToast } from '@chakra-ui/react';
+import {
+  Box,
+  Heading,
+  VStack,
+  Avatar,
+  AvatarBadge,
+  Textarea,
+  Button,
+  Text
+} from "@chakra-ui/react";
+import { get, ref, update } from "firebase/database";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { db } from "../../config/firebase-config";
+import fetchUser from "../../services/user.service";
+import { useToast } from "@chakra-ui/react";
 
 const GroupDetails = () => {
   const { groupId } = useParams();
   const [group, setGroup] = useState(null);
   const [members, setMembers] = useState([]);
   const [isEditingDescription, setIsEditingDescription] = useState(false);
-  const [newDescription, setNewDescription] = useState('');
+  const [newDescription, setNewDescription] = useState("");
 
   useEffect(() => {
     const groupRef = ref(db, `groups/${groupId}`);
@@ -21,13 +30,13 @@ const GroupDetails = () => {
         const snapshot = await get(groupRef);
         if (snapshot.exists()) {
           setGroup(snapshot.val());
-          setNewDescription(snapshot.val().description || '');
+          setNewDescription(snapshot.val().description || "");
           renderMembers(snapshot.val().members);
         } else {
-          console.error('Group not found');
+          console.error("Group not found");
         }
       } catch (error) {
-        console.error('Error fetching group details:', error);
+        console.error("Error fetching group details:", error);
       }
     };
 
@@ -59,9 +68,9 @@ const GroupDetails = () => {
 
     setIsEditingDescription(false);
     toast({
-      title: 'Description Updated',
-      description: 'The group description has been successfully updated.',
-      status: 'success',
+      title: "Description Updated",
+      description: "The group description has been successfully updated.",
+      status: "success",
       duration: 3000,
       isClosable: true,
     });
@@ -69,12 +78,19 @@ const GroupDetails = () => {
 
   return (
     <Box>
-      <Heading mb={4} textAlign="center" color={"white"}>
+      <Heading mb={4} textAlign="center" color={"#5B8FB9"}>
         Group Details
       </Heading>
       {group && (
         <VStack align="center" spacing={4}>
-          <Box borderWidth="1px" p={4} borderRadius="md" width="300px" color={"white"}>
+          <Box
+            borderWidth="1px"
+            p={4}
+            borderRadius="md"
+            width="300px"
+            color={"white"}
+            bg="#03001C"
+          >
             <Heading size="md">{group.name}</Heading>
             {isEditingDescription ? (
               <Textarea
@@ -85,10 +101,25 @@ const GroupDetails = () => {
             ) : (
               <p>{group.description}</p>
             )}
-            <Button onClick={isEditingDescription ? handleSaveDescription : handleEditDescription}>
-              {isEditingDescription ? 'Save Description' : 'Edit Description'}
+            <Button
+              onClick={
+                isEditingDescription
+                  ? handleSaveDescription
+                  : handleEditDescription
+              }
+            >
+              {isEditingDescription ? "Save Description" : "Edit Description"}
             </Button>
-            <p>Members:</p>
+          </Box>
+          <Text color="#5B8FB9">Members:</Text>
+          <Box
+            borderWidth="1px"
+            p={4}
+            borderRadius="md"
+            width="300px"
+            color={"white"}
+            bg="#03001C"
+          >
             <VStack>
               {members.map((member, index) => (
                 <Box key={index} display="flex" alignItems="center">
@@ -96,7 +127,13 @@ const GroupDetails = () => {
                     {!member.avatar && (
                       <AvatarBadge boxSize="1em">
                         <svg width="0.6em" fill="#fff" viewBox="0 0 20 20">
-                          <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" fontSize="10">
+                          <text
+                            x="50%"
+                            y="50%"
+                            textAnchor="middle"
+                            dominantBaseline="middle"
+                            fontSize="10"
+                          >
                             {member.userName.charAt(0).toUpperCase()}
                           </text>
                         </svg>

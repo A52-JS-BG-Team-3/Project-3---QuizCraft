@@ -9,14 +9,13 @@ import {
   Button,
   Text,
   Box,
-  Divider,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import AppContext from "../../context/context";
+import AppContext from "../../../context/context";
 import { useContext, useState, useEffect } from "react";
-import { logoutUser } from "../../services/auth.service";
-import { db } from "../../config/firebase-config";
-import { fetchUserName } from "../../services/user.service";
+import { logoutUser } from "../../../services/auth.service";
+import { db } from "../../../config/firebase-config";
+import { fetchUserName } from "../../../services/user.service";
 import { ref, get } from "@firebase/database";
 
 export const UserPanel = () => {
@@ -78,15 +77,6 @@ export const UserPanel = () => {
   const goToQuizes = () => {
     if (user !== null) {
       navigate("/quizzesoverview");
-    } else {
-      navigate("/signin");
-      alert("Please Sign In!");
-    }
-  };
-
-  const goToCreateQuizz = () => {
-    if (user !== null) {
-      navigate("/createquiz");
     } else {
       navigate("/signin");
       alert("Please Sign In!");

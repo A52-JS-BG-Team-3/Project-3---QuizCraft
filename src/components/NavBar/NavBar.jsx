@@ -14,7 +14,7 @@ import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import NeonButton from "../NeonButton/NeonButton";
 import { useContext } from "react";
 import AppContext from "../../context/context";
-import { UserPanel } from "../UserPanel/UserPanel";
+import { UserPanel } from "./UserPanel/UserPanel";
 import logo from "../../assets/logo.png";
 
 const neonBoxShadow = `

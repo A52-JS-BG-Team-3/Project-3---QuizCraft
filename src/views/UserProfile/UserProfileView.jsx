@@ -1,5 +1,5 @@
 import { Flex } from "@chakra-ui/layout";
-import Content from "../../components/UserProfile/Content/Content";
+import Content from "/src/views/UserProfile/Content/Content.jsx"
 
 export default function UserProfile() {
   return (

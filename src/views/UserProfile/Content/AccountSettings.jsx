@@ -16,7 +16,7 @@ import {
   EmailAuthProvider,
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import NeonButton from "../../NeonButton/NeonButton";
+import NeonButton from "../../../components/NeonButton/NeonButton";
 
 function AccountSettings() {
   const [userName, setUsername] = useState("");
