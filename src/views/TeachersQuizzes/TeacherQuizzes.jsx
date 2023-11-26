@@ -9,7 +9,7 @@ import {
   AccordionButton,
   AccordionPanel,
 } from "@chakra-ui/react";
-import { ref, get } from "firebase/database";
+import { ref, get, remove } from "firebase/database";
 import { db } from "../../config/firebase-config";
 import { useNavigate, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -51,6 +51,16 @@ const TeacherQuizzes = () => {
     navigate(`/edit-quiz/${quizId}`);
   };
 
+  const handleDeleteQuiz = async (quizId) => {
+    try {
+      const quizRef = ref(db, `quizzes/${quizId}`);
+      await remove(quizRef);
+      setQuizzes((prevQuizzes) => prevQuizzes.filter((quiz) => quiz.id !== quizId));
+    } catch (error) {
+      console.error("Error deleting quiz:", error);
+    }
+  };
+
   return (
     <Box pt={{ base: "5px", md: "10px" }} px={{ base: "5", md: "10" }}>
       <VStack spacing={8} align={"center"}>
@@ -75,8 +85,15 @@ const TeacherQuizzes = () => {
                   <Button
                     colorScheme="blue"
                     onClick={() => handleEditQuiz(quiz.id)}
+                    mr={2}
                   >
                     Edit Quiz
+                  </Button>
+                  <Button
+                    colorScheme="red"
+                    onClick={() => handleDeleteQuiz(quiz.id)}
+                  >
+                    Delete Quiz
                   </Button>
                 </AccordionPanel>
               </AccordionItem>
