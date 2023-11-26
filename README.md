@@ -44,7 +44,7 @@
 ## Quiz Requirements
 - [x] User can participate in multiple quizzes.
 - [ ] Users can accept or reject invitations to private quizzes.
-- [ ] Creators can set time limits, question order randomization, and passing scores for quizzes.
+- [x] Creators can set time limits, question order randomization, and passing scores for quizzes.
 - [ ] Quiz status (Ongoing/Finished) always visible.
 - [ ] Ability to review answers and add comments for Finished quizzes.
 

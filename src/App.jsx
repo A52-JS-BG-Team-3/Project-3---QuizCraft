@@ -5,6 +5,7 @@ import { auth, db } from "./config/firebase-config";
 import { onAuthStateChanged } from "firebase/auth";
 import { ref, get } from "firebase/database";
 import { fetchUserName } from "./services/user.service";
+import { useContext } from "react";
 import AppContext from "./context/context";
 import WithSubnavigation from "./components/NavBar/NavBar";
 import Home from "./views/Home/Home";
@@ -19,7 +20,7 @@ import GroupDetails from "./views/GroupDetails/GroupDetails";
 import { Spinner } from "@chakra-ui/react";
 import UserQuizzes from "./components/CreateQuiz/UserQuizzes/UserQuizzes";
 import EditQuiz from "./components/CreateQuiz/EditQuiz/EditQuiz";
-import QuizzesOverview from "/src/views/QuizzesOverview/QuizzesOverview.jsx"
+import QuizzesOverview from "/src/views/QuizzesOverview/QuizzesOverview.jsx";
 import TeacherQuizzes from "./views/TeachersQuizzes/TeacherQuizzes";
 
 function App() {
@@ -27,8 +28,10 @@ function App() {
     user: null,
     userData: null,
     isAdmin: false,
-    isLoading: true, 
+    isLoading: true,
+    role: null,
   });
+  const { user, userData } = useContext(AppContext);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -46,14 +49,16 @@ function App() {
               user,
               userData,
               isAdmin,
-              isLoading: false, 
+              isLoading: false,
+              role: userData.role,
             });
           } else {
             setAppState({
               user,
               userData: null,
               isAdmin: false,
-              isLoading: false, 
+              isLoading: false,
+              role: "student",
             });
           }
         } catch (error) {
@@ -62,7 +67,8 @@ function App() {
             user: null,
             userData: null,
             isAdmin: false,
-            isLoading: false, 
+            isLoading: false,
+            role: "student",
           });
         }
       } else {
@@ -71,6 +77,7 @@ function App() {
           userData: null,
           isAdmin: false,
           isLoading: false,
+          role: "student",
         });
       }
     });
@@ -81,16 +88,24 @@ function App() {
   return (
     <AppContext.Provider value={{ ...appState, setUser: setAppState }}>
       <Router>
-        <div className="App" style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+        <div
+          className="App"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
+          }}
+        >
           {appState.isLoading ? (
-           <Spinner
-           thickness="4px"
-           speed="0.65s"
-           emptyColor="gray.200"
-           color="brand.blue"
-           size="xl"
-           mt="20%"
-         />
+            <Spinner
+              thickness="4px"
+              speed="0.65s"
+              emptyColor="gray.200"
+              color="brand.blue"
+              size="xl"
+              mt="20%"
+            />
           ) : (
             <>
               <WithSubnavigation />
@@ -98,21 +113,26 @@ function App() {
                 <Route path="/signup" element={<Register />} />
                 <Route path="/signin" element={<Login />} />
                 <Route path="/" element={<Home />} />
-                {appState.user && (<Route path="/userprofile" element={<UserProfile />} />)}
-                {appState.user && appState.user.role === 'teacher' && (
-                  <>
-                <Route path="/teacher" element={<TeacherProfile />} />
-                <Route path="/groups" element={<GroupManagement />} />
-                <Route path="/group/:groupId" element={<GroupDetails />} />
-                <Route path="/createquiz" element={<CreateQuiz />} />
-                <Route path="/edit-quiz/:quizId" element={<EditQuiz />} />
-                <Route path="/teacherquizzes/:userName" element={<TeacherQuizzes />} />
-                </>
+                {appState.user && (
+                  <Route path="/userprofile" element={<UserProfile />} />
                 )}
+                {appState.userData && appState.userData.role === "teacher" && (
+                <>
+                  <Route path="/teacher" element={<TeacherProfile />} />
+                  <Route path="/groups" element={<GroupManagement />} />
+                  <Route path="/group/:groupId" element={<GroupDetails />} />
+                  <Route path="/createquiz" element={<CreateQuiz />} />
+                  <Route path="/edit-quiz/:quizId" element={<EditQuiz />} />
+                  <Route
+                    path="/teacherquizzes/:userName"
+                    element={<TeacherQuizzes />}
+                  />
+                </>
+              )}
                 <Route path="/quiz" element={<RandomQuiz />} />
                 <Route path="/userquizzes" element={<UserQuizzes />} />
                 <Route path="/quizzesoverview" element={<QuizzesOverview />} />
-          </Routes>
+              </Routes>
             </>
           )}
         </div>
