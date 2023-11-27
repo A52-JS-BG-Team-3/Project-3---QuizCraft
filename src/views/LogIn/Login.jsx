@@ -9,6 +9,7 @@ import { fetchUserName } from "../../services/user.service";
 import NeonButton from "../../components/NeonButton/NeonButton";
 import { useEffect } from "react";
 import { onAuthStateChanged } from "@firebase/auth";
+import { signOut } from "firebase/auth";
 
 const neonBoxShadow = `
   0 0 10px rgba(253, 253, 150, 0.8),
@@ -78,13 +79,27 @@ function Login() {
       const userSnapshot = await get(userRef);
 
       if (userSnapshot.exists()) {
-        toast({
-          title: "Login successful!",
-          status: "success",
-          duration: 3000,
-          isClosable: true,
-        });
-        navigate("/");
+        const userData = userSnapshot.val();
+
+        if (userData.status === "blocked") {
+          await signOut(auth);
+
+          toast({
+            title: "Account is blocked cannot login,",
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+          });
+        } else {
+          console.log("Login successful!");
+          toast({
+            title: "Login successful!",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+          });
+          navigate("/");
+        }
       } else {
         console.error("User data not found.");
       }
