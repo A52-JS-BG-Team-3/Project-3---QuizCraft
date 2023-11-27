@@ -72,6 +72,7 @@ export default function Register() {
 
       await createUserHandle({
         isAdmin: false,
+        status: "active",
         role: selectedRole,
         uid: credential.user.uid,
         email: credential.user.email,

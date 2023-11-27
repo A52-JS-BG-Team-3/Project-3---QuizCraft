@@ -1,16 +1,20 @@
+/* eslint-disable no-unused-vars */
 import { useContext, useEffect, useRef, useState } from "react";
 import AppContext from "../../context/context";
-import { Input, Button, Stack, Box, Text, Flex} from "@chakra-ui/react";
-import { get, onValue, ref, set, off } from "firebase/database";
+import { Input, Button, Stack, Box, Text, Flex, useToast} from "@chakra-ui/react";
+import { get, onValue, ref, set, off, remove } from "firebase/database";
 import { db } from "../../config/firebase-config";
 import { fetchUserName } from "../../services/user.service";
-import { Link } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 
 export default function AdminPanel() {
   const linkRef = useRef();
+  const toast = useToast();
+  const navigate = useNavigate();
   const [allQuizzes, setAllQuizzes] = useState([]);
   const [filteredQuizzes, setFilteredQuizzes] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+
 
   const [searchResults, setSearchResults] = useState([]);
   const [adminUser, setAdminUser] = useState(null);
@@ -80,7 +84,7 @@ export default function AdminPanel() {
       const usersSnapshot = await get(userRef);
 
       if (usersSnapshot.exists()) {
-        const usersData = usersSnapshot.vel();
+        const usersData = usersSnapshot.val();
 
         const username = Object.keys(usersData).find(
           (key) => usersData[key].uid === uid
@@ -93,7 +97,12 @@ export default function AdminPanel() {
           handleSearch();
 
           await set(ref(db, `users/${username}`), userToUpdate);
-          alert("User status updated successfully.");
+          toast({
+            title: "User status updated successfully",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+          });
           console.log("User status updated successfully:", userToUpdate);
         } else {
           console.error("No users found with UID:", uid);
@@ -102,16 +111,22 @@ export default function AdminPanel() {
         console.error("No users found in the database.");
       }
     } catch (error) {
+        toast({
+            title: "Error updating user status",
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+          });
       console.error("Error updating user status:", error);
     }
   };
 
   useEffect(() => {
-    const quizzRef = ref(db, "quizzes");
-    const unsubscribe = onValue(quizzRef, (snapshot) => {
+    const quizRef = ref(db, "quizzes");
+    const unsubscribe = onValue(quizRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
-        const loadedQuizz = Object.keys(data).map((key) => {
+        const loadedQuiz = Object.keys(data).map((key) => {
           const quiz = data[key];
           return {
             id: key,
@@ -119,19 +134,46 @@ export default function AdminPanel() {
           };
         });
 
-        setAllQuizzes(loadedQuizz);
+        setAllQuizzes(loadedQuiz);
       }
     });
 
-    return () => off(quizzRef, "value", unsubscribe);
+    return () => off(quizRef, "value", unsubscribe);
   }, []);
 
-  const handleSearchQuizz = () => {
+  const handleSearchQuiz = () => {
     const queries = searchQuery.toLowerCase().split(" ");
     const filtered = allQuizzes.filter((quiz) => {
       return queries.every((query) => quiz.title.toLowerCase().includes(query));
     });
     setFilteredQuizzes(filtered);
+  };
+
+  const handleDeleteQuiz = async (quizId) => {
+    try {
+      const quizRef = ref(db, `quizzes/${quizId}`);
+      await remove(quizRef);
+      setFilteredQuizzes((prevQuizzes) => prevQuizzes.filter((quiz) => quiz.id !== quizId));
+      toast({
+        title: "Quiz deleted successfully",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+    } catch (error) {
+      console.error("Error deleting quiz:", error);
+      toast({
+        title: "Error deleting quiz",
+        description: "An error occurred while deleting the quiz.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  };
+
+  const handleEditQuiz = (quizId) => {
+    navigate(`/edit-quiz/${quizId}`);
   };
 
   return (
@@ -149,7 +191,7 @@ export default function AdminPanel() {
       >
         <Stack spacing={4}>
           <Input
-            placeholder="Search Quizz by title..."
+            placeholder="Search Quiz by title..."
             bg="#FFD580"
             mr={4}
             value={searchQuery}
@@ -162,14 +204,14 @@ export default function AdminPanel() {
             color="#332C30"
             bg="#DE6F3A"
             textDecoration="none"
-            onClick={handleSearchQuizz}
+            onClick={handleSearchQuiz}
             cursor="pointer"
             _hover={{
               bg: "#efa00b",
               color: "#332C30",
             }}
           >
-            Search Quizz
+            Search Quiz
           </Button>
           {filteredQuizzes.length > 0 && (
             <Box mt={4}>
@@ -181,23 +223,39 @@ export default function AdminPanel() {
                   <Box key={quiz.id}>
                     <Text>Title: {quiz.title}</Text>
                     <Text>Author: {quiz.createdBy}</Text>
+                    <Text>Category: {quiz.category}</Text>
+                    <Text>Type: {quiz.type}</Text>
+                    <Text>Time limit: {quiz.timeLimit} minutes</Text>
                     <Button
                       bg={"#DE6F3A"}
                       _hover={{
                         bg: "#efa00b",
                       }}
                       onClick={() => {
-                        console.log("Go to Quizz clicked for quizz", quiz);
+                        console.log("Go to Quizz clicked for quiz", quiz);
                         linkRef.current.click();
                       }}
                     >
-                      Go to Quizz
+                      Go to Quiz
                       <Link
                         to={`/quiz/${quiz.id}`}
                         ref={linkRef}
                         style={{ display: "none" }}
                       />
                     </Button>
+                    <Button
+                    colorScheme="red"
+                    onClick={() => handleDeleteQuiz(quiz.id)}
+                  >
+                    Delete Quiz
+                  </Button>
+                  <Button
+                    colorScheme="blue"
+                    onClick={() => handleEditQuiz(quiz.id)}
+                    mr={2}
+                  >
+                    Edit Quiz
+                  </Button>
                   </Box>
                 ))}
               </Stack>
