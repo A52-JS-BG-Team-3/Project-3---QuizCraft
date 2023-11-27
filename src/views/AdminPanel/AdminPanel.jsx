@@ -4,11 +4,12 @@ import { Input, Button, Stack, Box, Text, Flex, useToast} from "@chakra-ui/react
 import { get, onValue, ref, set, off, remove } from "firebase/database";
 import { db } from "../../config/firebase-config";
 import { fetchUserName } from "../../services/user.service";
-import { Link } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 
 export default function AdminPanel() {
   const linkRef = useRef();
   const toast = useToast();
+  const navigate = useNavigate();
   const [allQuizzes, setAllQuizzes] = useState([]);
   const [filteredQuizzes, setFilteredQuizzes] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -170,6 +171,10 @@ export default function AdminPanel() {
     }
   };
 
+  const handleEditQuiz = (quizId) => {
+    navigate(`/edit-quiz/${quizId}`);
+  };
+
   return (
     <Flex justify="space-between" align="center" width="100%" height="100vh">
       <Box
@@ -185,7 +190,7 @@ export default function AdminPanel() {
       >
         <Stack spacing={4}>
           <Input
-            placeholder="Search Quizz by title..."
+            placeholder="Search Quiz by title..."
             bg="#FFD580"
             mr={4}
             value={searchQuery}
@@ -205,7 +210,7 @@ export default function AdminPanel() {
               color: "#332C30",
             }}
           >
-            Search Quizz
+            Search Quiz
           </Button>
           {filteredQuizzes.length > 0 && (
             <Box mt={4}>
@@ -226,11 +231,11 @@ export default function AdminPanel() {
                         bg: "#efa00b",
                       }}
                       onClick={() => {
-                        console.log("Go to Quizz clicked for quizz", quiz);
+                        console.log("Go to Quizz clicked for quiz", quiz);
                         linkRef.current.click();
                       }}
                     >
-                      Go to Quizz
+                      Go to Quiz
                       <Link
                         to={`/quiz/${quiz.id}`}
                         ref={linkRef}
@@ -242,6 +247,13 @@ export default function AdminPanel() {
                     onClick={() => handleDeleteQuiz(quiz.id)}
                   >
                     Delete Quiz
+                  </Button>
+                  <Button
+                    colorScheme="blue"
+                    onClick={() => handleEditQuiz(quiz.id)}
+                    mr={2}
+                  >
+                    Edit Quiz
                   </Button>
                   </Box>
                 ))}
