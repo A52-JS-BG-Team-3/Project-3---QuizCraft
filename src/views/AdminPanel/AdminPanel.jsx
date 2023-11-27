@@ -83,7 +83,7 @@ export default function AdminPanel() {
       const usersSnapshot = await get(userRef);
 
       if (usersSnapshot.exists()) {
-        const usersData = usersSnapshot.vel();
+        const usersData = usersSnapshot.val();
 
         const username = Object.keys(usersData).find(
           (key) => usersData[key].uid === uid
@@ -112,7 +112,7 @@ export default function AdminPanel() {
     } catch (error) {
         toast({
             title: "Error updating user status",
-            status: "success",
+            status: "error",
             duration: 3000,
             isClosable: true,
           });
