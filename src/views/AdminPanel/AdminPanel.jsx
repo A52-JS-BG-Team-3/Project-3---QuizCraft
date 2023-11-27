@@ -1,9 +1,10 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import AppContext from "../../context/context";
-import { Input, Button, Stack, Box, Text, Flex, Link } from "@chakra-ui/react";
+import { Input, Button, Stack, Box, Text, Flex} from "@chakra-ui/react";
 import { get, onValue, ref, set, off } from "firebase/database";
 import { db } from "../../config/firebase-config";
 import { fetchUserName } from "../../services/user.service";
+import { Link } from "react-router-dom";
 
 export default function AdminPanel() {
   const linkRef = useRef();
@@ -186,13 +187,13 @@ export default function AdminPanel() {
                         bg: "#efa00b",
                       }}
                       onClick={() => {
-                        console.log("Go to Quizz clicked for post:", quiz);
+                        console.log("Go to Quizz clicked for quizz", quiz);
                         linkRef.current.click();
                       }}
                     >
                       Go to Quizz
                       <Link
-                        to={`/quizzes/${quiz.id}`}
+                        to={`/quiz/${quiz.id}`}
                         ref={linkRef}
                         style={{ display: "none" }}
                       />
@@ -218,7 +219,7 @@ export default function AdminPanel() {
         <Stack spacing={4}>
           <Input
             focusBorderColor="brand.blue"
-            placeholder="Search by username or email..."
+            placeholder="Search by username, email or name ..."
             type="text"
             bg="#FFD580"
             onChange={(e) => setQuery(e.target.value)}
