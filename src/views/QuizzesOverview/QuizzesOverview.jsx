@@ -15,6 +15,14 @@ import {
 import { useColorModeValue } from "@chakra-ui/color-mode";
 import { Link } from "react-router-dom";
 
+const neonBoxShadow = `
+  0 0 10px rgba(200, 50, 20, 0.8),
+  0 0 20px rgba(200, 50, 20, 0.8),
+  0 0 30px rgba(200, 50, 20, 0.8),
+  0 0 40px rgba(200, 50, 20, 0.8),
+  0 0 70px rgba(200, 50, 20, 0.8)
+`;
+
 const QuizzesOverview = () => {
   const [quizzes, setQuizzes] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -47,8 +55,8 @@ const QuizzesOverview = () => {
     fetchQuizzes();
   }, []);
 
-  const bgColor = useColorModeValue("white", "gray.700");
-  const headingColor = useColorModeValue("black", "white");
+  const bgColor = useColorModeValue("#03001C");
+  const headingColor = useColorModeValue("#5B8FB9");
 
   if (loading) {
     return <p>Loading quizzes...</p>;
@@ -59,8 +67,7 @@ const QuizzesOverview = () => {
       <Box
         bg={bgColor}
         p={10}
-        borderRadius="lg"
-        boxShadow="xl"
+        boxShadow={neonBoxShadow}
         maxW="800px"
         mx="auto"
         w="full"
@@ -68,7 +75,7 @@ const QuizzesOverview = () => {
         <Heading color={headingColor} mb={4}>
           All Quizzes Overview
         </Heading>
-        <Accordion allowMultiple>
+        <Accordion allowMultiple textColor="#5B8FB9">
           {quizzes.map((quiz) => (
             <AccordionItem key={quiz.id} bg={bgColor} my={2}>
               <AccordionButton _expanded={{ bg: bgColor, color: headingColor }}>

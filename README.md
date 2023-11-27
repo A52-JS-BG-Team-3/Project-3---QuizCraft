@@ -19,14 +19,14 @@
 - [x] Quizzes can be marked as public or private.
 
 ## Public Part
-- [ ] Landing page shows the latest quiz or compelling content.
+- [x] Landing page shows the latest quiz or compelling content.
 - [ ] Login form redirects to the private area.
 - [x] Register form registers users as Educators or Students.
 - [ ] Anonymous users can browse and search for public quizzes.
 - [ ] Feature for users to try out a sample quiz without registering.
 
 ## Private Part
-- [ ] All quizzes page is different for Educators and Students.
+- [x] All quizzes page is different for Educators and Students.
 - **For Educators:**
   - [x] Set up a new Quiz with custom questions and answers.
   - [x] Manage quizzes created, including editing or deleting them.
@@ -50,12 +50,12 @@
 
 ## Administrative Part
 - **User Management:**
-  - [ ] Admins can search for users by username, first and last name, email.
-  - [ ] Lists of users support pagination or infinite scroll functionality.
-  - [ ] Admins can block and unblock individual users.
-  - [ ] Blocked users cannot login.
+  - [x] Admins can search for users by username, first and last name, email.
+  - [x] Lists of users support pagination or infinite scroll functionality.
+  - [x] Admins can block and unblock individual users.
+  - [x] Blocked users cannot login.
 - **Quiz Management:**
-  - [ ] Admins can edit or delete any quiz.
+  - [x] Admins can edit or delete any quiz.
 - **Scoreboard Moderation:**
   - [ ] Admins can oversee scoreboards for tests and address discrepancies.
 
