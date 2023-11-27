@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useContext, useEffect, useRef, useState } from "react";
 import AppContext from "../../context/context";
 import { Input, Button, Stack, Box, Text, Flex, useToast} from "@chakra-ui/react";
@@ -121,11 +122,11 @@ export default function AdminPanel() {
   };
 
   useEffect(() => {
-    const quizzRef = ref(db, "quizzes");
-    const unsubscribe = onValue(quizzRef, (snapshot) => {
+    const quizRef = ref(db, "quizzes");
+    const unsubscribe = onValue(quizRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
-        const loadedQuizz = Object.keys(data).map((key) => {
+        const loadedQuiz = Object.keys(data).map((key) => {
           const quiz = data[key];
           return {
             id: key,
@@ -133,14 +134,14 @@ export default function AdminPanel() {
           };
         });
 
-        setAllQuizzes(loadedQuizz);
+        setAllQuizzes(loadedQuiz);
       }
     });
 
-    return () => off(quizzRef, "value", unsubscribe);
+    return () => off(quizRef, "value", unsubscribe);
   }, []);
 
-  const handleSearchQuizz = () => {
+  const handleSearchQuiz = () => {
     const queries = searchQuery.toLowerCase().split(" ");
     const filtered = allQuizzes.filter((quiz) => {
       return queries.every((query) => quiz.title.toLowerCase().includes(query));
@@ -203,7 +204,7 @@ export default function AdminPanel() {
             color="#332C30"
             bg="#DE6F3A"
             textDecoration="none"
-            onClick={handleSearchQuizz}
+            onClick={handleSearchQuiz}
             cursor="pointer"
             _hover={{
               bg: "#efa00b",

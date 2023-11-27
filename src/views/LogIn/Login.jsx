@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Box, Image, Checkbox, FormLabel, Input, Stack, Text, useToast } from "@chakra-ui/react";
 import { useContext, useState } from "react";
 import AppContext from "../../context/context";
