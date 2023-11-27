@@ -22,7 +22,8 @@ import UserQuizzes from "./components/CreateQuiz/UserQuizzes/UserQuizzes";
 import EditQuiz from "./components/CreateQuiz/EditQuiz/EditQuiz";
 import QuizzesOverview from "/src/views/QuizzesOverview/QuizzesOverview.jsx";
 import TeacherQuizzes from "./views/TeachersQuizzes/TeacherQuizzes";
-
+import QuizPlayer from "./components/QuizPlayer/QuizPlayer";
+import QuizResults from "./components/QuizRezults/QuizResults";
 function App() {
   const [appState, setAppState] = useState({
     user: null,
@@ -132,6 +133,8 @@ function App() {
                 <Route path="/quiz" element={<RandomQuiz />} />
                 <Route path="/userquizzes" element={<UserQuizzes />} />
                 <Route path="/quizzesoverview" element={<QuizzesOverview />} />
+                <Route path="/quiz/:quizId" element={<QuizPlayer />} />
+                <Route path="/quiz/:quizId/results" element={<QuizResults />} />
               </Routes>
             </>
           )}

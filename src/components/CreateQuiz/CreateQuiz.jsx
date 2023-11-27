@@ -79,7 +79,7 @@ const CreateQuiz = () => {
     
     
     const userName = await fetchUserName(user.uid);
-    console.log("Fetched username: ", userName); 
+
 
 
     const newQuiz = {

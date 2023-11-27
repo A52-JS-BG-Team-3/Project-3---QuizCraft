@@ -24,8 +24,7 @@ const EditQuiz = () => {
       if (snapshot.exists()) {
         setQuiz(snapshot.val());
       } else {
-        console.log("Quiz not found.");
-        navigate("/userquizzes"); // Redirect if quiz not found
+        navigate("/userquizzes"); 
       }
       setLoading(false);
     };
