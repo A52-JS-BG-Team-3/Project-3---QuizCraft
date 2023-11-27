@@ -50,7 +50,6 @@ const UserQuizzes = () => {
   };
 
   if (loading) {
-    console.log('Loading quizzes...'); 
     return <p>Loading quizzes...</p>;
   }
 

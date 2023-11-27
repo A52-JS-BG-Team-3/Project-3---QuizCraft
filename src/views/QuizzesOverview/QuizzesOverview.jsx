@@ -10,8 +10,10 @@ import {
   AccordionPanel,
   Box,
   Text,
+  Button,
 } from "@chakra-ui/react";
 import { useColorModeValue } from "@chakra-ui/color-mode";
+import { Link } from "react-router-dom";
 
 const QuizzesOverview = () => {
   const [quizzes, setQuizzes] = useState([]);
@@ -75,12 +77,13 @@ const QuizzesOverview = () => {
                 </Box>
               </AccordionButton>
               <AccordionPanel pb={4}>
-                <Text>{quiz.description}</Text>
-                <Text>Created by: {quiz.createdBy}</Text>
-                <Text>Category: {quiz.category}</Text>
-                <Text>Time limit: {quiz.timeLimit}</Text>
-                <Text>Number of questions: {quiz.questions.length}</Text>
-              </AccordionPanel>
+  <Text>{quiz.description}</Text>
+  <Text>Created by: {quiz.createdBy}</Text>
+  <Text>Category: {quiz.category}</Text>
+  <Text>Time limit: {quiz.timeLimit}</Text>
+  <Text>Number of questions: {quiz.questions.length}</Text>
+  <Button as={Link} to={`/quiz/${quiz.id}`}>Join</Button>
+</AccordionPanel>
             </AccordionItem>
           ))}
         </Accordion>
