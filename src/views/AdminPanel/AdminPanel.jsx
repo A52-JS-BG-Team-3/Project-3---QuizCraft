@@ -1,16 +1,18 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import AppContext from "../../context/context";
-import { Input, Button, Stack, Box, Text, Flex} from "@chakra-ui/react";
-import { get, onValue, ref, set, off } from "firebase/database";
+import { Input, Button, Stack, Box, Text, Flex, useToast} from "@chakra-ui/react";
+import { get, onValue, ref, set, off, remove } from "firebase/database";
 import { db } from "../../config/firebase-config";
 import { fetchUserName } from "../../services/user.service";
 import { Link } from "react-router-dom";
 
 export default function AdminPanel() {
   const linkRef = useRef();
+  const toast = useToast();
   const [allQuizzes, setAllQuizzes] = useState([]);
   const [filteredQuizzes, setFilteredQuizzes] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+
 
   const [searchResults, setSearchResults] = useState([]);
   const [adminUser, setAdminUser] = useState(null);
@@ -93,7 +95,12 @@ export default function AdminPanel() {
           handleSearch();
 
           await set(ref(db, `users/${username}`), userToUpdate);
-          alert("User status updated successfully.");
+          toast({
+            title: "User status updated successfully",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+          });
           console.log("User status updated successfully:", userToUpdate);
         } else {
           console.error("No users found with UID:", uid);
@@ -102,6 +109,12 @@ export default function AdminPanel() {
         console.error("No users found in the database.");
       }
     } catch (error) {
+        toast({
+            title: "Error updating user status",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+          });
       console.error("Error updating user status:", error);
     }
   };
@@ -132,6 +145,29 @@ export default function AdminPanel() {
       return queries.every((query) => quiz.title.toLowerCase().includes(query));
     });
     setFilteredQuizzes(filtered);
+  };
+
+  const handleDeleteQuiz = async (quizId) => {
+    try {
+      const quizRef = ref(db, `quizzes/${quizId}`);
+      await remove(quizRef);
+      setFilteredQuizzes((prevQuizzes) => prevQuizzes.filter((quiz) => quiz.id !== quizId));
+      toast({
+        title: "Quiz deleted successfully",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+    } catch (error) {
+      console.error("Error deleting quiz:", error);
+      toast({
+        title: "Error deleting quiz",
+        description: "An error occurred while deleting the quiz.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
   };
 
   return (
@@ -181,6 +217,9 @@ export default function AdminPanel() {
                   <Box key={quiz.id}>
                     <Text>Title: {quiz.title}</Text>
                     <Text>Author: {quiz.createdBy}</Text>
+                    <Text>Category: {quiz.category}</Text>
+                    <Text>Type: {quiz.type}</Text>
+                    <Text>Time limit: {quiz.timeLimit} minutes</Text>
                     <Button
                       bg={"#DE6F3A"}
                       _hover={{
@@ -198,6 +237,12 @@ export default function AdminPanel() {
                         style={{ display: "none" }}
                       />
                     </Button>
+                    <Button
+                    colorScheme="red"
+                    onClick={() => handleDeleteQuiz(quiz.id)}
+                  >
+                    Delete Quiz
+                  </Button>
                   </Box>
                 ))}
               </Stack>
