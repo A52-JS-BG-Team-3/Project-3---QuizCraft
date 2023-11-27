@@ -1,6 +1,6 @@
 import "./App.css";
 import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { auth, db } from "./config/firebase-config";
 import { onAuthStateChanged } from "firebase/auth";
 import { ref, get } from "firebase/database";
@@ -22,6 +22,7 @@ import UserQuizzes from "./components/CreateQuiz/UserQuizzes/UserQuizzes";
 import EditQuiz from "./components/CreateQuiz/EditQuiz/EditQuiz";
 import QuizzesOverview from "/src/views/QuizzesOverview/QuizzesOverview.jsx";
 import TeacherQuizzes from "./views/TeachersQuizzes/TeacherQuizzes";
+import AdminPanel from "./views/AdminPanel/AdminPanel";
 
 function App() {
   const [appState, setAppState] = useState({
@@ -81,9 +82,12 @@ function App() {
         });
       }
     });
-
+    
     return () => unsubscribe();
   }, []);
+  
+      const isAuthenticated = appState.user !== null;
+    const isAdmin = isAuthenticated && appState.isAdmin;
 
   return (
     <AppContext.Provider value={{ ...appState, setUser: setAppState }}>
@@ -129,6 +133,11 @@ function App() {
                   />
                 </>
               )}
+               {isAuthenticated && isAdmin ? (
+              <Route path="/adminpanel" element={<AdminPanel />} />
+            ) : (
+              <Route path="/adminpanel" element={<Navigate to="/" />} />
+            )}
                 <Route path="/quiz" element={<RandomQuiz />} />
                 <Route path="/userquizzes" element={<UserQuizzes />} />
                 <Route path="/quizzesoverview" element={<QuizzesOverview />} />
