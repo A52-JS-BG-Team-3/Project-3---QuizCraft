@@ -9,13 +9,15 @@ const neonBoxShadow = `
   0 0 70px rgba(200, 100, 1, 0.8)
 `;
 
+const apiKey = import.meta.env.VITE_API_KEY
+
 const DidYouKnow = () => {
   const [facts, setFacts] = useState([]);
 
   useEffect(() => {
     fetch("https://api.api-ninjas.com/v1/facts?limit=5", {
       method: "GET",
-      headers: { "X-Api-Key": "/SILiNrz7hBUC4SND1TFaA==noeFzrTL3B9aZSpk" },
+      headers: { "X-Api-Key": apiKey },
       contentType: "application/json",
     })
       .then((response) => response.json())
