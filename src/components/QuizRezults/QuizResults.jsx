@@ -30,7 +30,7 @@ const QuizResults = () => {
         </List>
         <Box pt={4}>
           <Text fontSize="2xl" color="white" textAlign="center">
-            Your score: {score}/{questions.reduce((acc, question) => acc + question.score, 0)}
+            Your score: {score.toFixed(2)}/{questions.reduce((acc, question) => acc + question.score, 0).toFixed(2)}
           </Text>
         </Box>
       </VStack>

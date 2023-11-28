@@ -176,7 +176,7 @@ const CreateQuiz = () => {
           </Button>
         </VStack>
         {questions.map((question, index) => (
-          <Box key={index}>
+          <Box key={index} bg="#03001C" textColor="#5B8FB9">
             <p>{question.questionText}</p>
           </Box>
         ))}
