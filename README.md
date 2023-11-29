@@ -20,7 +20,7 @@
 
 ## Public Part
 - [x] Landing page shows the latest quiz or compelling content.
-- [ ] Login form redirects to the private area.
+- [x] Login form redirects to the private area.
 - [x] Register form registers users as Educators or Students.
 - [ ] Anonymous users can browse and search for public quizzes.
 - [ ] Feature for users to try out a sample quiz without registering.
@@ -30,7 +30,7 @@
 - **For Educators:**
   - [x] Set up a new Quiz with custom questions and answers.
   - [x] Manage quizzes created, including editing or deleting them.
-  - [ ] Invite students to take quizzes.
+  - [x] Invite students to take quizzes.
   - [ ] View Ongoing and Finished quizzes.
   - [ ] View students.
 - **For Students:**

@@ -29,7 +29,6 @@ const DidYouKnow = () => {
       });
   }, []);
 
-  console.log(facts);
   return (
     <Box
     bg="#03001C"

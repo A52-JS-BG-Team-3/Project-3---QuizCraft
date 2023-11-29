@@ -1,5 +1,14 @@
 /* eslint-disable no-unused-vars */
-import { Box, Image, Checkbox, FormLabel, Input, Stack, Text, useToast } from "@chakra-ui/react";
+import {
+  Box,
+  Image,
+  Checkbox,
+  FormLabel,
+  Input,
+  Stack,
+  Text,
+  useToast,
+} from "@chakra-ui/react";
 import { useContext, useState } from "react";
 import AppContext from "../../context/context";
 import { loginUser } from "../../services/auth.service";
@@ -99,7 +108,14 @@ function Login() {
             duration: 3000,
             isClosable: true,
           });
-          navigate("/");
+
+          if (userData.role === "teacher") {
+            navigate("/teacher");
+          } else if (userData.role === "student") {
+            navigate("/student");
+          } else {
+            navigate("/");
+          }
         }
       } else {
         console.error("User data not found.");
@@ -123,7 +139,13 @@ function Login() {
       justifyContent="center"
       height="100vh"
     >
-      <Stack spacing={8} mx={"auto"} maxW={{ base: "90%", sm: "80%", md: "60%", lg: "40%" }} py={12} px={6}>
+      <Stack
+        spacing={8}
+        mx={"auto"}
+        maxW={{ base: "90%", sm: "80%", md: "60%", lg: "40%" }}
+        py={12}
+        px={6}
+      >
         <Image src="src\assets\are_you_ready.png"></Image>
         <Box
           align={"center"}
