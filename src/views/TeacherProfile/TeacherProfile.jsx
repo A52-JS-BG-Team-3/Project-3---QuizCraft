@@ -1,4 +1,4 @@
-import {
+ import {
   Box,
   Flex,
   Heading,
@@ -6,10 +6,17 @@ import {
   Button,
   VStack,
   Image,
+  useToast,
+  Stack,
+  Text,
+  Select,
 } from "@chakra-ui/react";
 import quizTimeImage from "../../assets/quiz_time.png";
 import "./TeacherProfile.css";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { db, auth } from "../../config/firebase-config";
+import { ref, get, push, set } from "firebase/database";
 
 const neonBoxShadow = `
   0 0 10px rgba(200, 50, 200, 0.8),
@@ -21,8 +28,132 @@ const neonBoxShadow = `
 
 const TeacherProfile = () => {
   const navigate = useNavigate();
+  const toast = useToast();
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedQuizId, setSelectedQuizId] = useState(null);
+  const [quizzes, setQuizzes] = useState([]);
+  const [highlightedUser, setHighlightedUser] = useState(null);
+
+  useEffect(() => {
+    const fetchQuizzes = async () => {
+      try {
+        const quizzesRef = ref(db, "quizzes");
+        const quizzesSnapshot = await get(quizzesRef);
+
+        if (quizzesSnapshot.exists()) {
+          const quizzesData = quizzesSnapshot.val();
+          const quizList = Object.values(quizzesData).map((quiz) => ({
+            quizId: quiz.uid,
+            title: quiz.title,
+          }));
+          setQuizzes(quizList);
+        }
+      } catch (error) {
+        console.error("Error fetching quizzes:", error);
+      }
+    };
+
+    fetchQuizzes();
+  }, []);
+
+  const handleSearchStudents = async () => {
+    try {
+      const usersRef = ref(db, "users");
+      const usersSnapshot = await get(usersRef);
+
+      if (usersSnapshot.exists()) {
+        const usersData = usersSnapshot.val();
+
+        const results = Object.values(usersData).filter(
+          (userData) =>
+            (userData &&
+              userData.userName &&
+              userData.userName.includes(searchQuery)) ||
+            (userData.email && userData.email.includes(searchQuery)) ||
+            (userData.firstName && userData.firstName.includes(searchQuery)) ||
+            (userData.lastName && userData.lastName.includes(searchQuery))
+        );
+        setSearchResults(results);
+      } else {
+        setSearchResults([]);
+      }
+    } catch (error) {
+      console.error("Error fetching search results:", error);
+    }
+  };
+
+  const handleSendInvitation = async () => {
+    try {
+      if (!selectedUser || selectedQuizId === null) {
+        toast({
+          title: "Please select a user and a quiz before sending an invitation.",
+          status: "warning",
+          duration: 3000,
+          isClosable: true,
+        });
+        return;
+      }
+  
+      const invitationsRef = ref(db, "invitations");
+      const newInvitationRef = push(invitationsRef);
+  
+      const invitationData = {
+        senderUid: auth.currentUser.uid,
+        receiverUid: selectedUser.uid,
+        quizId: selectedQuizId,
+        status: "pending",
+        timestamp: new Date().toISOString(),
+      };
+  
+      await set(newInvitationRef, invitationData);
+  
+      toast({
+        title: `Invitation sent to user with username: ${selectedUser.userName}`,
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+  
+      setSelectedUser(null);
+      setSelectedQuizId(null);
+    } catch (error) {
+      console.error("Error sending invitation:", error);
+      toast({
+        title: "Error sending invitation.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  };
+  
+
+  const handleUserSelect = (user) => {
+    setSelectedUser(user);
+    setHighlightedUser(user);
+  };
+
+  const handleUserMouseEnter = (user) => {
+    setHighlightedUser(user);
+  };
+
+  const handleUserMouseLeave = () => {
+    setHighlightedUser(null);
+  };
+
+  const handleQuizSelect = (quizId) => {
+    setSelectedQuizId(quizId);
+  };
+
   return (
-    <Box pt={{ base: "100px", md: "120px" }} px={{ base: "5", md: "10" }} bg="#03001C" boxShadow={neonBoxShadow}>
+    <Box
+      pt={{ base: "100px", md: "120px" }}
+      px={{ base: "5", md: "10" }}
+      boxShadow={neonBoxShadow}
+    >
       <Flex direction="column" align="center" maxWidth="1200px" margin="0 auto">
         <Heading
           as="h1"
@@ -41,17 +172,79 @@ const TeacherProfile = () => {
           </Box>
           <VStack spacing={4} align="stretch" width="full" maxW="lg">
             {" "}
-            <Input placeholder="Search Students..." size="lg" />
-            <Button colorScheme="blue" width="full">
+            <Input
+              placeholder="Search Students..."
+              bg="white"
+              size="lg"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <Button
+              colorScheme="blue"
+              width="full"
+              onClick={handleSearchStudents}
+            >
               Search
             </Button>
-            <Button colorScheme="green" width="full" onClick= {() => navigate('/createquiz')}>
+            <Stack>
+              {searchResults.map((result) => (
+                <Box
+                  key={result.uid}
+                  color="white"
+                  onClick={() => handleUserSelect(result)}
+                  onMouseEnter={() => handleUserMouseEnter(result)}
+                  onMouseLeave={handleUserMouseLeave}
+                  style={{
+                    cursor: "pointer",
+                    background:
+                      highlightedUser && highlightedUser.uid === result.uid
+                        ? "#cbd5e0"
+                        : "transparent",
+                    padding: "0.5rem",
+                    borderRadius: "0.375rem",
+                    transition: "background 0.3s",
+                  }}
+                >
+                  <Text>Username: {result.userName}</Text>
+                  <Text>
+                    Full Name: {result.firstName} {result.lastName}
+                  </Text>
+                  <Text>Email: {result.email}</Text>
+                </Box>
+              ))}
+            </Stack>
+            <Select
+              placeholder="Select Quiz"
+              bg="white"
+              size="lg"
+              value={selectedQuizId}
+              onChange={(e) => handleQuizSelect(e.target.value)}
+            >
+              {quizzes.map((quiz) => (
+                <option key={quiz.quizId} value={quiz.quizId}>
+                  {quiz.title}
+                </option>
+              ))}
+            </Select>
+            <Button
+              colorScheme="green"
+              width="full"
+              onClick={() => navigate("/createquiz")}
+            >
               Create Quiz
             </Button>
-            <Button colorScheme="purple" width="full" onClick= {() => navigate('/userquizzes')}>
+            <Button
+              colorScheme="purple"
+              width="full"
+              onClick={() => navigate("/userquizzes")}
+            >
               My Quizzes
             </Button>
-            <Button colorScheme="teal" width="full">
+            <Button
+              colorScheme="teal"
+              width="full"
+              onClick={handleSendInvitation}
+            >
               Send Invitation
             </Button>
           </VStack>
