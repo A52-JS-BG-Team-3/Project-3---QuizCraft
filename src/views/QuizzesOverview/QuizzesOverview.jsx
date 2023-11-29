@@ -27,6 +27,15 @@ const QuizzesOverview = () => {
   const [quizzes, setQuizzes] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const getFormattedDate = (timestamp) => {
+    if (!timestamp) {
+      return "Not specified";
+    }
+
+    const date = new Date(timestamp);
+    return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+  };
+
   useEffect(() => {
     const fetchQuizzes = async () => {
       setLoading(true);
@@ -84,13 +93,24 @@ const QuizzesOverview = () => {
                 </Box>
               </AccordionButton>
               <AccordionPanel pb={4}>
-  <Text>{quiz.description}</Text>
-  <Text>Created by: {quiz.createdBy}</Text>
-  <Text>Category: {quiz.category}</Text>
-  <Text>Time limit: {quiz.timeLimit}</Text>
-  <Text>Number of questions: {quiz.questions.length}</Text>
-  <Button as={Link} to={`/quiz/${quiz.id}`}>Join</Button>
-</AccordionPanel>
+                <Text>{quiz.description}</Text>
+                <Text>Created by: {quiz.createdBy}</Text>
+                <Text>Category: {quiz.category}</Text>
+                <Text>Time limit: {quiz.timeLimit}</Text>
+                <Text>Number of questions: {quiz.questions.length}</Text>
+                <Text>Status: {quiz.status || "Not specified"}</Text>
+                <Text>Active from: {getFormattedDate(quiz.startTime)}</Text>
+                <Text>Active until: {getFormattedDate(quiz.endTime)}</Text> 
+                <Text>Active from: Not specified</Text>
+
+                {quiz.status !== "finished" ? (
+                  <Button as={Link} to={`/quiz/${quiz.id}`}>
+                    Join
+                  </Button>
+                ) : (
+                  <Text>This quiz has finished.</Text>
+                )}
+              </AccordionPanel>
             </AccordionItem>
           ))}
         </Accordion>

@@ -21,6 +21,9 @@ const CreateQuiz = () => {
   const [quizType, setQuizType] = useState("open");
   const [timeLimit, setTimeLimit] = useState("");
   const [questions, setQuestions] = useState([]);
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+
   const navigate = useNavigate();
   const toast = useToast();
 
@@ -38,7 +41,7 @@ const CreateQuiz = () => {
 
   const handleCategorySelect = (category) => {
     setQuizCategory(category.name || "");
-};
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -60,7 +63,7 @@ const CreateQuiz = () => {
     const fetchUserName = async (uid) => {
       const usersRef = ref(db, `users`);
       const snapshot = await get(usersRef);
-    
+
       if (snapshot.exists()) {
         let userName = "Anonymous";
         const usersData = snapshot.val();
@@ -72,15 +75,11 @@ const CreateQuiz = () => {
         return userName;
       } else {
         console.log("No users found in the database.");
-        return userName; 
+        return userName;
       }
     };
-    
-    
-    
+
     const userName = await fetchUserName(user.uid);
-
-
 
     const newQuiz = {
       title: quizTitle,
@@ -98,6 +97,9 @@ const CreateQuiz = () => {
       })),
       createdBy: userName,
       creatorUid: user.uid,
+      startTime: startTime ? new Date(startTime).getTime() : null,
+      endTime: endTime ? new Date(endTime).getTime() : null,
+      status: "ongoing",
     };
     try {
       const quizzesRef = ref(db, "quizzes");
@@ -135,13 +137,13 @@ const CreateQuiz = () => {
           <FormControl isRequired>
             <Categories onSelectCategory={handleCategorySelect} />
             <FormControl isRequired>
-            <Input
-    id="quizCategory"
-    value={quizCategory || ""}
-    onChange={(e) => setQuizCategory(e.target.value)}
-    placeholder="Enter quiz category"
-    textColor={quizCategory?.length > 3 ? "white" : "red.500"}
-/>
+              <Input
+                id="quizCategory"
+                value={quizCategory || ""}
+                onChange={(e) => setQuizCategory(e.target.value)}
+                placeholder="Enter quiz category"
+                textColor={quizCategory?.length > 3 ? "white" : "red.500"}
+              />
             </FormControl>
           </FormControl>
           <FormControl isRequired>
@@ -157,6 +159,26 @@ const CreateQuiz = () => {
               <option value="open">Open</option>
               <option value="closed">Closed</option>
             </Select>
+            <FormControl>
+  <FormLabel htmlFor="startTime" color={"white"}>Start Time</FormLabel>
+  <Input
+    id="startTime"
+    type="datetime-local"
+    value={startTime}
+    onChange={(e) => setStartTime(e.target.value)}
+  />
+</FormControl>
+
+<FormControl>
+  <FormLabel htmlFor="endTime" color={"white"}>End Time</FormLabel>
+  <Input
+    id="endTime"
+    type="datetime-local"
+    value={endTime}
+    onChange={(e) => setEndTime(e.target.value)}
+  />
+</FormControl>
+
           </FormControl>
           <FormControl isRequired>
             <FormLabel htmlFor="timeLimit" color={"white"}>

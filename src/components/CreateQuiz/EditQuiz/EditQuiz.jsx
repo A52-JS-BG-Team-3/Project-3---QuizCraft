@@ -9,11 +9,18 @@ import {
   FormLabel,
   Input,
   Flex,
+  Select,
+  Divider,
+  Heading,
+  Text,
 } from "@chakra-ui/react";
 
 const EditQuiz = () => {
   const [quiz, setQuiz] = useState({ questions: [] });
   const [loading, setLoading] = useState(true);
+  const [quizStatus, setQuizStatus] = useState(quiz.status || 'ongoing');
+  const [startTime, setStartTime] = useState(quiz.startTime || '');
+  const [endTime, setEndTime] = useState(quiz.endTime || '');
   const { quizId } = useParams();
   const navigate = useNavigate();
 
@@ -41,7 +48,7 @@ const EditQuiz = () => {
   const handleUpdateQuiz = async () => {
     try {
       const quizRef = ref(db, `quizzes/${quizId}`);
-      await update(quizRef, quiz);
+      await update(quizRef, { ...quiz, status: quizStatus });
       alert("Quiz updated successfully!");
     } catch (error) {
       console.error("Error updating quiz: ", error);
@@ -52,7 +59,6 @@ const EditQuiz = () => {
   const handleDeleteQuiz = async () => {
     try {
       const quizRef = ref(db, `quizzes/${quizId}`);
-      // Use remove method to delete the quiz
       await remove(quizRef);
       alert("Quiz deleted successfully!");
       navigate("/userquizzes");
@@ -62,12 +68,57 @@ const EditQuiz = () => {
     }
   };
 
+  const handleDeleteQuestion = (index) => {
+    const updatedQuiz = { ...quiz };
+    updatedQuiz.questions.splice(index, 1);
+    setQuiz(updatedQuiz);
+  };
+
+  const handleAddQuestion = () => {
+    const updatedQuiz = { ...quiz };
+    updatedQuiz.questions.push({
+      questionText: "",
+      optionA: "",
+      optionB: "",
+      optionC: "",
+      optionD: "",
+      correctAnswer: "",
+    });
+    setQuiz(updatedQuiz);
+  };
+
   if (loading) return <p>Loading quiz...</p>;
 
   return (
-    <Flex align="center" justify="center" pt={{ base: "100px", md: "120px" }}>
+    <Flex align="center" justify="center" pt={{ base: "100px", md: "850px" }}>
       <Box bg="white" p={5} borderRadius="lg" boxShadow="xl">
-        <h1>Edit Quiz</h1>
+      <Heading as="h1" size="xl" color="blue.600" mb={4}>Edit Quiz</Heading>
+        <Divider my={4} />
+        <FormControl>
+        <Text fontSize="lg" fontWeight="bold" color="blue.600" mb={2}>Status</Text>
+  <Select value={quizStatus} onChange={(e) => setQuizStatus(e.target.value)}>
+    <option value="ongoing">Ongoing</option>
+    <option value="finished">Finished</option>
+  </Select>
+</FormControl>
+<FormControl>
+  <FormLabel>Start Time</FormLabel>
+  <Input
+    type="datetime-local"
+    value={startTime}
+    onChange={(e) => setStartTime(e.target.value)}
+  />
+</FormControl>
+
+<FormControl>
+  <FormLabel>End Time</FormLabel>
+  <Input
+    type="datetime-local"
+    value={endTime}
+    onChange={(e) => setEndTime(e.target.value)}
+  />
+  <Divider my={4} />
+</FormControl>
         {quiz &&
           quiz.questions &&
           quiz.questions.map((question, index) => (
@@ -75,6 +126,7 @@ const EditQuiz = () => {
               <FormLabel htmlFor={`questionText-${index}`}>
                 Question {index + 1}
               </FormLabel>
+
               <Input
                 id={`questionText-${index}`}
                 type="text"
@@ -130,23 +182,47 @@ const EditQuiz = () => {
                   handleQuestionChange(index, "correctAnswer", e.target.value)
                 }
               />
+          
               <Button
+                onClick={() => handleDeleteQuestion(index)}
+                colorScheme="red"
+                mt={4}
+                ml={4}
+                size={'sm'}
+              >
+                Delete Question
+              </Button>
+
+              
+            </FormControl>
+          ))}
+          <Button 
+                onClick={() => handleAddQuestion()}
+                colorScheme="green"
+                mt={4}
+                ml={4}
+                size={'sm'}
+              >
+                Add Question
+              </Button>
+          <Button
                 onClick={() => handleUpdateQuiz()}
                 colorScheme="blue"
                 mt={4}
+                ml={4}
+                size={'sm'}
               >
                 Save Changes
               </Button>
-              <Button
+           <Button
                 onClick={() => handleDeleteQuiz()}
                 colorScheme="red"
                 mt={4}
                 ml={4}
+                size={'sm'}
               >
                 Delete Quiz
               </Button>
-            </FormControl>
-          ))}
       </Box>
     </Flex>
   );

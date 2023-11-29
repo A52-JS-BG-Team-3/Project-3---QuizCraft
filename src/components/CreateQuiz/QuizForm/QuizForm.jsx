@@ -22,6 +22,16 @@ const QuizForm = ({ onAddQuestion }) => {
   };
 
   const handleAddQuestion = () => {
+    if (!questionText.trim() || 
+        !selectedOption || 
+        !options.A.trim() || 
+        !options.B.trim() || 
+        !options.C.trim() || 
+        !options.D.trim()) {
+      alert("Please fill in all fields");
+      return;
+    }
+
     const newQuestion = {
       questionText,
       correctAnswer: options[selectedOption],
@@ -30,11 +40,13 @@ const QuizForm = ({ onAddQuestion }) => {
       optionC: options.C,
       optionD: options.D,
     };
+  
     onAddQuestion(newQuestion);
     setQuestionText("");
     setSelectedOption("");
     setOptions({ A: "", B: "", C: "", D: "" });
   };
+  
 
   return (
     <Box>
