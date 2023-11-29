@@ -4,11 +4,11 @@ import { db } from "../../config/firebase-config";
 import { Box, Flex, VStack, Heading, Text } from "@chakra-ui/react";
 
 const neonBoxShadow = `
-  0 0 10px rgba(2, 900, 1, 0.8),
-  0 0 20px rgba(2, 900, 1, 0.8),
-  0 0 30px rgba(2, 900, 1, 0.8),
-  0 0 40px rgba(2, 900, 1, 0.8),
-  0 0 70px rgba(2, 900, 1, 0.8)
+0 0 10px rgba(128, 0, 333, 0.8),
+0 0 20px rgba(128, 0, 333, 0.8),
+0 0 30px rgba(128, 0, 333, 0.8),
+0 0 40px rgba(128, 0, 333, 0.8),
+0 0 70px rgba(128, 0, 333, 0.8)
 `;
 
 export default function LatestQuizz() {

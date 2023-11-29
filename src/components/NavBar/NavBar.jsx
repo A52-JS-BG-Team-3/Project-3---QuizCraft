@@ -50,7 +50,9 @@ export default function WithSubnavigation() {
         height={{ base: "auto", md: "55px" }}
         zIndex={10}
       >
-        <Image src={logo} alt="logo" height="60px" />
+        <a href="/">
+          <Image src={logo} alt="logo" height="60px" />
+        </a>
 
         <Flex
           flex={{ base: 1, md: "auto" }}
@@ -76,7 +78,6 @@ export default function WithSubnavigation() {
           mr={4}
           ml={{ base: 0, md: "auto" }}
         >
-          <NeonButton text="Home" href="/" />
           {user == null && <NeonButton text="Sign In" href="/signin" />}
           {user == null && <NeonButton text="Sign up" href="/signup" />}
           {user ? <UserPanel /> : null}

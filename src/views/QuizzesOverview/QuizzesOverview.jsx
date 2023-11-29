@@ -10,10 +10,8 @@ import {
   AccordionPanel,
   Box,
   Text,
-  Button,
 } from "@chakra-ui/react";
 import { useColorModeValue } from "@chakra-ui/color-mode";
-import { Link } from "react-router-dom";
 import NeonButton from "../../components/NeonButton/NeonButton";
 
 

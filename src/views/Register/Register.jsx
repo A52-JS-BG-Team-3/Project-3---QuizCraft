@@ -20,11 +20,11 @@ import { useNavigate } from "react-router-dom";
 import NeonButton from "../../components/NeonButton/NeonButton";
 
 const neonBoxShadow = `
-  0 0 10px rgba(250, 0, 255, 0.8),
-  0 0 20px rgba(250, 0, 255, 0.8),
-  0 0 30px rgba(250, 0, 255, 0.8),
-  0 0 40px rgba(250, 0, 255, 0.8),
-  0 0 70px rgba(250, 0, 255, 0.8)
+0 0 10px rgba(128, 0, 333, 0.8),
+0 0 20px rgba(128, 0, 333, 0.8),
+0 0 30px rgba(128, 0, 333, 0.8),
+0 0 40px rgba(128, 0, 333, 0.8),
+0 0 70px rgba(128, 0, 333, 0.8)
 `;
 
 export default function Register() {

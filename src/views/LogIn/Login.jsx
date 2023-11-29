@@ -13,11 +13,11 @@ import { onAuthStateChanged } from "@firebase/auth";
 import { signOut } from "firebase/auth";
 
 const neonBoxShadow = `
-  0 0 10px rgba(253, 253, 150, 0.8),
-  0 0 20px rgba(253, 253, 150, 0.8),
-  0 0 30px rgba(253, 253, 150, 0.8),
-  0 0 40px rgba(253, 253, 150, 0.8),
-  0 0 70px rgba(253, 253, 150, 0.8)
+0 0 10px rgba(128, 0, 333, 0.8),
+0 0 20px rgba(128, 0, 333, 0.8),
+0 0 30px rgba(128, 0, 333, 0.8),
+0 0 40px rgba(128, 0, 333, 0.8),
+0 0 70px rgba(128, 0, 333, 0.8)
 `;
 
 function Login() {
