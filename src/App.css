@@ -5,7 +5,17 @@ body {
   background-position: center !important; 
   background-repeat: no-repeat ;
   background-attachment: fixed !important;  
-  
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #f06, #9f6);
+    border-radius: 10px;
+  }
 }
 
 /* @media (min-width: 768px) {

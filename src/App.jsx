@@ -25,6 +25,7 @@ import TeacherQuizzes from "./views/TeachersQuizzes/TeacherQuizzes";
 import QuizPlayer from "./components/QuizPlayer/QuizPlayer";
 import QuizResults from "./components/QuizRezults/QuizResults";
 import AdminPanel from "./views/AdminPanel/AdminPanel";
+import StudentsProfile from "./views/StudentsProfile/StudentsProfile";
 
 function App() {
   const [appState, setAppState] = useState({
@@ -133,6 +134,12 @@ function App() {
                     path="/teacherquizzes/:userName"
                     element={<TeacherQuizzes />}
                   />
+                </>
+              )}
+               {appState.userData && appState.userData.role === "student" && (
+                <>
+                  <Route path="/student" element={<StudentsProfile />} />
+                
                 </>
               )}
                {isAuthenticated && isAdmin ? (

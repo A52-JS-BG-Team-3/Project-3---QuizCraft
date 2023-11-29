@@ -34,12 +34,11 @@
   - [ ] View Ongoing and Finished quizzes.
   - [ ] View students.
 - **For Students:**
-  - [ ] View active quizzes.
+  - [x] View active quizzes.
   - [ ] View quizzes currently participating in.
   - [ ] View quiz contests participated in.
-  - [ ] View scoreboards of quizzes participated in.
+  - [ ] View scoreboards of quizzes participated in. Scoring should ne implemented for ordered ranking.
 - [x] Profile editing for all users.
-- [ ] Scoring implemented for ordered ranking (optional).
 
 ## Quiz Requirements
 - [x] User can participate in multiple quizzes.

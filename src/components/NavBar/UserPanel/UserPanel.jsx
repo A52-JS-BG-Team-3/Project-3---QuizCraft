@@ -65,6 +65,15 @@ export const UserPanel = () => {
     }
   };
 
+  const goToStudentsProfile = () => {
+    if (user !== null) {
+      navigate("/student");
+    } else {
+      navigate("/signin");
+      alert("Please Sign In!");
+    }
+  };
+
   const goToGroups = () => {
     if (user !== null) {
       navigate("/groups");
@@ -131,6 +140,14 @@ export const UserPanel = () => {
               <MenuDivider />
               <MenuItem onClick={goToGroups} bg={"#B6EADA"}>
                 Groups
+              </MenuItem>
+              <MenuDivider />
+            </>
+          )}
+          {userData && userData.role === "student" && (
+            <>
+              <MenuItem onClick={goToStudentsProfile} bg={"#B6EADA"}>
+                Students’ Lounge
               </MenuItem>
               <MenuDivider />
             </>

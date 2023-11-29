@@ -3,7 +3,7 @@ import { ref, get } from "firebase/database";
 import { db } from "../../config/firebase-config";
 import {
   VStack,
-  Heading,
+  Image,
   Accordion,
   AccordionItem,
   AccordionButton,
@@ -14,13 +14,15 @@ import {
 } from "@chakra-ui/react";
 import { useColorModeValue } from "@chakra-ui/color-mode";
 import { Link } from "react-router-dom";
+import NeonButton from "../../components/NeonButton/NeonButton";
+
 
 const neonBoxShadow = `
-  0 0 10px rgba(200, 50, 20, 0.8),
-  0 0 20px rgba(200, 50, 20, 0.8),
-  0 0 30px rgba(200, 50, 20, 0.8),
-  0 0 40px rgba(200, 50, 20, 0.8),
-  0 0 70px rgba(200, 50, 20, 0.8)
+0 0 10px rgba(0, 255, 255, 0.8),
+0 0 20px rgba(0, 255, 255, 0.8),
+0 0 30px rgba(0, 255, 255, 0.8),
+0 0 40px rgba(0, 255, 255, 0.8),
+0 0 70px rgba(0, 255, 255, 0.8)
 `;
 
 const QuizzesOverview = () => {
@@ -72,18 +74,25 @@ const QuizzesOverview = () => {
   }
 
   return (
-    <VStack spacing={8} align="stretch" pt="100px">
+    <VStack spacing={8} align="stretch" >
       <Box
         bg={bgColor}
         p={10}
         boxShadow={neonBoxShadow}
-        maxW="800px"
-        mx="auto"
-        w="full"
+        w="100%" // Set width to "100%"
+        h="50vh" // Set a fixed height for the component
+        overflowY="auto"
+        css={{
+          "&::-webkit-scrollbar": {
+            width: "12px",
+          },
+          "&::-webkit-scrollbar-thumb": {
+            background: "linear-gradient(45deg, #f06, #9f6)",
+            borderRadius: "10px",
+          },
+        }}
       >
-        <Heading color={headingColor} mb={4}>
-          All Quizzes Overview
-        </Heading>
+         <Image src="src\assets\logo.png" h="60px"></Image>
         <Accordion allowMultiple textColor="#5B8FB9">
           {quizzes.map((quiz) => (
             <AccordionItem key={quiz.id} bg={bgColor} my={2}>
@@ -104,9 +113,10 @@ const QuizzesOverview = () => {
                 <Text>Active from: Not specified</Text>
 
                 {quiz.status !== "finished" ? (
-                  <Button as={Link} to={`/quiz/${quiz.id}`}>
-                    Join
-                  </Button>
+                  // <Button as={Link} to={`/quiz/${quiz.id}`}>
+                  //   Join
+                  // </Button>
+                 <NeonButton text="Join" href={`/quiz/${quiz.id}`}/>
                 ) : (
                   <Text>This quiz has finished.</Text>
                 )}
