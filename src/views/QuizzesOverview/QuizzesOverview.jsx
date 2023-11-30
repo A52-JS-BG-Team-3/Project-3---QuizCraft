@@ -44,11 +44,15 @@ const QuizzesOverview = () => {
         const snapshot = await get(quizzesRef);
         if (snapshot.exists()) {
           const quizzesData = snapshot.val();
+          const currentTime = new Date().getTime();
+          
           const formattedQuizzes = Object.keys(quizzesData).map((key) => {
             const quiz = quizzesData[key];
+            const hasEnded = quiz.endTime && currentTime > quiz.endTime;
             return {
               id: key,
               ...quiz,
+              status: hasEnded ? "finished" : quiz.status,
             };
           });
           setQuizzes(formattedQuizzes);
@@ -108,7 +112,7 @@ const QuizzesOverview = () => {
                 <Text>Status: {quiz.status || "Not specified"}</Text>
                 <Text>Active from: {getFormattedDate(quiz.startTime)}</Text>
                 <Text>Active until: {getFormattedDate(quiz.endTime)}</Text> 
-                <Text>Active from: Not specified</Text>
+
 
                 {quiz.status !== "finished" ? (
                   // <Button as={Link} to={`/quiz/${quiz.id}`}>
