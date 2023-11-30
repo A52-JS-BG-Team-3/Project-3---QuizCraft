@@ -11,9 +11,11 @@ import {
   Heading,
   SimpleGrid,
   ChakraProvider,
-  extendTheme
+  extendTheme,
+  Image,
 } from '@chakra-ui/react';
 import { CSSReset } from '@chakra-ui/react';
+import QuizGamePicture from '../../assets/quiz_game.png';
 
 const theme = extendTheme({
   fonts: {
@@ -112,6 +114,12 @@ const QuizPlayer = () => {
       <CSSReset />
       <Container maxW="container.md" py={8}>
         <VStack spacing={6} align="stretch">
+        <Image
+          src={QuizGamePicture}
+          alt="quiz game"
+          mx="auto" 
+          w="50%"
+        />
           <Heading as="h1" size="xl" textAlign="center" sx={{ color: 'white' }}>
             Question {currentQuestionIndex + 1} of {quiz.questions.length}
           </Heading>
