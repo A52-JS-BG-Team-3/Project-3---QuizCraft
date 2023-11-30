@@ -13,6 +13,10 @@ import {
   Divider,
   Heading,
   Text,
+  Radio,
+  RadioGroup,
+  HStack,
+  
 } from "@chakra-ui/react";
 
 const EditQuiz = () => {
@@ -21,6 +25,7 @@ const EditQuiz = () => {
   const [quizStatus, setQuizStatus] = useState(quiz.status || 'ongoing');
   const [startTime, setStartTime] = useState(quiz.startTime || '');
   const [endTime, setEndTime] = useState(quiz.endTime || '');
+
   const { quizId } = useParams();
   const navigate = useNavigate();
 
@@ -45,11 +50,19 @@ const EditQuiz = () => {
     setQuiz(updatedQuiz);
   };
 
+  const handleCorrectAnswerChange = (index, selectedOptionLetter) => {
+    const updatedQuiz = { ...quiz };
+    const correctAnswerValue = updatedQuiz.questions[index][`option${selectedOptionLetter}`];
+    updatedQuiz.questions[index].correctAnswer = correctAnswerValue;
+    setQuiz(updatedQuiz);
+  };
+  
   const handleUpdateQuiz = async () => {
     try {
       const quizRef = ref(db, `quizzes/${quizId}`);
       await update(quizRef, { ...quiz, status: quizStatus });
       alert("Quiz updated successfully!");
+      navigate("/userquizzes");
     } catch (error) {
       console.error("Error updating quiz: ", error);
       alert("Failed to update quiz.");
@@ -171,17 +184,34 @@ const EditQuiz = () => {
                   handleQuestionChange(index, "optionD", e.target.value)
                 }
               />
+              <FormControl as="fieldset">
+
               <FormLabel htmlFor={`correctAnswer-${index}`}>
-                Correct Answer
-              </FormLabel>
-              <Input
-                id={`correctAnswer-${index}`}
-                type="text"
-                value={question.correctAnswer}
-                onChange={(e) =>
-                  handleQuestionChange(index, "correctAnswer", e.target.value)
-                }
-              />
+      Correct Answer
+    </FormLabel>
+          <Input 
+            id={`correctAnswer-${index}`}
+            type="text"
+            value={question.correctAnswer}
+            onChange={(e) =>
+              handleQuestionChange(index, "correctAnswer", e.target.value)
+            }
+          />
+
+    <RadioGroup
+      name={`correctAnswer-${index}`}
+      value={question.correctAnswer}
+      onChange={(selectedLetter) => handleCorrectAnswerChange(index, selectedLetter)}
+    >
+      <HStack spacing="24px">
+        {["A", "B", "C", "D"].map((option) => (
+          <Radio key={option} value={option}>
+            {option}
+          </Radio>
+              ))}
+            </HStack>
+          </RadioGroup>
+        </FormControl>
           
               <Button
                 onClick={() => handleDeleteQuestion(index)}
@@ -192,8 +222,6 @@ const EditQuiz = () => {
               >
                 Delete Question
               </Button>
-
-              
             </FormControl>
           ))}
           <Button 
