@@ -76,9 +76,7 @@ const StudentsProfile = () => {
 
   return (
     <HStack spacing={4} border="solid" bg="#03001C" pt="5%" pb="5%" pl="5%" pr="5%" boxShadow={neonBoxShadow}>
-      <Box p={4}>
-        <QuizzesOverview />
-      </Box>
+      
 
       <Box p={4} boxShadow={neonBoxShadow}>
         <Text color="green">Participating Quizzes</Text>

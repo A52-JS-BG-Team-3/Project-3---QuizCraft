@@ -153,6 +153,7 @@ const TeacherProfile = () => {
       pt={{ base: "100px", md: "120px" }}
       px={{ base: "5", md: "10" }}
       boxShadow={neonBoxShadow}
+      bg="#03001C"
     >
       <Flex direction="column" align="center" maxWidth="1200px" margin="0 auto">
         <Heading
@@ -227,6 +228,13 @@ const TeacherProfile = () => {
               ))}
             </Select>
             <Button
+              colorScheme="teal"
+              width="full"
+              onClick={handleSendInvitation}
+            >
+              Send Invitation
+            </Button>
+            <Button
               colorScheme="green"
               width="full"
               onClick={() => navigate("/createquiz")}
@@ -239,13 +247,6 @@ const TeacherProfile = () => {
               onClick={() => navigate("/userquizzes")}
             >
               My Quizzes
-            </Button>
-            <Button
-              colorScheme="teal"
-              width="full"
-              onClick={handleSendInvitation}
-            >
-              Send Invitation
             </Button>
           </VStack>
         </Flex>

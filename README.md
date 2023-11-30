@@ -22,8 +22,8 @@
 - [x] Landing page shows the latest quiz or compelling content.
 - [x] Login form redirects to the private area.
 - [x] Register form registers users as Educators or Students.
-- [ ] Anonymous users can browse and search for public quizzes.
-- [ ] Feature for users to try out a sample quiz without registering.
+- [x] Anonymous users can browse and search for public quizzes.
+- [x] Feature for users to try out a sample quiz without registering.
 
 ## Private Part
 - [x] All quizzes page is different for Educators and Students.
@@ -32,7 +32,7 @@
   - [x] Manage quizzes created, including editing or deleting them.
   - [x] Invite students to take quizzes.
   - [ ] View Ongoing and Finished quizzes.
-  - [ ] View students.
+  - [x] View students.
 - **For Students:**
   - [x] View active quizzes.
   - [ ] View quizzes currently participating in.
@@ -42,9 +42,9 @@
 
 ## Quiz Requirements
 - [x] User can participate in multiple quizzes.
-- [ ] Users can accept or reject invitations to private quizzes.
+- [x] Users can accept or reject invitations to private quizzes.
 - [x] Creators can set time limits, question order randomization, and passing scores for quizzes.
-- [ ] Quiz status (Ongoing/Finished) always visible.
+- [x] Quiz status (Ongoing/Finished) always visible.
 - [ ] Ability to review answers and add comments for Finished quizzes.
 
 ## Administrative Part

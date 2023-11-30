@@ -1,28 +1,32 @@
 import "./Home.css";
-import { Flex } from "@chakra-ui/react";
+import { HStack, VStack, Box } from "@chakra-ui/react";
 import quizImage from "../../assets/quiz.png";
 import LatestQuizz from "../../components/LatestQuizz/LatestQuizz";
 import DidYouKnow from "../../components/DidYouKnow/DidYouKnow";
+import SampleAPublicQuiz from "../../components/SampleAPublicQuiz/SampleAPublicQuiz";
 
 export default function Home() {
   return (
-    <Flex
+    <VStack
+      spacing={4}
+      align="center"
       className="image-container"
-      css={{
-        overflowX: "auto",
-        overflowY: "auto",
-        "&::-webkit-scrollbar": {
-          width: "12px",
-        },
-        "&::-webkit-scrollbar-thumb": {
-          background: "linear-gradient(45deg, #f06, #9f6)",
-          borderRadius: "10px",
-        },
-      }}
+      w="100%"
+      h="100%"
+      p={10}
     >
-      <LatestQuizz />
-      <img src={quizImage} alt="quiz" className="centered-image" />
-      <DidYouKnow />
-    </Flex>
+      <HStack
+        spacing={4}
+        align="center"
+        justify={{ base: "center", md: "space-between" }}
+        w="100%"
+        flexWrap="wrap"
+      >
+        <LatestQuizz />
+        <img src={quizImage} alt="quiz" className="centered-image" />
+        <DidYouKnow />
+      </HStack>
+      <SampleAPublicQuiz />
+    </VStack>
   );
 }
