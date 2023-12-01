@@ -15,7 +15,7 @@
 - [x] Category can be reused from previous quizzes.
 - [x] Option to include a timer for quiz completion.
 - [x] Total points available are indicated.
-- [ ] Quizzes include a scoreboard for participant rankings.
+- [x] Quizzes include a scoreboard for participant rankings.
 - [x] Quizzes can be marked as public or private.
 
 ## Public Part
@@ -31,7 +31,7 @@
   - [x] Set up a new Quiz with custom questions and answers.
   - [x] Manage quizzes created, including editing or deleting them.
   - [x] Invite students to take quizzes.
-  - [ ] View Ongoing and Finished quizzes.
+  - [x] View Ongoing and Finished quizzes.
   - [x] View students.
 - **For Students:**
   - [x] View active quizzes.

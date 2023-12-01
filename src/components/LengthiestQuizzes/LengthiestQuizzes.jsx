@@ -21,7 +21,7 @@ const quizCardStyles = {
   w: "100%",
 };
 
-export default function LatestQuizz() {
+export default function LengthiestQuizzes() {
   const [quizzes, setQuizzes] = useState([]);
   const { user } = useContext(AppContext); // Assuming your user context provides user information
 

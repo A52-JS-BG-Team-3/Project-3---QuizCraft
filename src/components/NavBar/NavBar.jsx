@@ -47,8 +47,9 @@ export default function WithSubnavigation() {
         height={{ base: "auto", md: "55px" }}
         zIndex={10}
       >
+        <Image src={logo} alt="logo" height="60px" />
         <a href="/">
-          <Image src={logo} alt="logo" height="60px" />
+        <Image src="src\assets\home_button.png" height="60px"/>
         </a>
 
         <Flex

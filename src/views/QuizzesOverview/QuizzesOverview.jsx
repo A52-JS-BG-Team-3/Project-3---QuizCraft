@@ -4,16 +4,14 @@ import { db } from "../../config/firebase-config";
 import {
   VStack,
   Image,
-  Accordion,
-  AccordionItem,
-  AccordionButton,
-  AccordionPanel,
   Box,
   Text,
+  Flex,
+  SimpleGrid,
+  Input,
 } from "@chakra-ui/react";
 import { useColorModeValue } from "@chakra-ui/color-mode";
 import NeonButton from "../../components/NeonButton/NeonButton";
-
 
 const neonBoxShadow = `
 0 0 10px rgba(0, 255, 255, 0.8),
@@ -26,6 +24,21 @@ const neonBoxShadow = `
 const QuizzesOverview = () => {
   const [quizzes, setQuizzes] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const filteredQuizzes = quizzes.filter((quiz) => {
+    const matchTitle = quiz.title
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    const matchCategory = quiz.category
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    return matchTitle || matchCategory;
+  });
 
   const getFormattedDate = (timestamp) => {
     if (!timestamp) {
@@ -45,7 +58,7 @@ const QuizzesOverview = () => {
         if (snapshot.exists()) {
           const quizzesData = snapshot.val();
           const currentTime = new Date().getTime();
-          
+
           const formattedQuizzes = Object.keys(quizzesData).map((key) => {
             const quiz = quizzesData[key];
             const hasEnded = quiz.endTime && currentTime > quiz.endTime;
@@ -76,59 +89,90 @@ const QuizzesOverview = () => {
   }
 
   return (
-    <VStack spacing={8} align="stretch" >
-      <Box
-        bg={bgColor}
-        p={10}
-        boxShadow={neonBoxShadow}
-        w="100%" // Set width to "100%"
-        h="50vh" // Set a fixed height for the component
-        overflowY="auto"
-        css={{
-          "&::-webkit-scrollbar": {
-            width: "12px",
-          },
-          "&::-webkit-scrollbar-thumb": {
-            background: "linear-gradient(45deg, #f06, #9f6)",
-            borderRadius: "10px",
-          },
-        }}
-      >
-         <Image src="src\assets\logo.png" h="60px"></Image>
-        <Accordion allowMultiple textColor="#5B8FB9">
-          {quizzes.map((quiz) => (
-            <AccordionItem key={quiz.id} bg={bgColor} my={2}>
-              <AccordionButton _expanded={{ bg: bgColor, color: headingColor }}>
-                <Box flex="1" textAlign="left">
-                  {quiz.title}
-                </Box>
-              </AccordionButton>
-              <AccordionPanel pb={4}>
-                <Text>{quiz.description}</Text>
-                <Text>Created by: {quiz.createdBy}</Text>
-                <Text>Category: {quiz.category}</Text>
-                <Text>Time limit: {quiz.timeLimit}</Text>
-                <Text>Number of questions: {quiz.questions.length}</Text>
-                <Text>Status: {quiz.status || "Not specified"}</Text>
-                <Text>Active from: {getFormattedDate(quiz.startTime)}</Text>
-                <Text>Active until: {getFormattedDate(quiz.endTime)}</Text> 
+    <Flex
+      alignItems="center"
+      justifyContent="center"
+      width="150vh"
+      height="90vh"
+      background={`url(src/assets/on_air1.png) center center / cover no-repeat`}
+      ss={{
+        "&::-webkit-scrollbar": {
+          width: "12px",
+        },
+        "&::-webkit-scrollbar-thumb": {
+          background: "linear-gradient(45deg, #f06, #9f6)",
+          borderRadius: "10px",
+        },
+      }}
+    >
+      <VStack spacing={8} align="stretch">
+        <Flex
+          bg={bgColor}
+          p={10}
+          boxShadow={neonBoxShadow}
+          w="110vh"
+          h="50vh"
+          mt="15%"
+          overflowY="auto"
+          css={{
+            "&::-webkit-scrollbar": {
+              width: "12px",
+            },
+            "&::-webkit-scrollbar-thumb": {
+              background: "linear-gradient(45deg, #f06, #9f6)",
+              borderRadius: "10px",
+            },
+          }}
+        >
+          <VStack>
+          <Input
+            bg="#B6EAD"
+            placeholder="Search by category or title..."
+            value={searchTerm}
+            onChange={handleSearch}
+          />
+          <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={4}>
+            {filteredQuizzes.map((quiz) => (
+              <Box
+              key={quiz.id}
+              bg={bgColor}
+              p={4}
+              border="solid"
+              borderColor="#301E67"
+              boxShadow={`0 0 10px #301E67, 0 0 20px #301E67, 0 0 30px #301E67, 0 0 40px #301E67, 0 0 70px #301E67`}
+              borderRadius="md"
+              >
+                <Image src="src\assets\quiz_game.png"></Image>
 
+                <Text textColor="#5B8FB9" fontWeight="bold" mb={2}>
+                  {quiz.title}
+                </Text>
+                <Text>{quiz.description}</Text>
+                <Text textColor="#5B8FB9">Created by: {quiz.createdBy}</Text>
+                <Text textColor="#5B8FB9">Category: {quiz.category}</Text>
+                <Text textColor="#5B8FB9">Time limit: {quiz.timeLimit}</Text>
+                <Text textColor="#5B8FB9">
+                  Status: {quiz.status || "Not specified"}
+                </Text>
+                <Text textColor="#5B8FB9">
+                  Active from: {getFormattedDate(quiz.startTime)}
+                </Text>
+                <Text textColor="#5B8FB9">
+                  Active until: {getFormattedDate(quiz.endTime)}
+                </Text>
 
                 {quiz.status !== "finished" ? (
-                  // <Button as={Link} to={`/quiz/${quiz.id}`}>
-                  //   Join
-                  // </Button>
-                 <NeonButton text="Join" href={`/quiz/${quiz.id}`}/>
-                ) : (
-                  <Text>This quiz has finished.</Text>
-                )}
-              </AccordionPanel>
-            </AccordionItem>
-          ))}
-        </Accordion>
-        {quizzes.length === 0 && <Text>No quizzes to display.</Text>}
-      </Box>
-    </VStack>
+                  <NeonButton text="Join" href={`/quiz/${quiz.id}`} />
+                  ) : (
+                    <Text textColor="#5B8FB9">This quiz has finished.</Text>
+                    )}
+              </Box>
+            ))}
+          </SimpleGrid>
+          </VStack>
+        </Flex>
+      </VStack>
+    </Flex>
   );
 };
 
