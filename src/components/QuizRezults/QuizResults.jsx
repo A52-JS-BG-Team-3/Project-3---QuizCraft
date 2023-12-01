@@ -4,8 +4,14 @@ import { CheckCircleIcon, CloseIcon } from '@chakra-ui/icons';
 
 const QuizResults = () => {
   const { state } = useLocation();
-  const { userAnswers, score, questions } = state; 
+  const { userAnswers, score, questions } = state;
+  if (!state || !state.userAnswers || !state.questions) {
+    return <Box bg="gray.800" p={5} rounded="md" shadow="base" maxW="2xl" mx="auto" mt={10}>
+      <Text fontSize="lg" color="white" textAlign="center">No quiz data available.</Text>
+    </Box>;
+  }
 
+ 
   return (
     <Box bg="gray.800" p={5} rounded="md" shadow="base" maxW="2xl" mx="auto" mt={10}>
       <VStack spacing={5}>
