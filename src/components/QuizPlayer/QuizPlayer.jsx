@@ -203,7 +203,7 @@ const QuizPlayer = () => {
             </Text>
           )}
           <Box {...neonBorderStyle}>
-            <Text fontSize="2xl" mb={4}>
+            <Text fontSize="2xl" color="white" mb={4}>
               {currentQuestion.questionText}
             </Text>
             <SimpleGrid columns={2} spacing={4}>
@@ -211,7 +211,7 @@ const QuizPlayer = () => {
                 <Button
                   key={optionKey}
                   onClick={() => handleAnswerSelection(currentQuestion[optionKey])}
-                  colorScheme={userAnswers[currentQuestionIndex] === currentQuestion[optionKey] ? "green" : "yellow"}
+                  colorScheme={userAnswers[currentQuestionIndex] === currentQuestion[optionKey] ? "green" : "orange"}
                   variant="outline"
                   size="lg"
                   width="full"
