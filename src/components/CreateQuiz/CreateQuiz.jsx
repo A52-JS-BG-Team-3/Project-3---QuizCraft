@@ -27,6 +27,9 @@ const CreateQuiz = () => {
   const navigate = useNavigate();
   const toast = useToast();
 
+  const currentTime = new Date().getTime();
+  const isQuizFinished = endTime && currentTime > new Date(endTime).getTime();
+
   const handleAddQuestion = (newQuestion) => {
     setQuestions((prevQuestions) => [...prevQuestions, newQuestion]);
 
@@ -99,7 +102,7 @@ const CreateQuiz = () => {
       creatorUid: user.uid,
       startTime: startTime ? new Date(startTime).getTime() : null,
       endTime: endTime ? new Date(endTime).getTime() : null,
-      status: "ongoing",
+      status: isQuizFinished ? "finished" : "ongoing",
     };
     try {
       const quizzesRef = ref(db, "quizzes");

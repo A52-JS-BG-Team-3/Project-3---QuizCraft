@@ -9,8 +9,20 @@ import {
   VStack,
   Container,
   Heading,
-  Stack,
+  SimpleGrid,
+  ChakraProvider,
+  extendTheme,
+  Image,
 } from '@chakra-ui/react';
+import { CSSReset } from '@chakra-ui/react';
+import QuizGamePicture from '../../assets/quiz_game.png';
+
+const theme = extendTheme({
+  fonts: {
+    heading: 'Roboto, sans-serif',
+    body: 'Roboto, sans-serif',
+  },
+});
 
 const QuizPlayer = () => {
   const { quizId } = useParams();
@@ -20,7 +32,6 @@ const QuizPlayer = () => {
   const [timer, setTimer] = useState(null);
   const [userAnswers, setUserAnswers] = useState([]);
   const [error, setError] = useState('');
-
 
   const formatTime = (totalSeconds) => {
     const minutes = Math.floor(totalSeconds / 60);
@@ -36,7 +47,7 @@ const QuizPlayer = () => {
         if (snapshot.exists()) {
           const quizData = snapshot.val();
           setQuiz(quizData);
-          setUserAnswers(new Array(quizData.questions.length).fill(null)); // Initialize with null
+          setUserAnswers(new Array(quizData.questions.length).fill(null));
           if (quizData.timeLimit) {
             setTimer(quizData.timeLimit * 60);
           }
@@ -90,43 +101,68 @@ const QuizPlayer = () => {
 
   const currentQuestion = quiz.questions[currentQuestionIndex];
 
+  const neonBorderStyle = {
+    border: '2px solid',
+    borderColor: 'cyan.400',
+    boxShadow: '0 0 10px cyan',
+    rounded: 'lg',
+    p: 5,
+  };
+
   return (
-    <Container maxW="container.md" py={8}>
-      <VStack spacing={6} align="stretch">
-        <Heading as="h1" size="xl" textAlign="center" color="yellow.300">
-          Question {currentQuestionIndex + 1} of {quiz.questions.length}
-        </Heading>
-        {timer !== null && (
-          <Text fontSize="xl" color="yellow.300" textAlign="center">
-            Time Remaining: {formatTime(timer)}
-          </Text>
-        )}
-        <Box p={5} bg="blue.900" rounded="md" shadow="base">
-          <Text fontSize="2xl" color="yellow.300" mb={4}>{currentQuestion.questionText}</Text>
-          <Stack direction="column" spacing={4}>
+    <ChakraProvider theme={theme}>
+      <CSSReset />
+      <Container maxW="container.md" py={8}>
+        <VStack spacing={6} align="stretch">
+        <Image
+          src={QuizGamePicture}
+          alt="quiz game"
+          mx="auto" 
+          w="50%"
+        />
+          <Heading as="h1" size="xl" textAlign="center" sx={{ color: 'white' }}>
+            Question {currentQuestionIndex + 1} of {quiz.questions.length}
+          </Heading>
+          {timer !== null && (
+            <Text fontSize="xl" textAlign="center" sx={{ color: 'white' }}>
+              Time Remaining: {formatTime(timer)}
+            </Text>
+          )}
+          <Box
+            border="2px solid"
+            borderColor="cyan.400"
+            boxShadow="0 0 10px cyan"
+            rounded="lg"
+            p={5}
+            sx={{ color: 'white' }}
+          >
+            <Text fontSize="2xl" mb={4}>{currentQuestion.questionText}</Text>
+            <SimpleGrid columns={2} spacing={4}>
             {['optionA', 'optionB', 'optionC', 'optionD'].map((optionKey) => (
               <Button
                 key={optionKey}
                 onClick={() => handleAnswerSelection(currentQuestion[optionKey])}
-                colorScheme="yellow"
-                variant="solid"
+                colorScheme={userAnswers[currentQuestionIndex] === currentQuestion[optionKey] ? "green" : "yellow"}
+                variant="outline"
                 size="lg"
                 width="full"
+                {...neonBorderStyle}
               >
                 {currentQuestion[optionKey]}
               </Button>
             ))}
-          </Stack>
-        </Box>
-        {currentQuestionIndex === quiz.questions.length - 1 ? (
+          </SimpleGrid>
+          </Box>
+          {currentQuestionIndex === quiz.questions.length - 1 ? (
           <Button colorScheme="green" onClick={handleSubmitQuiz}>Submit Quiz</Button>
         ) : (
           <Button colorScheme="teal" onClick={() => setCurrentQuestionIndex(currentIndex => currentIndex + 1)}>
             Next Question
           </Button>
-        )}
-      </VStack>
-    </Container>
+          )}
+        </VStack>
+      </Container>
+    </ChakraProvider>
   );
 };
 
