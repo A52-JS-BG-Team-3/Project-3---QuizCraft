@@ -6,15 +6,15 @@ import { Link } from "react-router-dom";
 import AppContext from "../../context/context"; // Assuming your user context
 
 const neonBoxShadow = `
-0 0 10px rgba(128, 0, 333, 0.8),
-0 0 20px rgba(128, 0, 333, 0.8),
-0 0 30px rgba(128, 0, 333, 0.8),
-0 0 40px rgba(128, 0, 333, 0.8),
-0 0 70px rgba(128, 0, 333, 0.8)
+0 0 10px rgba(0, 255, 255, 0.8),
+0 0 20px rgba(0, 255, 255, 0.8),
+0 0 30px rgba(0, 255, 255, 0.8),
+0 0 40px rgba(0, 255, 255, 0.8),
+0 0 70px rgba(0, 255, 255, 0.8)
 `;
 
 const quizCardStyles = {
-  border: "1px solid #5B8FB9",
+  border: "solid #301E67",
   borderRadius: "8px",
   p: 4,
   mb: 4,
@@ -30,7 +30,7 @@ export default function LatestQuizz() {
     const latestQuizzesQuery = query(
       quizzesRef,
       orderByChild("timeLimit"),
-      limitToLast(5)
+      limitToLast(3)
     );
 
     get(latestQuizzesQuery).then((snapshot) => {
@@ -45,14 +45,14 @@ export default function LatestQuizz() {
 
   return (
     <Box
-      bg="#03001C"
-      p={4}
-      mb={4}
-      boxShadow={neonBoxShadow}
-      maxW="xl"
-      w="100%"
-      mx="auto"
-    >
+    bg="#03001C"
+    p={4}
+    mb={4}
+    boxShadow={neonBoxShadow}
+    width="100%"
+    maxWidth={{ base: "100%", md: "xl" }}
+    mx="auto"
+  >
       <Heading color="#5B8FB9" mb={4} fontSize={{ base: "xl", md: "2xl" }}>
         Our Lengthiest Quizzes
       </Heading>
