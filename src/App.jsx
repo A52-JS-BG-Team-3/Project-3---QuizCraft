@@ -1,6 +1,11 @@
 import "./App.css";
 import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import { auth, db } from "./config/firebase-config";
 import { onAuthStateChanged } from "firebase/auth";
 import { ref, get } from "firebase/database";
@@ -26,6 +31,7 @@ import QuizPlayer from "./components/QuizPlayer/QuizPlayer";
 import QuizResults from "./components/QuizRezults/QuizResults";
 import AdminPanel from "./views/AdminPanel/AdminPanel";
 import StudentsProfile from "./views/StudentsProfile/StudentsProfile";
+import StudentResults from "./views/TeacherProfile/StudentResults";
 
 function App() {
   const [appState, setAppState] = useState({
@@ -85,12 +91,12 @@ function App() {
         });
       }
     });
-    
+
     return () => unsubscribe();
   }, []);
-  
-      const isAuthenticated = appState.user !== null;
-    const isAdmin = isAuthenticated && appState.isAdmin;
+
+  const isAuthenticated = appState.user !== null;
+  const isAdmin = isAuthenticated && appState.isAdmin;
 
   return (
     <AppContext.Provider value={{ ...appState, setUser: setAppState }}>
@@ -124,29 +130,32 @@ function App() {
                   <Route path="/userprofile" element={<UserProfile />} />
                 )}
                 {appState.userData && appState.userData.role === "teacher" && (
-                <>
-                  <Route path="/teacher" element={<TeacherProfile />} />
-                  <Route path="/groups" element={<GroupManagement />} />
-                  <Route path="/group/:groupId" element={<GroupDetails />} />
-                  <Route path="/createquiz" element={<CreateQuiz />} />
-                  <Route path="/edit-quiz/:quizId" element={<EditQuiz />} />
-                  <Route
-                    path="/teacherquizzes/:userName"
-                    element={<TeacherQuizzes />}
-                  />
-                </>
-              )}
-               {appState.userData && appState.userData.role === "student" && (
-                <>
-                  <Route path="/student" element={<StudentsProfile />} />
-                
-                </>
-              )}
-               {isAuthenticated && isAdmin ? (
-              <Route path="/adminpanel" element={<AdminPanel />} />
-            ) : (
-              <Route path="/adminpanel" element={<Navigate to="/" />} />
-            )}
+                  <>
+                    <Route
+                      path="/quizresults/:userName/:quizId/"
+                      element={<StudentResults />}
+                    />
+                    <Route path="/teacher" element={<TeacherProfile />} />
+                    <Route path="/groups" element={<GroupManagement />} />
+                    <Route path="/group/:groupId" element={<GroupDetails />} />
+                    <Route path="/createquiz" element={<CreateQuiz />} />
+                    <Route path="/edit-quiz/:quizId" element={<EditQuiz />} />
+                    <Route
+                      path="/teacherquizzes/:userName"
+                      element={<TeacherQuizzes />}
+                    />
+                  </>
+                )}
+                {appState.userData && appState.userData.role === "student" && (
+                  <>
+                    <Route path="/student" element={<StudentsProfile />} />
+                  </>
+                )}
+                {isAuthenticated && isAdmin ? (
+                  <Route path="/adminpanel" element={<AdminPanel />} />
+                ) : (
+                  <Route path="/adminpanel" element={<Navigate to="/" />} />
+                )}
                 <Route path="/quiz" element={<RandomQuiz />} />
                 <Route path="/userquizzes" element={<UserQuizzes />} />
                 <Route path="/quizzesoverview" element={<QuizzesOverview />} />

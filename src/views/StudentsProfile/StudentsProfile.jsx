@@ -15,6 +15,7 @@ const neonBoxShadow = `
 
 const StudentsProfile = () => {
   const [invitations, setInvitations] = useState([]);
+  const [feedback, setFeedback] = useState([]);
   const toast = useToast();
   const navigate = useNavigate();
 
@@ -36,6 +37,26 @@ const StudentsProfile = () => {
       console.error("Error fetching invitations:", error);
     }
   };
+
+  const fetchFeedback = async () => {
+    try {
+      const feedbackRef = ref(db, `feedback`);
+      const feedbackSnapshot = await get(feedbackRef);
+
+      if (feedbackSnapshot.exists()) {
+        const feedbackData = feedbackSnapshot.val();
+        const feedbackList = Object.keys(feedbackData).map((key) => ({
+          key,
+          ...feedbackData[key],
+        }));
+
+        setFeedback(feedbackList);
+      }
+    } catch (error) {
+      console.error("Error fetching feedback:", error);
+    }
+  };
+
 
   const acceptInvitation = async (invitation) => {
     try {
@@ -63,6 +84,7 @@ const StudentsProfile = () => {
         console.error("Quiz not found for quizId:", invitation.quizId);
         
       }
+      fetchFeedback();
     } catch (error) {
       console.error("Error accepting invitation:", error);
       
@@ -72,6 +94,7 @@ const StudentsProfile = () => {
 
   useEffect(() => {
     fetchInvitations();
+    fetchFeedback();
   }, []);
 
   return (
@@ -104,6 +127,22 @@ const StudentsProfile = () => {
                 Accept
               </Button>
             )}
+          </Box>
+        ))}
+      </Box>
+      <Box p={4} boxShadow={neonBoxShadow}>
+        <Text color="green">Feedback</Text>
+        {feedback.map((feedbackItem) => (
+          <Box key={feedbackItem.key} p={2} mb={2} border="1px" borderRadius="md">
+            <Text color="white">
+              Quiz Title: {feedbackItem.title}
+            </Text>
+            <Text color="white">
+              Student Score: {feedbackItem.score !== null ? feedbackItem.score : "Score not available"}
+            </Text>
+            <Text color="white">
+              Feedback: {feedbackItem.feedback}
+            </Text>
           </Box>
         ))}
       </Box>

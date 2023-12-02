@@ -1,4 +1,4 @@
- import {
+import {
   Box,
   Flex,
   Heading,
@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { db, auth } from "../../config/firebase-config";
 import { ref, get, push, set } from "firebase/database";
+import { fetchUserName } from "../../services/user.service";
 
 const neonBoxShadow = `
   0 0 10px rgba(200, 50, 200, 0.8),
@@ -32,10 +33,11 @@ const TeacherProfile = () => {
 
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [selectedQuizId, setSelectedQuizId] = useState(null);
+  const [selectedUser, setSelectedUser] = useState("");
+  const [selectedQuizId, setSelectedQuizId] = useState("");
   const [quizzes, setQuizzes] = useState([]);
-  const [highlightedUser, setHighlightedUser] = useState(null);
+  const [highlightedUser, setHighlightedUser] = useState("");
+  const [userName, setUserName] = useState("");
 
   useEffect(() => {
     const fetchQuizzes = async () => {
@@ -57,6 +59,23 @@ const TeacherProfile = () => {
     };
 
     fetchQuizzes();
+  }, []);
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const userNameData = await fetchUserName(auth.currentUser.uid);
+
+        if (userNameData) {
+          setUserName(userNameData);
+        } else {
+          console.error("Error fetching user name.");
+        }
+      } catch (error) {
+        console.error("Error fetching user name:", error);
+      }
+    };
+
+    fetchUserData();
   }, []);
 
   const handleSearchStudents = async () => {
@@ -89,17 +108,18 @@ const TeacherProfile = () => {
     try {
       if (!selectedUser || selectedQuizId === null) {
         toast({
-          title: "Please select a user and a quiz before sending an invitation.",
+          title:
+            "Please select a user and a quiz before sending an invitation.",
           status: "warning",
           duration: 3000,
           isClosable: true,
         });
         return;
       }
-  
+
       const invitationsRef = ref(db, "invitations");
       const newInvitationRef = push(invitationsRef);
-  
+
       const invitationData = {
         senderUid: auth.currentUser.uid,
         receiverUid: selectedUser.uid,
@@ -107,16 +127,16 @@ const TeacherProfile = () => {
         status: "pending",
         timestamp: new Date().toISOString(),
       };
-  
+
       await set(newInvitationRef, invitationData);
-  
+
       toast({
         title: `Invitation sent to user with username: ${selectedUser.userName}`,
         status: "success",
         duration: 3000,
         isClosable: true,
       });
-  
+
       setSelectedUser(null);
       setSelectedQuizId(null);
     } catch (error) {
@@ -129,7 +149,21 @@ const TeacherProfile = () => {
       });
     }
   };
-  
+  const handleViewResults = (selectedUser, selectedQuizId) => {
+    // Ensure both user and quiz are selected
+    if (!selectedUser || !selectedQuizId) {
+      toast({
+        title: "Please select a user and a quiz before viewing results.",
+        status: "warning",
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
+
+    // Navigate to StudentResults with the selected user and quiz ID
+    navigate(`/quizresults/${selectedUser.userName}/${selectedQuizId}`);
+  };
 
   const handleUserSelect = (user) => {
     setSelectedUser(user);
@@ -164,7 +198,7 @@ const TeacherProfile = () => {
           className="glowing-heading"
           style={{ fontFamily: "'Lobster', cursive" }}
         >
-          Welcome, mr/ms teachers name
+          Welcome, {userName}
         </Heading>
         <Flex align="center" justify="center" width="full">
           <Box mr={10}>
@@ -247,6 +281,12 @@ const TeacherProfile = () => {
               onClick={() => navigate("/userquizzes")}
             >
               My Quizzes
+            </Button>
+            <Button
+              colorScheme="green"
+              onClick={() => handleViewResults(selectedUser, selectedQuizId)}
+            >
+              View Results
             </Button>
           </VStack>
         </Flex>

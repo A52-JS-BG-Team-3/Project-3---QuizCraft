@@ -95,6 +95,7 @@ const QuizPlayer = () => {
         if (!snapshot.exists()) {
           const currentTime = new Date().getTime(); 
           await set(attemptedRef, {
+            title: quiz.title,
             score: totalScore,
             attemptedAt: currentTime,
           });
