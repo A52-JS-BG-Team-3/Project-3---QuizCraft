@@ -30,15 +30,12 @@ const QuizzesOverview = () => {
     setSearchTerm(e.target.value);
   };
 
-  const filteredQuizzes = quizzes.filter((quiz) => {
-    const matchTitle = quiz.title
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
-    const matchCategory = quiz.category
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
-    return matchTitle || matchCategory;
-  });
+  const filteredQuizzes = quizzes.filter(
+    (quiz) =>
+      (quiz.title && quiz.title.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (quiz.category && quiz.category.toLowerCase().includes(searchTerm.toLowerCase()))
+  );
+  
 
   const getFormattedDate = (timestamp) => {
     if (!timestamp) {
