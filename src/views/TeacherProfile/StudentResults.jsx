@@ -75,7 +75,6 @@ const StudentResults = () => {
 
   return (
     <VStack color="white" align="stretch" spacing={4} p={4}>
-      {/* Display quiz results */}
       <Box>
         <Text fontSize="xl" fontWeight="bold" mb={2}>
           Quiz Results
@@ -86,10 +85,7 @@ const StudentResults = () => {
         <Text>
           Student Score: {score !== null ? score : "Score not available"}
         </Text>
-        {/* Display other result details */}
       </Box>
-
-      {/* Provide feedback */}
       <Box>
         <Text fontSize="xl" fontWeight="bold" mb={2}>
           Provide Feedback:
