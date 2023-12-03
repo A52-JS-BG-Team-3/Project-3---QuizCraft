@@ -36,8 +36,8 @@
 - **For Students:**
   - [x] View active quizzes.
   - [x] View quizzes currently participating in.
-  - [ ] View quiz contests participated in. SHOULD
-  - [ ] View scoreboards of quizzes participated in. SHOULD
+  - [x] View quiz contests participated in. SHOULD
+  - [x] View scoreboards of quizzes participated in. SHOULD
 - [x] Profile editing for all users.
 
 ## Quiz Requirements

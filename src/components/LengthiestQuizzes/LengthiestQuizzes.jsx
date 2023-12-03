@@ -53,7 +53,7 @@ export default function LengthiestQuizzes() {
     maxWidth={{ base: "100%", md: "xl" }}
     mx="auto"
   >
-      <Heading color="#5B8FB9" mb={4} fontSize={{ base: "xl", md: "2xl" }}>
+      <Heading color="#FFFFC7" mb={4} fontSize={{ base: "xl", md: "2xl" }}>
         Our Lengthiest Quizzes
       </Heading>
       <Flex justifyContent="center">
