@@ -3,7 +3,7 @@ import { ref, get, update, remove } from "firebase/database";
 import { db } from "../../config/firebase-config";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../../config/firebase-config";
+import QuizHistory from "./QuizHistory";
 
 const neonBoxShadow = `
 0 0 10px rgba(128, 0, 333, 0.8),
@@ -99,6 +99,7 @@ const StudentsProfile = () => {
     <HStack spacing={4} border="solid" bg="#03001C" pt="5%" pb="5%" pl="5%" pr="5%" boxShadow={neonBoxShadow}>
       <Box p={4} boxShadow={neonBoxShadow}>
         <Text color="green">Quiz History</Text>
+        <QuizHistory />
       </Box>
       <Box p={4} boxShadow={neonBoxShadow}>
         <Text color="green">Invitations</Text>

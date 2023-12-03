@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Box, Heading, Text, Flex, SimpleGrid } from "@chakra-ui/react";
+import { useState, useEffect } from "react";
+import { Box, Heading, Text, SimpleGrid } from "@chakra-ui/react";
 import { db } from "../../config/firebase-config";
 import { get, ref } from "firebase/database";
 
@@ -49,7 +49,7 @@ const SampleAPublicQuiz = () => {
       maxW="80%"
       mx="auto"
     >
-      <Heading color="#5B8FB9" mb={4} fontSize={{ base: "xl", md: "2xl" }}>
+      <Heading color="#FFFFC7" mb={4} fontSize={{ base: "xl", md: "2xl" }}>
         Sample some of our public quizzes
       </Heading>
       <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={4}>
