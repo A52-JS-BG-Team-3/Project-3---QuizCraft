@@ -149,9 +149,9 @@ const TeacherProfile = () => {
       });
     }
   };
-  const handleViewResults = (selectedUser, selectedQuizId) => {
+  const handleViewResults = (selectedUser) => {
     
-    if (!selectedUser || !selectedQuizId) {
+    if (!selectedUser) {
       toast({
         title: "Please select a user and a quiz before viewing results.",
         status: "warning",
@@ -161,8 +161,8 @@ const TeacherProfile = () => {
       return;
     }
 
-    // Navigate to StudentResults with the selected user and quiz ID
-    navigate(`/quizresults/${selectedUser.userName}/${selectedQuizId}`);
+   
+    navigate(`/quizresults/${selectedUser.userName}`);
   };
 
   const handleUserSelect = (user) => {

@@ -131,7 +131,7 @@ function App() {
                 {appState.userData && appState.userData.role === "teacher" && (
                   <>
                     <Route
-                      path="/quizresults/:userName/:quizId/"
+                      path="/quizresults/:userName/"
                       element={<StudentResults />}
                     />
                     <Route path="/teacher" element={<TeacherProfile />} />
