@@ -150,7 +150,7 @@ const TeacherProfile = () => {
     }
   };
   const handleViewResults = (selectedUser, selectedQuizId) => {
-    // Ensure both user and quiz are selected
+    
     if (!selectedUser || !selectedQuizId) {
       toast({
         title: "Please select a user and a quiz before viewing results.",
@@ -270,6 +270,12 @@ const TeacherProfile = () => {
             </Button>
             <Button
               colorScheme="green"
+              onClick={() => handleViewResults(selectedUser, selectedQuizId)}
+            >
+              View Results
+            </Button>
+            <Button
+              colorScheme="green"
               width="full"
               onClick={() => navigate("/createquiz")}
             >
@@ -281,12 +287,6 @@ const TeacherProfile = () => {
               onClick={() => navigate("/userquizzes")}
             >
               My Quizzes
-            </Button>
-            <Button
-              colorScheme="green"
-              onClick={() => handleViewResults(selectedUser, selectedQuizId)}
-            >
-              View Results
             </Button>
           </VStack>
         </Flex>

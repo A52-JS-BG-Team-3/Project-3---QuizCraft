@@ -35,9 +35,9 @@
   - [x] View students.
 - **For Students:**
   - [x] View active quizzes.
-  - [ ] View quizzes currently participating in.
-  - [ ] View quiz contests participated in.
-  - [ ] View scoreboards of quizzes participated in. Scoring should ne implemented for ordered ranking.
+  - [x] View quizzes currently participating in.
+  - [ ] View quiz contests participated in. SHOULD
+  - [ ] View scoreboards of quizzes participated in. SHOULD
 - [x] Profile editing for all users.
 
 ## Quiz Requirements
@@ -45,7 +45,7 @@
 - [x] Users can accept or reject invitations to private quizzes.
 - [x] Creators can set time limits, question order randomization, and passing scores for quizzes.
 - [x] Quiz status (Ongoing/Finished) always visible.
-- [ ] Ability to review answers and add comments for Finished quizzes.
+- [x] Ability to review answers and add comments for Finished quizzes.
 
 ## Administrative Part
 - **User Management:**
@@ -55,8 +55,6 @@
   - [x] Blocked users cannot login.
 - **Quiz Management:**
   - [x] Admins can edit or delete any quiz.
-- **Scoreboard Moderation:**
-  - [ ] Admins can oversee scoreboards for tests and address discrepancies.
 
 ## Educator Features 
 - [x] Educators separated into groups.

@@ -1,9 +1,9 @@
 import { Box, Text, HStack, useToast, Button } from "@chakra-ui/react";
-import QuizzesOverview from "../QuizzesOverview/QuizzesOverview";
 import { ref, get, update, remove } from "firebase/database";
 import { db } from "../../config/firebase-config";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { auth } from "../../config/firebase-config";
 
 const neonBoxShadow = `
 0 0 10px rgba(128, 0, 333, 0.8),
@@ -57,7 +57,6 @@ const StudentsProfile = () => {
     }
   };
 
-
   const acceptInvitation = async (invitation) => {
     try {
       const invitationRef = ref(db, `invitations/${invitation.key}`);
@@ -90,7 +89,6 @@ const StudentsProfile = () => {
       
     }
   };
-  
 
   useEffect(() => {
     fetchInvitations();
@@ -99,17 +97,8 @@ const StudentsProfile = () => {
 
   return (
     <HStack spacing={4} border="solid" bg="#03001C" pt="5%" pb="5%" pl="5%" pr="5%" boxShadow={neonBoxShadow}>
-      
-
       <Box p={4} boxShadow={neonBoxShadow}>
-        <Text color="green">Participating Quizzes</Text>
-      </Box>
-
-      <Box p={4} boxShadow={neonBoxShadow}>
-        <Text color="green">Contest Quizzes</Text>
-      </Box>
-      <Box p={4} boxShadow={neonBoxShadow}>
-        <Text color="green">Score Board</Text>
+        <Text color="green">Quiz History</Text>
       </Box>
       <Box p={4} boxShadow={neonBoxShadow}>
         <Text color="green">Invitations</Text>

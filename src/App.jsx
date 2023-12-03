@@ -16,7 +16,6 @@ import WithSubnavigation from "./components/NavBar/NavBar";
 import Home from "./views/Home/Home";
 import Register from "./views/Register/Register";
 import Login from "./views/LogIn/Login";
-import RandomQuiz from "./components/RandomQuiz/RandomQuiz";
 import TeacherProfile from "./views/TeacherProfile/TeacherProfile";
 import UserProfile from "./views/UserProfile/UserProfileView";
 import GroupManagement from "./components/Groups/GropManagment";
@@ -156,7 +155,6 @@ function App() {
                 ) : (
                   <Route path="/adminpanel" element={<Navigate to="/" />} />
                 )}
-                <Route path="/quiz" element={<RandomQuiz />} />
                 <Route path="/userquizzes" element={<UserQuizzes />} />
                 <Route path="/quizzesoverview" element={<QuizzesOverview />} />
                 <Route path="/quiz/:quizId" element={<QuizPlayer />} />
