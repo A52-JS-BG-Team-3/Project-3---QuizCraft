@@ -1,5 +1,5 @@
 import "./Home.css";
-import { VStack, Flex, Box } from "@chakra-ui/react";
+import { VStack, Flex, Box, Grid } from "@chakra-ui/react";
 import quizImage from "../../assets/quiz.png";
 import LengthiestQuizzes from "../../components/LengthiestQuizzes/LengthiestQuizzes";
 import DidYouKnow from "../../components/DidYouKnow/DidYouKnow";

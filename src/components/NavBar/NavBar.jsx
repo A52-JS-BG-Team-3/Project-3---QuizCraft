@@ -13,6 +13,7 @@ import { useContext } from "react";
 import AppContext from "../../context/context";
 import { UserPanel } from "./UserPanel/UserPanel";
 import logo from "../../assets/logo.png";
+import { NavLink } from "react-router-dom";
 
 const neonBoxShadow = `
   0 0 10px rgba(0, 255, 255, 0.8),
@@ -48,9 +49,9 @@ export default function WithSubnavigation() {
         zIndex={10}
       >
         <Image src={logo} alt="logo" height="60px" />
-        <a href="/">
+        <NavLink to="/">
         <Image src="src\assets\home_button.png" height="60px"/>
-        </a>
+        </NavLink>
 
         <Flex
           flex={{ base: 1, md: "auto" }}

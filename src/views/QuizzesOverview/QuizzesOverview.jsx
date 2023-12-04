@@ -79,7 +79,6 @@ const QuizzesOverview = () => {
   }, []);
 
   const bgColor = useColorModeValue("#03001C");
-  const headingColor = useColorModeValue("#5B8FB9");
 
   if (loading) {
     return <p>Loading quizzes...</p>;

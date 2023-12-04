@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Box, Text, VStack } from "@chakra-ui/react";
 import { ref, get } from "firebase/database";
 import { db } from "../../config/firebase-config";

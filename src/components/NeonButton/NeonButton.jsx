@@ -1,5 +1,6 @@
 import { Button } from '@chakra-ui/react';
 import './NeonButton.css';
+import { NavLink } from 'react-router-dom';
 const NeonButton = ({ text, onClick, href }) => {
   const buttonProps = {
     onClick: onClick,
@@ -24,9 +25,9 @@ const NeonButton = ({ text, onClick, href }) => {
   };
 
   return href ? (
-    <a href={href} style={{ textDecoration: 'none' }}>
+    <NavLink to={href} style={{ textDecoration: 'none' }}>
       <Button {...buttonProps}>{text}</Button>
-    </a>
+    </NavLink>
   ) : (
     <Button {...buttonProps}>{text}</Button>
   );
