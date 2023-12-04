@@ -13,7 +13,7 @@ import { ref, set, push, get } from "firebase/database";
 import { auth, db } from "../../config/firebase-config";
 import QuizForm from "../CreateQuiz/QuizForm/QuizForm";
 import { useNavigate } from "react-router-dom";
-import Categories from "./Categories/Categories";
+import { combinedQuizCategories } from "../../utils/combinedQuizCategories";
 
 const CreateQuiz = () => {
   const [quizTitle, setQuizTitle] = useState("");
@@ -42,8 +42,8 @@ const CreateQuiz = () => {
     });
   };
 
-  const handleCategorySelect = (category) => {
-    setQuizCategory(category.name || "");
+  const handleCategorySelect = (selectedCategory) => {
+    setQuizCategory(selectedCategory);
   };
 
   const handleSubmit = async (e) => {
@@ -138,16 +138,24 @@ const CreateQuiz = () => {
             />
           </FormControl>
           <FormControl isRequired>
-            <Categories onSelectCategory={handleCategorySelect} />
-            <FormControl isRequired>
-              <Input
-                id="quizCategory"
-                value={quizCategory || ""}
-                onChange={(e) => setQuizCategory(e.target.value)}
-                placeholder="Enter quiz category"
-                textColor={quizCategory?.length > 3 ? "white" : "red.500"}
-              />
-            </FormControl>
+            <FormLabel htmlFor="quizCategory" color={"white"}>Category</FormLabel>
+            <Select
+              id="quizCategory"
+              value={quizCategory}
+              onChange={(e) => setQuizCategory(e.target.value)}
+              placeholder="Select quiz category"
+              color={"white"}
+              bg="transparent" 
+                borderRadius="md" 
+                borderColor="gray.200" 
+                _focus={{ borderColor: "blue.300" }}
+            >
+              {combinedQuizCategories.map((category, index) => (
+                <option key={index} value={category}>
+                  {category}
+                </option>
+              ))}
+            </Select>
           </FormControl>
           <FormControl isRequired>
             <FormLabel htmlFor="quizType" color={"white"}>
