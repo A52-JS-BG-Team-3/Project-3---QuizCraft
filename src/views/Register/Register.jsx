@@ -8,13 +8,11 @@ import {
   Flex,
   Select,
   useToast,
+  Image,
 } from "@chakra-ui/react";
 import { useState, useContext } from "react";
 import AuthContext from "../../context/context";
-import {
-  createUserHandle,
-  getUserByHandle,
-} from "../../services/user.service";
+import { createUserHandle, getUserByHandle } from "../../services/user.service";
 import { registerUser } from "../../services/auth.service";
 import { useNavigate } from "react-router-dom";
 import NeonButton from "../../components/NeonButton/NeonButton";
@@ -58,8 +56,24 @@ export default function Register() {
     event.preventDefault();
 
     try {
-      if (!form.firstName || !form.lastName || !form.email || !form.userName || !form.phoneNumber || !form.password || form.password.length < 6 || form.firstName.length < 4 || form.firstName.length > 32 || form.lastName.length < 4 || form.lastName.length > 32) {
+      if (
+        !form.firstName ||
+        !form.lastName ||
+        !form.email ||
+        !form.userName ||
+        !form.phoneNumber ||
+        !form.password ||
+        form.password.length < 6 ||
+        form.firstName.length < 4 ||
+        form.firstName.length > 32 ||
+        form.lastName.length < 4 ||
+        form.lastName.length > 32
+      ) {
         throw new Error("Invalid input. Please check your form data.");
+      }
+
+      if (!form.phoneNumber || !/^\d{10}$/.test(form.phoneNumber)) {
+        throw new Error("Invalid phone number. Please enter 10 digits.");
       }
 
       const snapshot = await getUserByHandle(form.userName);
@@ -112,7 +126,8 @@ export default function Register() {
       display="flex"
       alignItems="center"
       justifyContent="center"
-      pt={{ base: "5%", md: "10%" }}
+      pt={{ base: "1%", md: "5%" }}
+      pb="1%"
     >
       <Stack
         spacing={8}
@@ -124,15 +139,14 @@ export default function Register() {
           bg="#03001C"
           boxShadow={neonBoxShadow}
           p={{ base: 6, md: 12 }}
-          // animation={`${pulse} 5s infinite`}
         >
+          <Image src="src/assets/logo.png" alt="logo" height="60px" mx="auto" />
           <Flex
             direction={{ base: "column", md: "row" }}
             justify="space-between"
             flexWrap={"wrap"}
             spa
           >
-            {/* First Column */}
             <Stack spacing={4} flex="1" mr={4}>
               <FormControl id="firstName" isRequired>
                 <FormLabel fontWeight="bold" color="#5B8FB9">
@@ -173,10 +187,7 @@ export default function Register() {
                   bg="#B6EADA"
                 />
               </FormControl>
-            </Stack>
 
-            {/* Second Column */}
-            <Stack spacing={4} flex="1">
               <FormControl id="email" isRequired>
                 <FormLabel fontWeight="bold" color="#5B8FB9">
                   Email address
@@ -228,29 +239,15 @@ export default function Register() {
                   <option value="teacher">Teacher</option>
                 </Select>
               </FormControl>
+              <NeonButton
+                text="Sign Up"
+                onClick={onRegister}
+                loadingText="Submitting"
+              />
             </Stack>
           </Flex>
         </Box>
-        <NeonButton
-          text="Sign Up"
-          onClick={onRegister}
-          loadingText="Submitting"
-        />
       </Stack>
     </Box>
   );
 }
-
-
-
-// const pulse = keyframes`
-//   0% {
-//     box-shadow: 0 0 10px #E5E7EB, 0 0 20px #E5E7EB, 0 0 30px #E5E7EB, 0 0 40px #E5E7EB;
-//   }
-//   50% {
-//     box-shadow: 0 0 15px #E5E7EB, 0 0 25px #E5E7EB, 0 0 35px #E5E7EB, 0 0 45px #E5E7EB;
-//   }
-//   100% {
-//     box-shadow: 0 0 10px #E5E7EB, 0 0 20px #E5E7EB, 0 0 30px #E5E7EB, 0 0 40px #E5E7EB;
-//   }
-// `;

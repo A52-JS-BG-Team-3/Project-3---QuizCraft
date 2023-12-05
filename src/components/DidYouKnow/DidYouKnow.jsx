@@ -1,4 +1,4 @@
-import { Flex, VStack, ListItem, Box, Heading, List, Text } from "@chakra-ui/react";
+import { Flex, VStack, ListItem, Box, Image, List, Text } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 
 const neonBoxShadow = `
@@ -39,9 +39,7 @@ const DidYouKnow = () => {
       maxW="100%"
       
     >
-      <Heading color="#5B8FB9" mb={4} fontSize={{ base: "xl", md: "2xl" }}>
-        Did you know?
-      </Heading>
+      <Image src="src/assets/did_you.png" alt="logo" height="100px" />
       <Flex direction={{ base: "column", md: "row" }} align={{ base: "start", md: "center" }}>
         <VStack align="start" >
           <List spacing={2}>
