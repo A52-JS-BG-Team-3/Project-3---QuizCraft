@@ -207,20 +207,23 @@ const TeacherProfile = () => {
           </Box>
           <VStack spacing={4} align="stretch" width="full" maxW="lg">
             {" "}
-            <Input
-              placeholder="Search Students..."
-              bg="white"
-              size="lg"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <Button
-              colorScheme="blue"
-              width="full"
-              onClick={handleSearchStudents}
-            >
-              Search
-            </Button>
+            <Flex align="center" justify="center" width="full">
+  <Input
+    placeholder="Search Students..."
+    bg="white"
+    value={searchQuery}
+    onChange={(e) => setSearchQuery(e.target.value)}
+    flex="1" 
+  />
+  <Button
+    colorScheme="blue"
+    ml={2} 
+    onClick={handleSearchStudents}
+  >
+    Search
+  </Button>
+</Flex>
+
             <Stack>
               {searchResults.map((result) => (
                 <Box
@@ -251,7 +254,6 @@ const TeacherProfile = () => {
             <Select
               placeholder="Select Quiz"
               bg="white"
-              size="lg"
               value={selectedQuizId}
               onChange={(e) => handleQuizSelect(e.target.value)}
             >
