@@ -1,64 +1,135 @@
-# Functional Requirements Checklist
+![Quizy Peazy Logo](src/assets/logo.png)
 
-## Entities
+## Overview
 
-### User
-- [x] Authentication handled by Firebase.
-- [x] Username is unique and between 3 and 30 characters.
-- [x] First and last names are between 1 and 30 characters, containing only uppercase and lowercase letters.
-- [x] Phone numbers have 10 digits and are unique in the system.
-- [x] Users can be educators or students.
+🌟 Welcome to Quizy Peazy! 🌟
 
-### Quiz
-- [x] Title is between 3 and 30 characters and unique.
-- [x] Quiz is associated with its creator.
-- [x] Category can be reused from previous quizzes.
-- [x] Option to include a timer for quiz completion.
-- [x] Total points available are indicated.
-- [x] Quizzes include a scoreboard for participant rankings.
-- [x] Quizzes can be marked as public or private.
+Embark on a thrilling journey of knowledge and fun with our state-of-the-art quiz application built just for you! 🚀
 
-## Public Part
-- [x] Landing page shows the latest quiz or compelling content.
-- [x] Login form redirects to the private area.
-- [x] Register form registers users as Educators or Students.
-- [x] Anonymous users can browse and search for public quizzes.
-- [x] Feature for users to try out a sample quiz without registering.
+🧠 Challenge Your Mind: Dive into a world of diverse quizzes that cater to every interest and curiosity. From science wizards to pop culture enthusiasts, there's a quiz for everyone! 🧠
 
-## Private Part
-- [x] All quizzes page is different for Educators and Students.
-- **For Educators:**
-  - [x] Set up a new Quiz with custom questions and answers.
-  - [x] Manage quizzes created, including editing or deleting them.
-  - [x] Invite students to take quizzes.
-  - [x] View Ongoing and Finished quizzes.
-  - [x] View students.
-- **For Students:**
-  - [x] View active quizzes.
-  - [x] View quizzes currently participating in.
-  - [x] View quiz contests participated in. SHOULD
-  - [x] View scoreboards of quizzes participated in. SHOULD
-- [x] Profile editing for all users.
+🏆 Achieve Greatness: Test your knowledge, earn points, and climb the ranks on our global leaderboard. Will you be the ultimate Quizer Peazer? 🏆
 
-## Quiz Requirements
-- [x] User can participate in multiple quizzes.
-- [x] Users can accept or reject invitations to private quizzes.
-- [x] Creators can set time limits, question order randomization, and passing scores for quizzes.
-- [x] Quiz status (Ongoing/Finished) always visible.
-- [x] Ability to review answers and add comments for Finished quizzes.
+🌈 Interactive Experience: Immerse yourself in a visually stunning and user-friendly interface. Say goodbye to dull quizzes – our vibrant design will keep you hooked from start to finish! 🌈
 
-## Administrative Part
-- **User Management:**
-  - [x] Admins can search for users by username, first and last name, email.
-  - [x] Lists of users support pagination or infinite scroll functionality.
-  - [x] Admins can block and unblock individual users.
-  - [x] Blocked users cannot login.
-- **Quiz Management:**
-  - [x] Admins can edit or delete any quiz.
+📚 Quiz History at Your Fingertips: Track your progress with ease. Access your personalized quiz history and witness your growth over time. Celebrate your victories and learn from your challenges! 📚
 
-## Educator Features 
-- [x] Educators separated into groups.
-- [x] Educators in the same group can edit or delete any quiz created by someone on their team.
+🤩 Real-time Feedback: Receive instant feedback on your quiz performance. Understand your strengths and areas for improvement, making each quiz a stepping stone to becoming a genius. 🤩
 
+🌐 Connect with the Community: Engage with fellow quiz enthusiasts, share your achievements, and discover exciting new quizzes. Quizy Peazy isn't just an app; it's a thriving community of knowledge seekers! 🌐
+
+Ready to elevate your quiz experience? Join Quizy Peazy today and unlock the gateway to limitless learning and entertainment! 🚀🎓
+
+## Features
+
+1. [Features](#features)
+2. [Public Part](#public-part)
+3. [Private Part](#private-part)
+4. [Administrative Part](#administrative-part)
+5. [Getting Started](#getting-started)
+6. [Contributing](#contributing)
+7. [License](#license)
+
+## Features
+
+### Entities
+
+- **User Authentication**: Handled by Firebase. Users have unique usernames, emails, phone numbers, and photos. Users can be organizers or students.
+
+- **Quizzes**: Unique IDs, titles, categories, types (open or invitational), sets of questions, answer options, scoring mechanisms, and creators. Quizzes can be public or private.
+
+- **Scoreboards**: Rankings for users and quizzes. Scoreboards for different quiz categories.
+
+- **Search Functionality**: Users can search public quizzes by keywords, categories, or tags.
+
+- **Groups of Educators**: Educators can participate in groups, modify quizzes within their group, and view quizzes outside their group.
+
+### Public Part
+
+#### Landing Page
+
+- Latest public quizzes showcased.
+
+#### Login Form
+
+- Requires username and password.
+
+#### Register Form
+
+- Registers users as educators or students.
+
+#### Quiz Browsing
+
+- Anonymous users can browse and search for public quizzes.
+
+#### Sample Quiz
+
+- Feature for users to try out a sample quiz without registering.
+
+### Private Part
+
+#### All Quizzes Page
+
+**For Educators:**
+
+- Set up new quizzes.
+- Manage quizzes (edit, delete).
+- Invite students to quizzes.
+- View ongoing and finished quizzes.
+- View students.
+
+**For Students:**
+
+- View active quizzes.
+- View participated quizzes and contests.
+- View scoreboards.
+
+#### Profile Editing
+
+- Users can see and edit their profile information.
+
+#### Quiz Requirements
+
+- Quiz participation and invitation acceptance.
+- Quiz settings: time limits, question randomization, passing scores.
+
+#### Quiz Page
+
+- Ongoing and finished quiz status.
+- Review answers with comments.
+
+#### Create Quiz Page
+
+- Create quiz form with title, category, type, time limit, questions, and answers.
+
+### Administrative Part
+
+#### User Management
+
+- Admins can search, block, and unblock users.
+
+#### Quiz Management
+
+- Admins can edit or delete any quiz.
+
+#### Scoreboard Moderation
+
+- Admins can oversee scoreboards and address discrepancies.
+
+## Getting Started
+
+To run the QuizMaster Pro application locally, follow these steps:
+
+1. Clone the repository.
+2. Install dependencies using `npm install`.
+3. Run the application using `npm run dev`.
+
+## Contributing
+
+We welcome contributions! Please check out our [Contribution Guidelines](CONTRIBUTING.md) for details on how to contribute.
+
+## License
+
+This project is licensed under the [TEAM 3 License](LICENSE).
 
 
