@@ -4,6 +4,7 @@ import quizImage from "../../assets/quiz.png";
 import LengthiestQuizzes from "../../components/LengthiestQuizzes/LengthiestQuizzes";
 import DidYouKnow from "../../components/DidYouKnow/DidYouKnow";
 import SampleAPublicQuiz from "../../components/SampleAPublicQuiz/SampleAPublicQuiz";
+import GlobalScoreboard from "./GlobalScoreborad";
 
 export default function Home() {
   return (
@@ -16,6 +17,9 @@ export default function Home() {
       <Flex alignItems="center">
         <DidYouKnow />
       </Flex>
+      <Flex >
+  <GlobalScoreboard />
+</Flex>
     </VStack>
   );
 }
