@@ -39,12 +39,13 @@ const GlobalScoreboard = () => {
             });
           });
 
-          const scoreboardArray = Object.keys(totalPointsByUser).map(
-            (userId) => ({
+          const scoreboardArray = Object.keys(totalPointsByUser)
+            .map((userId) => ({
               userId,
               totalPoints: totalPointsByUser[userId],
-            })
-          );
+            }))
+            .filter((user) => user.totalPoints > 0);
+
           console.log("Fetched data:", scoreboardArray);
 
           const sortedScoreboard = scoreboardArray.sort(
@@ -65,13 +66,14 @@ const GlobalScoreboard = () => {
 
   return (
     <Box
-    bg="#03001C"
-    p={4}
-    mb={4}
-    boxShadow={neonBoxShadow}
-    width="100%"
-    maxWidth={{ base: "100%", md: "xl" }}
-    mx="auto">
+      bg="#03001C"
+      p={4}
+      mb={4}
+      boxShadow={neonBoxShadow}
+      width="100%"
+      maxWidth={{ base: "100%", md: "xl" }}
+      mx="auto"
+    >
       <Text color="white" fontSize="xl" fontWeight="bold" mb="4">
         Global Scoreboard
       </Text>
