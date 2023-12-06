@@ -6,6 +6,7 @@ import {
   VStack,
   Textarea,
   useToast,
+  Heading,
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import { ref, get, set } from "firebase/database";
@@ -16,36 +17,47 @@ const StudentResults = () => {
   const { userName } = useParams();
   const [attempts, setAttempts] = useState([]);
   const [feedback, setFeedback] = useState({});
+  const [fetchAttempts, setFetchAttempts] = useState(true);
 
   useEffect(() => {
-    const fetchQuizResults = async () => {
-      try {
-        const userAttemptsRef = ref(db, `attempted/${userName}`);
-        const userAttemptsSnapshot = await get(userAttemptsRef);
+    if (fetchAttempts) {
+      const fetchQuizResults = async () => {
+        try {
+          const userAttemptsRef = ref(db, `attempted/${userName}`);
+          const userAttemptsSnapshot = await get(userAttemptsRef);
 
-        if (userAttemptsSnapshot.exists()) {
-          const attemptsData = userAttemptsSnapshot.val();
-          const quizIds = Object.keys(attemptsData);
+          if (userAttemptsSnapshot.exists()) {
+            const attemptsData = userAttemptsSnapshot.val();
+            const quizIds = Object.keys(attemptsData);
 
-          const attemptsList = quizIds
-            .filter((quizId) => !attemptsData[quizId]?.feedback)
-            .map((quizId) => {
-              return {
-                quizId,
-                title: attemptsData[quizId]?.title || "Title not available",
-                score: attemptsData[quizId]?.score || "Score not available",
-              };
-            });
+            const attemptsList = quizIds
+              .filter(
+                (quizId) =>
+                  !attemptsData[quizId]?.feedback &&
+                  localStorage.getItem(`feedback_${userName}_${quizId}`) !==
+                    "submitted"
+              )
+              .map((quizId) => {
+                return {
+                  quizId,
+                  title: attemptsData[quizId]?.title || "Title not available",
+                  score: attemptsData[quizId]?.score || "Score not available",
+                };
+              });
 
-          setAttempts(attemptsList);
+            setAttempts(attemptsList);
+          } else {
+            setAttempts([]);
+          }
+        } catch (error) {
+          console.error("Error fetching quiz results:", error);
         }
-      } catch (error) {
-        console.error("Error fetching quiz results:", error);
-      }
-    };
+      };
 
-    fetchQuizResults();
-  }, [userName]);
+      fetchQuizResults();
+      setFetchAttempts(false);
+    }
+  }, [userName, fetchAttempts]);
 
   const handleProvideFeedback = async (quizId) => {
     const feedbackRef = ref(db, `feedback/${userName}/${quizId}`);
@@ -71,6 +83,8 @@ const StudentResults = () => {
         return restFeedback;
       });
 
+      localStorage.setItem(`feedback_${userName}_${quizId}`, "submitted");
+
       toast({
         title: "Feedback Submitted",
         description: "Feedback has been submitted successfully!",
@@ -92,36 +106,39 @@ const StudentResults = () => {
 
   return (
     <VStack color="white" align="stretch" spacing={4} p={4}>
-      {attempts.map((attempt) => (
-        <Box key={attempt.quizId}>
-          <Text fontSize="xl" fontWeight="bold" mb={2}>
-            Quiz Results - {attempt.title}
-          </Text>
-          <Text>Quiz Title: {attempt.title}</Text>
-          <Text>Student Score: {attempt.score}</Text>
+      <Heading>Provide feedback to {userName} </Heading>
+      {attempts.length > 0 ? (
+        attempts.map((attempt) => (
+          <Box key={attempt.quizId}>
+            <Text fontSize="xl" fontWeight="bold" mb={2}></Text>
+            <Text>Quiz Title: {attempt.title}</Text>
+            <Text>Student Score: {attempt.score}</Text>
 
-          <Text fontSize="xl" fontWeight="bold" mb={2}>
-            Provide Feedback:
-          </Text>
-          <Textarea
-            value={feedback[attempt.quizId] || ""}
-            onChange={(e) =>
-              setFeedback((prevFeedback) => ({
-                ...prevFeedback,
-                [attempt.quizId]: e.target.value,
-              }))
-            }
-            placeholder="Enter your feedback here..."
-            size="md"
-          />
-          <Button
-            onClick={() => handleProvideFeedback(attempt.quizId)}
-            colorScheme="blue"
-          >
-            Submit Feedback
-          </Button>
-        </Box>
-      ))}
+            <Text fontSize="xl" fontWeight="bold" mb={2}>
+              Provide Feedback:
+            </Text>
+            <Textarea
+              value={feedback[attempt.quizId] || ""}
+              onChange={(e) =>
+                setFeedback((prevFeedback) => ({
+                  ...prevFeedback,
+                  [attempt.quizId]: e.target.value,
+                }))
+              }
+              placeholder="Enter your feedback here..."
+              size="md"
+            />
+            <Button
+              onClick={() => handleProvideFeedback(attempt.quizId)}
+              colorScheme="blue"
+            >
+              Submit Feedback
+            </Button>
+          </Box>
+        ))
+      ) : (
+        <Text>No attempts for feedback available.</Text>
+      )}
     </VStack>
   );
 };

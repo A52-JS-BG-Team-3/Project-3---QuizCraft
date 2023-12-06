@@ -60,6 +60,7 @@ const TeacherProfile = () => {
 
     fetchQuizzes();
   }, []);
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -77,9 +78,13 @@ const TeacherProfile = () => {
 
     fetchUserData();
   }, []);
-
   const handleSearchStudents = async () => {
     try {
+      if (!searchQuery.trim()) {
+        setSearchResults([]);
+        return;
+      }
+
       const usersRef = ref(db, "users");
       const usersSnapshot = await get(usersRef);
 
@@ -109,7 +114,7 @@ const TeacherProfile = () => {
       if (!selectedUser || selectedQuizId === null) {
         toast({
           title:
-            "Please select a user and a quiz before sending an invitation.",
+            "Please select a student and a quiz before sending an invitation.",
           status: "warning",
           duration: 3000,
           isClosable: true,
@@ -131,7 +136,7 @@ const TeacherProfile = () => {
       await set(newInvitationRef, invitationData);
 
       toast({
-        title: `Invitation sent to user with username: ${selectedUser.userName}`,
+        title: `Invitation sent to student with username: ${selectedUser.userName}`,
         status: "success",
         duration: 3000,
         isClosable: true,
@@ -149,11 +154,11 @@ const TeacherProfile = () => {
       });
     }
   };
+
   const handleViewResults = (selectedUser) => {
-    
     if (!selectedUser) {
       toast({
-        title: "Please select a user and a quiz before viewing results.",
+        title: "Please select student before viewing results.",
         status: "warning",
         duration: 3000,
         isClosable: true,
@@ -161,7 +166,6 @@ const TeacherProfile = () => {
       return;
     }
 
-   
     navigate(`/quizresults/${selectedUser.userName}`);
   };
 
@@ -202,32 +206,26 @@ const TeacherProfile = () => {
         </Heading>
         <Flex align="center" justify="center" width="full">
           <Box mr={10}>
-            {" "}
             <Image src={quizTimeImage} className="floating-image" />
           </Box>
           <VStack spacing={4} align="stretch" width="full" maxW="lg">
-            {" "}
             <Flex align="center" justify="center" width="full">
-  <Input
-    placeholder="Search Students..."
-    bg="white"
-    value={searchQuery}
-    onChange={(e) => setSearchQuery(e.target.value)}
-    flex="1" 
-  />
-  <Button
-    colorScheme="blue"
-    ml={2} 
-    onClick={handleSearchStudents}
-  >
-    Search
-  </Button>
-</Flex>
+              <Input
+                placeholder="Search Students..."
+                bg="white"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                flex="1"
+              />
+              <Button colorScheme="blue" ml={2} onClick={handleSearchStudents}>
+                Search
+              </Button>
+            </Flex>
 
             <Stack>
-              {searchResults.map((result) => (
+              {searchResults.map((result, index) => (
                 <Box
-                  key={result.uid}
+                  key={index}
                   color="white"
                   onClick={() => handleUserSelect(result)}
                   onMouseEnter={() => handleUserMouseEnter(result)}
@@ -272,7 +270,7 @@ const TeacherProfile = () => {
             </Button>
             <Button
               colorScheme="green"
-              onClick={() => handleViewResults(selectedUser, selectedQuizId)}
+              onClick={() => handleViewResults(selectedUser)}
             >
               View Results
             </Button>
