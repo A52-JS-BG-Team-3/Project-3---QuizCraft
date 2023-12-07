@@ -71,7 +71,8 @@ const QuizPlayer = () => {
     if (timer === 0) {
       handleSubmitQuiz();
     }
-    const intervalId = timer > 0 && setInterval(() => setTimer((timer) => timer - 1), 1000);
+    const intervalId =
+      timer > 0 && setInterval(() => setTimer((timer) => timer - 1), 1000);
     return () => clearInterval(intervalId);
   }, [timer]);
 
@@ -83,7 +84,12 @@ const QuizPlayer = () => {
 
   const handleSubmitQuiz = async () => {
     const totalScore = userAnswers.reduce((acc, userAnswer, index) => {
-      return acc + (quiz.questions[index].correctAnswer === userAnswer ? quiz.questions[index].score : 0);
+      return (
+        acc +
+        (quiz.questions[index].correctAnswer === userAnswer
+          ? quiz.questions[index].score
+          : 0)
+      );
     }, 0);
 
     const user = auth.currentUser;
@@ -93,7 +99,7 @@ const QuizPlayer = () => {
       try {
         const snapshot = await get(attemptedRef);
         if (!snapshot.exists()) {
-          const currentTime = new Date().getTime(); 
+          const currentTime = new Date().getTime();
           await set(attemptedRef, {
             title: quiz.title,
             score: totalScore,
@@ -107,7 +113,12 @@ const QuizPlayer = () => {
             isClosable: true,
           });
           navigate(`/quiz/${quizId}/results`, {
-            state: { userAnswers, score: totalScore, questions: quiz.questions, message: 'Score saved!' },
+            state: {
+              userAnswers,
+              score: totalScore,
+              questions: quiz.questions,
+              message: "Score saved!",
+            },
           });
         } else {
           toast({
@@ -118,7 +129,12 @@ const QuizPlayer = () => {
             isClosable: true,
           });
           navigate(`/quiz/${quizId}/results`, {
-            state: { userAnswers, score: totalScore, questions: quiz.questions, message: 'Score already saved.' },
+            state: {
+              userAnswers,
+              score: totalScore,
+              questions: quiz.questions,
+              message: "Score already saved.",
+            },
           });
         }
       } catch (error) {
@@ -131,11 +147,11 @@ const QuizPlayer = () => {
   };
 
   const fetchUserName = async (uid) => {
-    const usersRef = ref(db, 'users');
+    const usersRef = ref(db, "users");
     const snapshot = await get(usersRef);
     if (snapshot.exists()) {
       const users = snapshot.val();
-      const userEntry = Object.values(users).find(user => user.uid === uid);
+      const userEntry = Object.values(users).find((user) => user.uid === uid);
       return userEntry ? userEntry.userName : null;
     } else {
       setError("No user data found.");
@@ -161,6 +177,80 @@ const QuizPlayer = () => {
     p: 5,
   };
 
+  const neonBoxShadow = `
+  0 0 10px rgba(200, 50, 200, 0.8),
+  0 0 20px rgba(200, 50, 200, 0.8),
+  0 0 30px rgba(200, 50, 200, 0.8),
+  0 0 40px rgba(200, 50, 200, 0.8),
+  0 0 70px rgba(200, 50, 200, 0.8)
+`;
+
+  const buttonStyle = {
+    size: "lg",
+    width: "full",
+    minWidth: "150px",
+    whiteSpace: "normal",
+    height: "auto",
+    paddingY: "20px",
+    backgroundColor: "purple.500",
+    color: "white",
+    fontWeight: "bold",
+    borderWidth: "1px",
+    borderColor: "cyan.600",
+    boxShadow: `0 4px 10px rgba(0, 0, 0, 0.1), 
+              inset 0 4px rgba(255, 255, 255, 0.5), 
+              0 0 10px rgba(0, 255, 255, 0.5), 
+              0 0 15px rgba(0, 255, 255, 0.5), 
+              0 0 20px rgba(0, 255, 255, 0.5)`,
+    background: `
+    linear-gradient(
+      to right, 
+      rgba(150, 0, 255, 0.9), 
+      rgba(255, 0, 150, 0.9)
+    )`,
+    borderRadius: "full",
+    _hover: {
+      background: `
+      linear-gradient(
+        to right, 
+        rgba(165, 0, 255, 1), 
+        rgba(255, 0, 165, 1)
+      )`,
+      boxShadow: `0 4px 15px rgba(0, 0, 0, 0.2), 
+                inset 0 4px rgba(255, 255, 255, 0.6), 
+                0 0 15px rgba(0, 255, 255, 0.6), 
+                0 0 20px rgba(0, 255, 255, 0.6), 
+                0 0 25px rgba(0, 255, 255, 0.6)`,
+    },
+    _active: {
+      transform: "translateY(2px)",
+      boxShadow: `0 2px 8px rgba(0, 0, 0, 0.3), 
+                inset 0 2px rgba(255, 255, 255, 0.4), 
+                0 0 8px rgba(0, 255, 255, 0.6)`,
+    },
+    _focus: {
+      outline: "none",
+      boxShadow: `0 0 0 3px rgba(0, 255, 255, 0.5)`,
+    },
+  };
+
+  const nextButtonStyle = {
+    backgroundColor: "#FFFF66",
+    color: "black",
+    opacity: 0.8,
+    boxShadow: "0 0 5px #FFFF66, 0 0 10px #FFFF66",
+    _hover: {
+      opacity: 1,
+      boxShadow: "0 0 10px #FFFF66, 0 0 20px #FFFF66, 0 0 30px #FFFF66",
+    },
+    _active: {
+      transform: "scale(0.98)",
+    },
+    _focus: {
+      outline: "none",
+    },
+    mt: 4,
+  };
   return (
     <ChakraProvider theme={theme}>
       <CSSReset />
@@ -169,7 +259,7 @@ const QuizPlayer = () => {
         pt={{ base: 2, md: 8 }}
         pb={{ base: 2, md: 8 }}
       >
-        <VStack spacing={{ base: 1, md: 4 }} align="stretch">
+        <VStack spacing={{ base: 1, md: 4 }} align="center" justify="center">
           <Image
             src={QuizGamePicture}
             alt="quiz game"
@@ -198,25 +288,36 @@ const QuizPlayer = () => {
               fontSize="xl"
               fontFamily="Lobster"
               textAlign="center"
-              sx={{ color: "white", mt: { base: "-2", md: "-4" } }}
+              sx={{ color: "white", mt: { base: "2", md: "-4" } }}
             >
               Time Remaining: {formatTime(timer)}
             </Text>
           )}
-          <Box {...neonBorderStyle}>
-            <Text fontSize="2xl" color="white" mb={4}>
+          <Box
+            boxShadow={neonBoxShadow}
+            pt={{ base: 4, md: 8 }}
+            pb={{ base: 4, md: 8 }}
+            px={{ base: 5, md: 8 }}
+            width="full"
+            borderRadius={15}
+            transform="translateY(10px)" // Измества бокса нагоре с 20px
+          >
+            <Text fontSize="2xl" color="white" mb={4} textAlign="center">
               {currentQuestion.questionText}
             </Text>
-            <SimpleGrid columns={2} spacing={4}>
+            <SimpleGrid
+              columns={2}
+              spacing={4}
+              justifyItems="center"
+              alignItems="center"
+            >
               {["optionA", "optionB", "optionC", "optionD"].map((optionKey) => (
                 <Button
                   key={optionKey}
-                  onClick={() => handleAnswerSelection(currentQuestion[optionKey])}
-                  colorScheme={userAnswers[currentQuestionIndex] === currentQuestion[optionKey] ? "green" : "orange"}
-                  variant="outline"
-                  size="lg"
-                  width="full"
-                  {...neonBorderStyle}
+                  onClick={() =>
+                    handleAnswerSelection(currentQuestion[optionKey])
+                  }
+                  {...buttonStyle}
                 >
                   {currentQuestion[optionKey]}
                 </Button>
@@ -229,10 +330,11 @@ const QuizPlayer = () => {
             </Button>
           ) : (
             <Button
-              backgroundColor="#FFFF66"
-              color="clear"
-              opacity={0.8}
-              onClick={() => setCurrentQuestionIndex((currentIndex) => currentIndex + 1)}
+              onClick={() =>
+                setCurrentQuestionIndex((currentIndex) => currentIndex + 1)
+              }
+              {...nextButtonStyle}
+              mt={4}
             >
               Next Question
             </Button>
