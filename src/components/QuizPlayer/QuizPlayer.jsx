@@ -17,6 +17,7 @@ import {
 import { CSSReset } from "@chakra-ui/react";
 import QuizGamePicture from "../../assets/quiz_game.png";
 import { useToast } from "@chakra-ui/react";
+import { neonBoxShadowPurple } from "../BoxShadowsConts/boxshadows";
 
 const theme = extendTheme({
   fonts: {
@@ -169,22 +170,6 @@ const QuizPlayer = () => {
 
   const currentQuestion = quiz.questions[currentQuestionIndex];
 
-  const neonBorderStyle = {
-    border: "2px solid",
-    borderColor: "cyan.400",
-    boxShadow: "0 0 10px cyan",
-    rounded: "lg",
-    p: 5,
-  };
-
-  const neonBoxShadow = `
-  0 0 10px rgba(200, 50, 200, 0.8),
-  0 0 20px rgba(200, 50, 200, 0.8),
-  0 0 30px rgba(200, 50, 200, 0.8),
-  0 0 40px rgba(200, 50, 200, 0.8),
-  0 0 70px rgba(200, 50, 200, 0.8)
-`;
-
   const buttonStyle = {
     size: "lg",
     width: "full",
@@ -294,7 +279,7 @@ const QuizPlayer = () => {
             </Text>
           )}
           <Box
-            boxShadow={neonBoxShadow}
+            boxShadow={neonBoxShadowPurple}
             pt={{ base: 4, md: 8 }}
             pb={{ base: 4, md: 8 }}
             px={{ base: 5, md: 8 }}

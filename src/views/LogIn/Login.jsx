@@ -20,14 +20,7 @@ import NeonButton from "../../components/NeonButton/NeonButton";
 import { useEffect } from "react";
 import { onAuthStateChanged } from "@firebase/auth";
 import { signOut } from "firebase/auth";
-
-const neonBoxShadow = `
-0 0 10px rgba(128, 0, 333, 0.8),
-0 0 20px rgba(128, 0, 333, 0.8),
-0 0 30px rgba(128, 0, 333, 0.8),
-0 0 40px rgba(128, 0, 333, 0.8),
-0 0 70px rgba(128, 0, 333, 0.8)
-`;
+import { neonBoxShadowPurple } from "../../components/BoxShadowsConts/boxshadows";
 
 function Login() {
   const { setUser } = useContext(AppContext);
@@ -149,7 +142,7 @@ function Login() {
         <Image src="src\assets\are_you_ready.png"></Image>
         <Box
           align={"center"}
-          boxShadow={neonBoxShadow}
+          boxShadow={neonBoxShadowPurple}
           bg="#03001C"
           p={8}
           backdropFilter="blur(5px)"

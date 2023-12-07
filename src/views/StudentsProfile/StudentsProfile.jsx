@@ -4,14 +4,8 @@ import { db } from "../../config/firebase-config";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import QuizHistory from "./QuizHistory";
-
-const neonBoxShadow = `
-0 0 10px rgba(128, 0, 333, 0.8),
-0 0 20px rgba(128, 0, 333, 0.8),
-0 0 30px rgba(128, 0, 333, 0.8),
-0 0 40px rgba(128, 0, 333, 0.8),
-0 0 70px rgba(128, 0, 333, 0.8)
-`;
+import { neonBoxShadowTurquoise } from "../../components/BoxShadowsConts/boxshadows";
+import { neonBoxShadowPurple } from "../../components/BoxShadowsConts/boxshadows";
 
 const StudentsProfile = () => {
   const [invitations, setInvitations] = useState([]);
@@ -96,12 +90,12 @@ const StudentsProfile = () => {
   }, []);
 
   return (
-    <HStack spacing={4} border="solid" bg="#03001C" pt="5%" pb="5%" pl="5%" pr="5%" boxShadow={neonBoxShadow}>
-      <Box p={4} boxShadow={neonBoxShadow}>
+    <HStack spacing={4} border="solid" bg="#03001C" pt="5%" pb="5%" pl="5%" pr="5%" boxShadow={neonBoxShadowPurple}>
+      <Box p={4} boxShadow={neonBoxShadowTurquoise}>
         <Text color="green">Quiz History</Text>
         <QuizHistory />
       </Box>
-      <Box p={4} boxShadow={neonBoxShadow}>
+      <Box p={4} boxShadow={neonBoxShadowTurquoise}>
         <Text color="green">Invitations</Text>
         {invitations.map((invitation) => (
           <Box key={invitation.key} p={2} mb={2} border="1px" borderRadius="md">
@@ -120,7 +114,7 @@ const StudentsProfile = () => {
           </Box>
         ))}
       </Box>
-      <Box p={4} boxShadow={neonBoxShadow}>
+      <Box p={4} boxShadow={neonBoxShadowTurquoise}>
         <Text color="green">Feedback</Text>
         {feedback.map((feedbackItem) => (
           <Box key={feedbackItem.key} p={2} mb={2} border="1px" borderRadius="md">

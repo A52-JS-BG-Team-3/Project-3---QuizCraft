@@ -19,6 +19,7 @@ import { db, auth } from "../../config/firebase-config";
 import { ref, get, push, set } from "firebase/database";
 import { fetchUserName } from "../../services/user.service";
 
+//custom box shadow for this component
 const neonBoxShadow = `
   0 0 10px rgba(200, 50, 200, 0.8),
   0 0 20px rgba(200, 50, 200, 0.8),

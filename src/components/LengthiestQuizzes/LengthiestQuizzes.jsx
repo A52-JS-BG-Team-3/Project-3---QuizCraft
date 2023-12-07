@@ -4,14 +4,7 @@ import { db } from "../../config/firebase-config";
 import { Box, Flex, VStack, Heading, Text, Button } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import AppContext from "../../context/context"; // Assuming your user context
-
-const neonBoxShadow = `
-0 0 10px rgba(0, 255, 255, 0.8),
-0 0 20px rgba(0, 255, 255, 0.8),
-0 0 30px rgba(0, 255, 255, 0.8),
-0 0 40px rgba(0, 255, 255, 0.8),
-0 0 70px rgba(0, 255, 255, 0.8)
-`;
+import { neonBoxShadowTurquoise } from "../BoxShadowsConts/boxshadows";
 
 const quizCardStyles = {
   border: "solid #301E67",
@@ -48,7 +41,7 @@ export default function LengthiestQuizzes() {
     bg="#03001C"
     p={4}
     mb={4}
-    boxShadow={neonBoxShadow}
+    boxShadow={neonBoxShadowTurquoise}
     width="100%"
     maxWidth={{ base: "100%", md: "xl" }}
     mx="auto"

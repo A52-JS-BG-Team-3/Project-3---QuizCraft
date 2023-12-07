@@ -1,23 +1,19 @@
 import GroupForm from "./GroupForm";
 import GroupList from "./GroupList";
+import { Flex,HStack,VStack } from "@chakra-ui/react";
+import { neonBoxShadowPurple } from "../BoxShadowsConts/boxshadows";
 
 const GroupManagement = () => {
-
   return (
-    <div style={{
-        marginTop: "10%",
-        width: "100%",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        height: "60vh",
-      }}
-    >
-        
-      <GroupForm actionType="create" />
+    <Flex>
+    <HStack boxShadow={neonBoxShadowPurple}  p={4} bg="#03001C">
+      <VStack>
       <GroupForm actionType="join" />
+      <GroupForm actionType="create" />
+      </VStack>
       <GroupList />
-    </div>
+    </HStack>
+  </Flex>
   );
 };
 

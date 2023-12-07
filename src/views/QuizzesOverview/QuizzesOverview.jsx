@@ -12,14 +12,9 @@ import {
 } from "@chakra-ui/react";
 import { useColorModeValue } from "@chakra-ui/color-mode";
 import NeonButton from "../../components/NeonButton/NeonButton";
+import { neonBoxShadowTurquoise } from "../../components/BoxShadowsConts/boxshadows";
 
-const neonBoxShadow = `
-0 0 10px rgba(0, 255, 255, 0.8),
-0 0 20px rgba(0, 255, 255, 0.8),
-0 0 30px rgba(0, 255, 255, 0.8),
-0 0 40px rgba(0, 255, 255, 0.8),
-0 0 70px rgba(0, 255, 255, 0.8)
-`;
+
 
 const QuizzesOverview = () => {
   const [quizzes, setQuizzes] = useState([]);
@@ -96,7 +91,7 @@ const QuizzesOverview = () => {
           width: "12px",
         },
         "&::-webkit-scrollbar-thumb": {
-          background: "linear-gradient(45deg, #f06, #9f6)",
+          background: "linear-gradient(45deg, #301E67, #5B8FB9)",
           borderRadius: "10px",
         },
       }}
@@ -105,7 +100,7 @@ const QuizzesOverview = () => {
         <Flex
           bg={bgColor}
           p={10}
-          boxShadow={neonBoxShadow}
+          boxShadow={neonBoxShadowTurquoise}
           w="110vh"
           h="50vh"
           mt="15%"
@@ -115,7 +110,7 @@ const QuizzesOverview = () => {
               width: "12px",
             },
             "&::-webkit-scrollbar-thumb": {
-              background: "linear-gradient(45deg, #f06, #9f6)",
+              background: "linear-gradient(45deg, #301E67, #5B8FB9)",
               borderRadius: "10px",
             },
           }}

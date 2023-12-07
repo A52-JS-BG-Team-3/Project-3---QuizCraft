@@ -26,7 +26,7 @@ export default function UserProfile() {
             width: "12px",
           },
           "&::-webkit-scrollbar-thumb": {
-            background: "linear-gradient(45deg, #f06, #9f6)",
+            background: "linear-gradient(45deg, #301E67, #5B8FB9)",
             borderRadius: "10px",
           },
         }}

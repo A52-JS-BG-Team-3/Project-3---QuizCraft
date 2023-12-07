@@ -2,14 +2,7 @@ import { useEffect, useState } from "react";
 import { ref, get, query, orderByChild } from "firebase/database";
 import { Box, List, Text } from "@chakra-ui/react";
 import { db } from "../../config/firebase-config";
-
-const neonBoxShadow = `
-0 0 10px rgba(0, 255, 255, 0.8),
-0 0 20px rgba(0, 255, 255, 0.8),
-0 0 30px rgba(0, 255, 255, 0.8),
-0 0 40px rgba(0, 255, 255, 0.8),
-0 0 70px rgba(0, 255, 255, 0.8)
-`;
+import { neonBoxShadowTurquoise } from "../../components/BoxShadowsConts/boxshadows";
 
 const GlobalScoreboard = () => {
   const [scoreboard, setScoreboard] = useState([]);
@@ -69,7 +62,7 @@ const GlobalScoreboard = () => {
       bg="#03001C"
       p={4}
       mb={4}
-      boxShadow={neonBoxShadow}
+      boxShadow={neonBoxShadowTurquoise}
       width="100%"
       mx="auto"
     >

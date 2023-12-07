@@ -15,6 +15,7 @@ import { db } from "../../config/firebase-config";
 import fetchUser from "../../services/user.service";
 import { useToast } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import { neonBoxShadowPurple } from "../../components/BoxShadowsConts/boxshadows";
 
 const GroupDetails = () => {
   const { groupId } = useParams();
@@ -78,21 +79,16 @@ const GroupDetails = () => {
   };
 
   return (
-    <Box>
-      <Heading mb={4} textAlign="center" color={"#5B8FB9"}>
-        Group Details
-      </Heading>
+    <Box
+    w="20%"
+    h="20%"
+    >
       {group && (
         <VStack align="center" spacing={4}>
-          <Box
-            borderWidth="1px"
-            p={4}
-            borderRadius="md"
-            width="300px"
-            color={"white"}
-            bg="#03001C"
-          >
-            <Heading size="md">{group.name}</Heading>
+          <Box p={4} width="100%" color="#FFFFC7" textAlign="center" bg="#03001C" boxShadow={neonBoxShadowPurple}>
+          <Heading mb={4} textAlign="center" color="#FFFFC7">
+            {group.name}
+          </Heading>
             {isEditingDescription ? (
               <Textarea
                 value={newDescription}
@@ -112,15 +108,14 @@ const GroupDetails = () => {
               {isEditingDescription ? "Save Description" : "Edit Description"}
             </Button>
           </Box>
-          <Text color="#5B8FB9">Members:</Text>
           <Box
-            borderWidth="1px"
             p={4}
             borderRadius="md"
-            width="300px"
             color={"white"}
             bg="#03001C"
+            boxShadow={neonBoxShadowPurple}
           >
+            <Text color="#FFFFC7">Members:</Text>
             <VStack>
               {members.map((member, index) => (
                 <Box key={index} display="flex" alignItems="center">

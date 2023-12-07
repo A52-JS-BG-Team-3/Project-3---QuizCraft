@@ -14,14 +14,7 @@ import AppContext from "../../context/context";
 import { UserPanel } from "./UserPanel/UserPanel";
 import logo from "../../assets/logo.png";
 import { NavLink } from "react-router-dom";
-
-const neonBoxShadow = `
-  0 0 10px rgba(0, 255, 255, 0.8),
-  0 0 20px rgba(0, 255, 255, 0.8),
-  0 0 30px rgba(0, 255, 255, 0.8),
-  0 0 40px rgba(0, 255, 255, 0.8),
-  0 0 70px rgba(0, 255, 255, 0.8)
-`;
+import { neonBoxShadowTurquoise } from "../BoxShadowsConts/boxshadows";
 
 export default function WithSubnavigation() {
   const { isOpen, onToggle } = useDisclosure();
@@ -31,7 +24,7 @@ export default function WithSubnavigation() {
     <Box className="nav">
       <Flex
        bg="#03001C"
-        boxShadow={neonBoxShadow}
+        boxShadow={neonBoxShadowTurquoise}
         color={useColorModeValue("gray.600", "white")}
         py={{ base: 1 }}
         px={{ base: 4, md: 4 }}

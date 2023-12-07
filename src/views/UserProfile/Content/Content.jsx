@@ -14,14 +14,7 @@ import { db } from "../../../config/firebase-config";
 import { Link } from "react-router-dom";
 import Sidebar from "../Sidebar/Sidebar";
 import NeonButton from "../../../components/NeonButton/NeonButton";
-
-const neonBoxShadow = `
-0 0 10px rgba(128, 0, 333, 0.8),
-0 0 20px rgba(128, 0, 333, 0.8),
-0 0 30px rgba(128, 0, 333, 0.8),
-0 0 40px rgba(128, 0, 333, 0.8),
-0 0 70px rgba(128, 0, 333, 0.8)
-`;
+import { neonBoxShadowPurple } from "../../../components/BoxShadowsConts/boxshadows";
 
 const Content = () => {
   const { user } = useContext(AppContext);
@@ -54,7 +47,7 @@ const Content = () => {
         justifyContent="space-between"
         bg={"#03001C"}
         width="70%"
-        boxShadow={neonBoxShadow}
+        boxShadow={neonBoxShadowPurple}
         margin={"auto"}
       >
         <Tabs>

@@ -16,14 +16,7 @@ import { createUserHandle, getUserByHandle } from "../../services/user.service";
 import { registerUser } from "../../services/auth.service";
 import { useNavigate } from "react-router-dom";
 import NeonButton from "../../components/NeonButton/NeonButton";
-
-const neonBoxShadow = `
-0 0 10px rgba(128, 0, 333, 0.8),
-0 0 20px rgba(128, 0, 333, 0.8),
-0 0 30px rgba(128, 0, 333, 0.8),
-0 0 40px rgba(128, 0, 333, 0.8),
-0 0 70px rgba(128, 0, 333, 0.8)
-`;
+import { neonBoxShadowPurple } from "../../components/BoxShadowsConts/boxshadows";
 
 export default function Register() {
   const [selectedRole, setSelectedRole] = useState("student");
@@ -137,7 +130,7 @@ export default function Register() {
         <Box
           height="100% !important"
           bg="#03001C"
-          boxShadow={neonBoxShadow}
+          boxShadow={neonBoxShadowPurple}
           p={{ base: 6, md: 12 }}
         >
           <Image src="src/assets/logo.png" alt="logo" height="60px" mx="auto" />

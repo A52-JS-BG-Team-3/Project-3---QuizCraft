@@ -1,13 +1,6 @@
-import { Flex, VStack, ListItem, Box, Image, List, Text } from "@chakra-ui/react";
+import { ListItem, Box, Image, List, Text } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
-
-const neonBoxShadow = `
-  0 0 10px rgba(128, 0, 333, 0.8),
-  0 0 20px rgba(128, 0, 333, 0.8),
-  0 0 30px rgba(128, 0, 333, 0.8),
-  0 0 40px rgba(128, 0, 333, 0.8),
-  0 0 70px rgba(128, 0, 333, 0.8)
-`;
+import { neonBoxShadowPurple } from "../BoxShadowsConts/boxshadows";
 
 const apiKey = import.meta.env.VITE_API_KEY;
 
@@ -34,7 +27,7 @@ const DidYouKnow = () => {
       bg="#03001C"
       p={4}
       mb={4}
-      boxShadow={neonBoxShadow}
+      boxShadow={neonBoxShadowPurple}
       textColor="#5B8FB9"
       maxW="100%"
       w="100%"

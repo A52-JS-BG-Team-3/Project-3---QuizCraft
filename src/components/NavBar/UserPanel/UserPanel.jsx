@@ -18,6 +18,15 @@ import { db } from "../../../config/firebase-config";
 import { fetchUserName } from "../../../services/user.service";
 import { ref, get } from "@firebase/database";
 
+//custom box shadow for this component
+const neonBoxShadow = `
+  0 0 1px rgba(200, 0, 0, 0.8),
+  0 0 5px rgba(200, 0, 0, 0.8),
+  0 0 10px rgba(200, 0, 0, 0.8),
+  0 0 20px rgba(200, 0, 0, 0.8),
+  0 0 40px rgba(200, 0, 0, 0.8)
+`;
+
 export const UserPanel = () => {
   const navigate = useNavigate();
   const { user, userData } = useContext(AppContext);
@@ -106,19 +115,23 @@ export const UserPanel = () => {
           variant={"link"}
           cursor={"pointer"}
           minW={0}
-          paddingRight={"1"}
+          paddingRight={"5"}
         >
           <Flex pr={""}>
             <Avatar size={"sm"} src={userProfile || null} pr={""} />
           </Flex>
+          <Flex>
+          </Flex>
         </MenuButton>
         <Box
           border={"solid"}
-          borderColor={"#5B8FB9"}
+          borderColor={"#C41E3A"}
+          boxShadow={neonBoxShadow}
+          borderRadius="5px"
           bg={"#B6EADA"}
           pr={"2"}
           pl={""}
-        >
+          >
           <Text ml={2} fontWeight="bold">
             {userName}
           </Text>

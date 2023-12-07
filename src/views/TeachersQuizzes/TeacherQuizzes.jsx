@@ -1,18 +1,16 @@
 import { useState, useEffect } from "react";
 import {
   Box,
-  Button,
-  Text,
   VStack,
-  Accordion,
-  AccordionItem,
-  AccordionButton,
-  AccordionPanel,
+  Text,
+  HStack,
 } from "@chakra-ui/react";
 import { ref, get, remove } from "firebase/database";
 import { db } from "../../config/firebase-config";
 import { useNavigate, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
+import { neonBoxShadowPurple } from "../../components/BoxShadowsConts/boxshadows";
+import NeonButton from "../../components/NeonButton/NeonButton";
 
 const TeacherQuizzes = () => {
   const [quizzes, setQuizzes] = useState([]);
@@ -55,55 +53,49 @@ const TeacherQuizzes = () => {
     try {
       const quizRef = ref(db, `quizzes/${quizId}`);
       await remove(quizRef);
-      setQuizzes((prevQuizzes) => prevQuizzes.filter((quiz) => quiz.id !== quizId));
+      setQuizzes((prevQuizzes) =>
+        prevQuizzes.filter((quiz) => quiz.id !== quizId)
+      );
     } catch (error) {
       console.error("Error deleting quiz:", error);
     }
   };
 
   return (
-    <Box pt={{ base: "5px", md: "10px" }} px={{ base: "5", md: "10" }}>
-      <VStack spacing={8} align={"center"}>
-        <Text color="white" fontSize="xl" fontWeight="bold" mb={4}>
-          {`${userName}'s Quizzes`}
-        </Text>
-        {quizzes.length > 0 ? (
-          <Accordion allowMultiple>
-            {quizzes.map((quiz) => (
-              <AccordionItem key={quiz.id} my={2}>
-                <AccordionButton>
-                  <Box flex="1" textAlign="left" color="white">
-                    {quiz.title}
-                  </Box>
-                </AccordionButton>
-                <AccordionPanel pb={4} color={"white"}>
-                  <Text>{quiz.description}</Text>
-                  <Text>Created by: {quiz.createdBy}</Text>
-                  <Text>Category: {quiz.category}</Text>
-                  <Text>Time limit: {quiz.timeLimit}</Text>
-                  <Text>Number of questions: {quiz.questions.length}</Text>
-                  <Button
-                    colorScheme="blue"
-                    onClick={() => handleEditQuiz(quiz.id)}
-                    mr={2}
-                  >
-                    Edit Quiz
-                  </Button>
-                  <Button
-                    colorScheme="red"
-                    onClick={() => handleDeleteQuiz(quiz.id)}
-                  >
-                    Delete Quiz
-                  </Button>
-                </AccordionPanel>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        ) : (
-          <Text color="white">No quizzes to display.</Text>
-        )}
-      </VStack>
-    </Box>
+    <VStack spacing={8} align="center" px={{ base: "5", md: "10" }}>
+      <Text color="#FFFFC7" fontSize="xl" fontWeight="bold" mb={4}>
+        {`${userName}'s Quizzes`}
+      </Text>
+      {quizzes.length > 0 ? (
+        <HStack spacing={4} align="stretch" >
+          {quizzes.map((quiz) => (
+            <Box
+              key={quiz.id}
+              p={4}
+              bg="#03001C"
+              borderRadius="md"
+              boxShadow={neonBoxShadowPurple}
+              textColor="#5B8FB9"
+            >
+              <Text fontWeight="bold" mb={2}>
+                {quiz.title}
+              </Text>
+              <Text>{quiz.description}</Text>
+              <Text>Created by: {quiz.createdBy}</Text>
+              <Text>Category: {quiz.category}</Text>
+              <Text>Time limit: {quiz.timeLimit}</Text>
+              <Text>Number of questions: {quiz.questions.length}</Text>
+              <Box mt={4} display="flex" justifyContent="space-between">
+                <NeonButton text="Edit Quiz" onClick={() => handleEditQuiz(quiz.id)} />
+                <NeonButton text="Delete Quiz" onClick={() => handleDeleteQuiz(quiz.id)} />
+              </Box>
+            </Box>
+          ))}
+        </HStack>
+      ) : (
+        <Text color="white">No quizzes to display.</Text>
+      )}
+    </VStack>
   );
 };
 

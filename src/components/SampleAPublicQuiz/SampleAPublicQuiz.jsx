@@ -2,14 +2,7 @@ import { useState, useEffect } from "react";
 import { Box, Heading, Text, SimpleGrid } from "@chakra-ui/react";
 import { db } from "../../config/firebase-config";
 import { get, ref } from "firebase/database";
-
-const neonBoxShadow = `
-  0 0 10px rgba(0, 255, 255, 0.8),
-  0 0 20px rgba(0, 255, 255, 0.8),
-  0 0 30px rgba(0, 255, 255, 0.8),
-  0 0 40px rgba(0, 255, 255, 0.8),
-  0 0 70px rgba(0, 255, 255, 0.8)
-`;
+import { neonBoxShadowTurquoise } from "../BoxShadowsConts/boxshadows";
 
 const SampleAPublicQuiz = () => {
   const [quizzes, setQuizzes] = useState([]);
@@ -44,7 +37,7 @@ const SampleAPublicQuiz = () => {
       bg="#03001C"
       p={4}
       mb={4}
-      boxShadow={neonBoxShadow}
+      boxShadow={neonBoxShadowTurquoise}
       textColor="#5B8FB9"
       maxW="80%"
       mx="auto"
