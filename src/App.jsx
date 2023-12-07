@@ -6,11 +6,12 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
+import { Flex } from "@chakra-ui/react";
 import { auth, db } from "./config/firebase-config";
 import { onAuthStateChanged } from "firebase/auth";
 import { ref, get } from "firebase/database";
 import { fetchUserName } from "./services/user.service";
-import { useContext } from "react";
+// import { useContext } from "react";
 import AppContext from "./context/context";
 import WithSubnavigation from "./components/NavBar/NavBar";
 import Home from "./views/Home/Home";
@@ -40,7 +41,7 @@ function App() {
     isLoading: true,
     role: null,
   });
-  const { user, userData } = useContext(AppContext);
+  // const { user, userData } = useContext(AppContext);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -100,14 +101,11 @@ function App() {
   return (
     <AppContext.Provider value={{ ...appState, setUser: setAppState }}>
       <Router>
-        <div
+        <Flex
           className="App"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100vh",
-          }}
+          justifyContent="center"
+          alignItems="center"
+          height="100vh"
         >
           {appState.isLoading ? (
             <Spinner
@@ -162,7 +160,7 @@ function App() {
               </Routes>
             </>
           )}
-        </div>
+        </Flex>
       </Router>
     </AppContext.Provider>
   );

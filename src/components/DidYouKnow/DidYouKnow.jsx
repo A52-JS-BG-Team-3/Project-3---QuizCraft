@@ -37,14 +37,14 @@ const DidYouKnow = () => {
       boxShadow={neonBoxShadow}
       textColor="#5B8FB9"
       maxW="100%"
-      
+      w="100%"
     >
-      <Image src="src/assets/did_you.png" alt="logo" height="100px" />
-      <Flex direction={{ base: "column", md: "row" }} align={{ base: "start", md: "center" }}>
-        <VStack align="start" >
-          <List spacing={2}>
+      <Image src="src/assets/did_you.png" alt="logo" height="100px" mx="auto"/>
+      
+        
+          <List spacing={2} textAlign="center">
             {facts.map((fact, index) => (
-              <ListItem key={index}>
+              <ListItem key={index} textAlign="center">
                 <Text as="span" display="inline-block" marginRight="2">
                   •
                 </Text>
@@ -52,8 +52,8 @@ const DidYouKnow = () => {
               </ListItem>
             ))}
           </List>
-        </VStack>
-      </Flex>
+        
+      
     </Box>
   );
 };

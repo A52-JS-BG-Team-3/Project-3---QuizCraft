@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ref, get, query, orderByChild } from "firebase/database";
-import { Box, Text } from "@chakra-ui/react";
+import { Box, List, Text } from "@chakra-ui/react";
 import { db } from "../../config/firebase-config";
 
 const neonBoxShadow = `
@@ -71,23 +71,22 @@ const GlobalScoreboard = () => {
       mb={4}
       boxShadow={neonBoxShadow}
       width="100%"
-      maxWidth={{ base: "100%", md: "xl" }}
       mx="auto"
     >
-      <Text color="white" fontSize="xl" fontWeight="bold" mb="4">
+      <Text color="#FFFFC7" fontSize="xl" fontWeight="bold" mb="4" textAlign="center">
         Global Scoreboard
       </Text>
       {scoreboard.length > 0 ? (
-        <ul>
+        <List textAlign="center">
           {scoreboard.map((user, index) => (
             <li key={user.userId}>
-              <Text color="white">
+              <Text color="#5B8FB9">
                 <strong>Rank {index + 1}:</strong> Student {user.userId} - Total
                 Points: {user.totalPoints.toFixed(2)}
               </Text>
             </li>
           ))}
-        </ul>
+        </List>
       ) : (
         <Text color="white">No data to display.</Text>
       )}
