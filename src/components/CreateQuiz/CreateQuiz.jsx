@@ -153,7 +153,7 @@ const CreateQuiz = () => {
       borderRadius="1rem"
       bg="#03001C"
       color="white"
-      width="40%"
+      width="100%"
     >
       <Heading
         as="h2"
