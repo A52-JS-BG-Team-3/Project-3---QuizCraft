@@ -1,18 +1,11 @@
 import { useEffect, useState, useContext } from "react";
 import { ref, get, query, orderByChild, limitToLast } from "firebase/database";
 import { db } from "../../config/firebase-config";
-import { Box, Flex, VStack, Heading, Text, Button } from "@chakra-ui/react";
+import { Box, Flex, HStack, Heading, Text, Button } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import AppContext from "../../context/context"; // Assuming your user context
 import { neonBoxShadowTurquoise } from "../BoxShadowsConts/boxshadows";
-
-const quizCardStyles = {
-  border: "solid #301E67",
-  borderRadius: "8px",
-  p: 4,
-  mb: 4,
-  w: "100%",
-};
+import NeonButton from "../NeonButton/NeonButton";
 
 export default function LengthiestQuizzes() {
   const [quizzes, setQuizzes] = useState([]);
@@ -28,9 +21,10 @@ export default function LengthiestQuizzes() {
 
     get(latestQuizzesQuery).then((snapshot) => {
       const quizzesData = snapshot.val();
-      const sortedQuizzes = Object.values(quizzesData).sort(
-        (a, b) => parseInt(b.timeLimit) - parseInt(a.timeLimit)
-      );
+      const sortedQuizzes = Object.values(quizzesData)
+        .filter((quiz) => quiz.type === "closed")
+        .sort((a, b) => parseInt(b.timeLimit) - parseInt(a.timeLimit))
+        .slice(0, 3); 
 
       setQuizzes(sortedQuizzes);
     });
@@ -38,40 +32,50 @@ export default function LengthiestQuizzes() {
 
   return (
     <Box
-    bg="#03001C"
-    p={4}
-    mb={4}
-    boxShadow={neonBoxShadowTurquoise}
-    width="100%"
-    maxWidth={{ base: "100%", md: "xl" }}
-    mx="auto"
-  >
-      <Heading color="#FFFFC7" mb={4} fontSize={{ base: "xl", md: "2xl" }}>
+      bg="#03001C"
+      p={4}
+      mb={4}
+      boxShadow={neonBoxShadowTurquoise}
+      textColor="#5B8FB9"
+      maxW="80%"
+      mx="auto"
+    >
+      <Heading color="#FFFFC7" mb={4} fontSize={{ base: "xl", md: "2xl" }} textAlign="center">
         Our Lengthiest Quizzes
       </Heading>
       <Flex justifyContent="center">
-        <VStack align="start" textColor="#5B8FB9" w="100%">
+        <HStack align="start" textColor="#5B8FB9" w="100%">
           {quizzes &&
             quizzes.map((quiz, index) => (
-              <Box key={quiz.id} {...quizCardStyles}>
-                {user ? (
-                  <Link to={`quizzesoverview`}>
-                    <Text fontSize="xl" fontWeight="bold" mb={2}>
-                      {`${index + 1}. ${quiz.title}`}
-                    </Text>
-                    <Text>{`Time Limit: ${quiz.timeLimit} minutes`}</Text>
-                  </Link>
+              <Box
+                key={quiz.id}
+                p={4}
+                bg="#1A1A1D"
+                borderRadius="md"
+                textAlign="center"
+                border="solid"
+                borderColor="#301E67"
+              >
+                <Text fontSize="sm" fontWeight="bold" color="#5B8FB9">
+                  {quiz.title}
+                </Text>
+                <Text fontSize="xs" color="#5B8FB9">
+                  {quiz.category}
+                </Text>
+                <Text fontSize="xs" color="#5B8FB9">
+                  {quiz.createdBy}
+                </Text>
+                <Text fontSize="xs" color="#5B8FB9">
+                  {quiz.timeLimit} minutes
+                </Text>
+                {user && quiz.status !== "closed" ? (
+                  <NeonButton text="Join" href={`/quiz/${quiz.id}`} />
                 ) : (
-                  <>
-                    <Text fontSize="xl" fontWeight="bold" mb={2}>
-                      {`${index + 1}. ${quiz.title}`}
-                    </Text>
-                    <Text>{`Time Limit: ${quiz.timeLimit} minutes`}</Text>
-                  </>
+                  <Text textColor="#5B8FB9">This quiz has finished.</Text>
                 )}
               </Box>
             ))}
-        </VStack>
+        </HStack>
       </Flex>
       {!user && (
         <Text mt={4} textAlign="center">

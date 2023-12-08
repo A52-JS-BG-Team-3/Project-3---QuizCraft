@@ -9,7 +9,7 @@ import GlobalScoreboard from "./GlobalScoreboard";
 
 export default function Home() {
   return (
-    <VStack  spacing={4} align="center" className="image-container" >
+    <VStack  spacing={4} align="center" className="image-container" pt="10%">
     
       <Flex alignItems="center" justify="space-around" width="100%" >
         <LengthiestQuizzes />
