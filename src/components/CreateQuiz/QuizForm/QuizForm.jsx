@@ -22,12 +22,14 @@ const QuizForm = ({ onAddQuestion }) => {
   };
 
   const handleAddQuestion = () => {
-    if (!questionText.trim() || 
-        !selectedOption || 
-        !options.A.trim() || 
-        !options.B.trim() || 
-        !options.C.trim() || 
-        !options.D.trim()) {
+    if (
+      !questionText.trim() ||
+      !selectedOption ||
+      !options.A.trim() ||
+      !options.B.trim() ||
+      !options.C.trim() ||
+      !options.D.trim()
+    ) {
       alert("Please fill in all fields");
       return;
     }
@@ -40,16 +42,40 @@ const QuizForm = ({ onAddQuestion }) => {
       optionC: options.C,
       optionD: options.D,
     };
-  
+
     onAddQuestion(newQuestion);
     setQuestionText("");
     setSelectedOption("");
     setOptions({ A: "", B: "", C: "", D: "" });
   };
-  
+
+  const nextButtonStyle = {
+    backgroundColor: "#FFFF66",
+    color: "black",
+    fontWeight: "bold",
+    boxShadow: "0 0 5px #FFFF66, 0 0 10px #FFFF66",
+    _hover: {
+      opacity: 1,
+      boxShadow: "0 0 10px #FFFF66, 0 0 20px #FFFF66, 0 0 30px #FFFF66",
+    },
+    _active: {
+      transform: "scale(0.98)",
+    },
+    _focus: {
+      outline: "none",
+    },
+    mt: 4,
+  };
 
   return (
-    <Box>
+    <Box
+      w="100%"
+      p={4}
+      borderWidth="1px"
+      borderRadius="lg"
+      boxShadow="lg"
+      bg="purple.900"
+    >
       <VStack spacing={3}>
         <FormControl isRequired>
           <FormLabel color={"white"}>Question</FormLabel>
@@ -72,7 +98,9 @@ const QuizForm = ({ onAddQuestion }) => {
           </FormControl>
         ))}
         <FormControl as="fieldset" isRequired>
-          <FormLabel as="legend" color={"white"}>Correct Answer</FormLabel>
+          <FormLabel as="legend" color={"white"}>
+            Correct Answer
+          </FormLabel>
           <RadioGroup onChange={setSelectedOption} value={selectedOption}>
             <HStack spacing="24px">
               {["A", "B", "C", "D"].map((option) => (
@@ -83,7 +111,11 @@ const QuizForm = ({ onAddQuestion }) => {
             </HStack>
           </RadioGroup>
         </FormControl>
-        <Button onClick={handleAddQuestion} colorScheme="blue">
+        <Button
+          {...nextButtonStyle}
+          onClick={handleAddQuestion}
+          colorScheme="blue"
+        >
           Add Question
         </Button>
       </VStack>

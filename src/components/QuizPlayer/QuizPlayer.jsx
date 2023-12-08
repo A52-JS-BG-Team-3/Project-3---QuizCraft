@@ -285,7 +285,7 @@ const QuizPlayer = () => {
             px={{ base: 5, md: 8 }}
             width="full"
             borderRadius={15}
-            transform="translateY(10px)" // Измества бокса нагоре с 20px
+            transform="translateY(10px)" 
           >
             <Text fontSize="2xl" color="white" mb={4} textAlign="center">
               {currentQuestion.questionText}
