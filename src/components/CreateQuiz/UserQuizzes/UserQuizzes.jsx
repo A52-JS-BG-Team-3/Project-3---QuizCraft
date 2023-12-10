@@ -5,6 +5,8 @@ import { auth } from '../../../config/firebase-config';
 import { useNavigate } from 'react-router-dom';
 import { VStack, Heading, Accordion, AccordionItem, AccordionButton, AccordionPanel, Box, Button, Text } from '@chakra-ui/react';
 import { useColorModeValue } from '@chakra-ui/color-mode';
+import NeonButton from '../../NeonButton/NeonButton';
+import { neonBoxShadowPurple } from '../../BoxShadowsConts/boxshadows';
 
 const UserQuizzes = () => {
   const [quizzes, setQuizzes] = useState([]);
@@ -12,8 +14,8 @@ const UserQuizzes = () => {
   const currentUser = auth.currentUser;
   const navigate = useNavigate();
 
-  const headingColor = useColorModeValue('gray.700', 'white');
-  const bgColor = useColorModeValue('gray.50', 'gray.700');
+  const headingColor = useColorModeValue("#FFFFC7");
+  const bgColor = useColorModeValue('#03001C');
 
   useEffect(() => {
     const fetchQuizzes = async () => {
@@ -55,27 +57,28 @@ const UserQuizzes = () => {
 
 
   return (
-    <VStack spacing={8} align="stretch" pt="100px">
-      <Box bg={bgColor} p={10} borderRadius="lg" boxShadow="xl" maxW="800px" mx="auto" w="full">
+    <VStack spacing={8} align="stretch">
+      <Box bg={bgColor} p={10} borderRadius="lg" boxShadow={neonBoxShadowPurple} maxW="800px" mx="auto" w="full" >
         <Heading color={headingColor} mb={4}>Your Quizzes</Heading>
-        <Accordion allowMultiple>
+        <Accordion allowMultiple textColor="#5B8FB9">
           {quizzes.map((quiz) => (
             <AccordionItem key={quiz.id} bg={bgColor} my={2}>
               <AccordionButton _expanded={{ bg: bgColor, color: headingColor }}>
                 <Box flex="1" textAlign="left">{quiz.title}</Box>
               </AccordionButton>
               <AccordionPanel pb={4}>
-                <Text>{quiz.description}</Text>
-                <Text>Created by: {quiz.createdBy}</Text>
-                <Text>Updated at: {quiz.updatedAt}</Text>
-                <Text>Questions: {quiz.questions.length}</Text>
-                <Text>Times played: {quiz.timesPlayed}</Text>
-                <Text>Times completed: {quiz.timesCompleted}</Text>
-                <Text>Times failed: {quiz.timesFailed}</Text>
-                <Text>Times passed: {quiz.timesPassed}</Text>
-                <Text>Average score: {quiz.averageScore}</Text>
-                <Text>Best score: {quiz.bestScore}</Text>
-                <Button colorScheme="blue" onClick={() => handleEditQuiz(quiz.id)}>Edit Quiz</Button>
+                <Text textColor="#5B8FB9">{quiz.description}</Text>
+                <Text textColor="#5B8FB9">Created by: {quiz.createdBy}</Text>
+                <Text textColor="#5B8FB9">Updated at: {quiz.updatedAt}</Text>
+                <Text textColor="#5B8FB9">Questions: {quiz.questions.length}</Text>
+                {/* <Text textColor="#5B8FB9">Times played: {quiz.timesPlayed}</Text>
+                <Text textColor="#5B8FB9">Times completed: {quiz.timesCompleted}</Text>
+                <Text textColor="#5B8FB9">Times failed: {quiz.timesFailed}</Text>
+                <Text textColor="#5B8FB9">Times passed: {quiz.timesPassed}</Text>
+                <Text textColor="#5B8FB9">Average score: {quiz.averageScore}</Text>
+                <Text textColor="#5B8FB9">Best score: {quiz.bestScore}</Text> */}
+                {/* <Button colorScheme="blue" onClick={() => handleEditQuiz(quiz.id)}>Edit Quiz</Button> */}
+                <NeonButton text="Edit Quiz" onClick={() => handleEditQuiz(quiz.id)} />
               </AccordionPanel>
             </AccordionItem>
           ))}

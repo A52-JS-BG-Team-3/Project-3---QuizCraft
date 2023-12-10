@@ -1,4 +1,4 @@
-import { Box, Text, HStack, useToast, Button } from "@chakra-ui/react";
+import { Box, Text, HStack, useToast, Button, Heading, Image } from "@chakra-ui/react";
 import { ref, get, update, remove } from "firebase/database";
 import { db } from "../../config/firebase-config";
 import { useEffect, useState } from "react";
@@ -44,7 +44,8 @@ const StudentsProfile = () => {
           ...feedbackData[key],
         }));
 
-        setFeedback(feedbackList);
+        setFeedback(feedback);
+        console.log(feedbackList)
       }
     } catch (error) {
       console.error("Error fetching feedback:", error);
@@ -90,13 +91,32 @@ const StudentsProfile = () => {
   }, []);
 
   return (
-    <HStack spacing={4} border="solid" bg="#03001C" pt="5%" pb="5%" pl="5%" pr="5%" boxShadow={neonBoxShadowPurple}>
+    <HStack spacing={{ base: 4, md: 8 }} border="solid" bg="#03001C" pt="5%" pb="5%" pl="5%" pr="5%" boxShadow={neonBoxShadowPurple}>
+      <Image src="src\assets\did_you_know.png" h="200px" />
       <Box p={4} boxShadow={neonBoxShadowTurquoise}>
-        <Text color="green">Quiz History</Text>
+       <Heading
+          as="h1"
+          size="xl"
+          mb={6}
+          textAlign="center"
+          className="glowing-heading"
+          style={{ fontFamily: "'Lobster', cursive" }}
+        >
+          Quiz History 
+        </Heading>
         <QuizHistory />
       </Box>
       <Box p={4} boxShadow={neonBoxShadowTurquoise}>
-        <Text color="green">Invitations</Text>
+      <Heading
+          as="h1"
+          size="xl"
+          mb={6}
+          textAlign="center"
+          className="glowing-heading"
+          style={{ fontFamily: "'Lobster', cursive" }}
+        >
+         Invitations
+        </Heading>
         {invitations.map((invitation) => (
           <Box key={invitation.key} p={2} mb={2} border="1px" borderRadius="md">
             <Text color="white">
@@ -115,7 +135,16 @@ const StudentsProfile = () => {
         ))}
       </Box>
       <Box p={4} boxShadow={neonBoxShadowTurquoise}>
-        <Text color="green">Feedback</Text>
+      <Heading
+          as="h1"
+          size="xl"
+          mb={6}
+          textAlign="center"
+          className="glowing-heading"
+          style={{ fontFamily: "'Lobster', cursive" }}
+        >
+         Feedback
+        </Heading>
         {feedback.map((feedbackItem) => (
           <Box key={feedbackItem.key} p={2} mb={2} border="1px" borderRadius="md">
             <Text color="white">
@@ -130,6 +159,7 @@ const StudentsProfile = () => {
           </Box>
         ))}
       </Box>
+      <Image src="src\assets\quiz_time.png" h="290px" />
     </HStack>
   );
 };

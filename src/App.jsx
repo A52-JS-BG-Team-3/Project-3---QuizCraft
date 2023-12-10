@@ -106,6 +106,7 @@ function App() {
           justifyContent="center"
           alignItems="center"
           height="100vh"
+          mt="5%"
         >
           {appState.isLoading ? (
             <Spinner

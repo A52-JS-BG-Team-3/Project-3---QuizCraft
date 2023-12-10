@@ -1,11 +1,28 @@
 /* eslint-disable no-unused-vars */
 import { useContext, useEffect, useRef, useState } from "react";
 import AppContext from "../../context/context";
-import { Input, Button, Stack, Box, Text, Flex, useToast} from "@chakra-ui/react";
+import {
+  Input,
+  Button,
+  Stack,
+  Box,
+  Text,
+  Flex,
+  useToast,
+  Table,
+  Thead,
+  Tr,
+  Th,
+  Td,
+  Tbody,
+  Heading,
+} from "@chakra-ui/react";
 import { get, onValue, ref, set, off, remove } from "firebase/database";
 import { db } from "../../config/firebase-config";
 import { fetchUserName } from "../../services/user.service";
-import { Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { neonBoxShadowPurple } from "../../components/BoxShadowsConts/boxshadows";
+import NeonButton from "../../components/NeonButton/NeonButton";
 
 export default function AdminPanel() {
   const linkRef = useRef();
@@ -14,7 +31,6 @@ export default function AdminPanel() {
   const [allQuizzes, setAllQuizzes] = useState([]);
   const [filteredQuizzes, setFilteredQuizzes] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-
 
   const [searchResults, setSearchResults] = useState([]);
   const [adminUser, setAdminUser] = useState(null);
@@ -111,12 +127,12 @@ export default function AdminPanel() {
         console.error("No users found in the database.");
       }
     } catch (error) {
-        toast({
-            title: "Error updating user status",
-            status: "error",
-            duration: 3000,
-            isClosable: true,
-          });
+      toast({
+        title: "Error updating user status",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
       console.error("Error updating user status:", error);
     }
   };
@@ -153,7 +169,9 @@ export default function AdminPanel() {
     try {
       const quizRef = ref(db, `quizzes/${quizId}`);
       await remove(quizRef);
-      setFilteredQuizzes((prevQuizzes) => prevQuizzes.filter((quiz) => quiz.id !== quizId));
+      setFilteredQuizzes((prevQuizzes) =>
+        prevQuizzes.filter((quiz) => quiz.id !== quizId)
+      );
       toast({
         title: "Quiz deleted successfully",
         status: "success",
@@ -177,159 +195,130 @@ export default function AdminPanel() {
   };
 
   return (
-    <Flex justify="space-between" align="center" width="100%" height="100vh">
-      <Box
-        w="30%"
-        ml={"2%"}
-        mr={"2%"}
-        align="center"
-        rounded="lg"
-        boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.5)"
-        bg="rgba(255, 255, 255, 0.3)"
-        p={8}
-        backdropFilter="blur(5px)"
+    <Flex
+      justify="space-between"
+      align="center"
+      width="90%"
+      mx="auto"
+      mt={10}
+      p={5}
+      borderRadius="lg"
+      boxShadow={neonBoxShadowPurple}
+      bg="#03001C"
+    >
+      <Heading
+        as="h1"
+        size="xl"
+        mb={6}
+        textAlign="center"
+        className="glowing-heading"
+        style={{ fontFamily: "'Lobster', cursive" }}
       >
+        Welcome Senpai
+      </Heading>
+      <Box w="100%" align="center" bg="" p={8}>
         <Stack spacing={4}>
           <Input
             placeholder="Search Quiz by title..."
-            bg="#FFD580"
-            mr={4}
+            bg="#B6EADA"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
-          <Button
-            display={{ base: "none", md: "inline-flex" }}
-            fontSize="sm"
-            fontWeight={600}
-            color="#332C30"
-            bg="#DE6F3A"
-            textDecoration="none"
-            onClick={handleSearchQuiz}
-            cursor="pointer"
-            _hover={{
-              bg: "#efa00b",
-              color: "#332C30",
-            }}
-          >
-            Search Quiz
-          </Button>
+
+          <NeonButton onClick={handleSearchQuiz} text="Search Quiz" />
           {filteredQuizzes.length > 0 && (
             <Box mt={4}>
-              <Text fontSize="lg" fontWeight="bold">
+              <Text fontSize="lg" fontWeight="bold" color="#FFFFC7">
                 Search Results:
               </Text>
-              <Stack>
-                {filteredQuizzes.map((quiz) => (
-                  <Box key={quiz.id}>
-                    <Text>Title: {quiz.title}</Text>
-                    <Text>Author: {quiz.createdBy}</Text>
-                    <Text>Category: {quiz.category}</Text>
-                    <Text>Type: {quiz.type}</Text>
-                    <Text>Time limit: {quiz.timeLimit} minutes</Text>
-                    <Button
-                      bg={"#DE6F3A"}
-                      _hover={{
-                        bg: "#efa00b",
-                      }}
-                      onClick={() => {
-                        console.log("Go to Quizz clicked for quiz", quiz);
-                        linkRef.current.click();
-                      }}
-                    >
-                      Go to Quiz
-                      <Link
-                        to={`/quiz/${quiz.id}`}
-                        ref={linkRef}
-                        style={{ display: "none" }}
-                      />
-                    </Button>
-                    <Button
-                    colorScheme="red"
-                    onClick={() => handleDeleteQuiz(quiz.id)}
-                  >
-                    Delete Quiz
-                  </Button>
-                  <Button
-                    colorScheme="blue"
-                    onClick={() => handleEditQuiz(quiz.id)}
-                    mr={2}
-                  >
-                    Edit Quiz
-                  </Button>
-                  </Box>
-                ))}
-              </Stack>
+              <Table variant="striped" colorScheme="black" size="sm">
+                <Thead>
+                  <Tr>
+                    <Th textColor="#5B8FB9">Title</Th>
+                    <Th textColor="#5B8FB9">Author</Th>
+                    <Th textColor="#5B8FB9">Category</Th>
+                    <Th textColor="#5B8FB9">Type</Th>
+                    <Th textColor="#5B8FB9">Time limit</Th>
+                    <Th textColor="#5B8FB9">Action</Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {filteredQuizzes.map((quiz) => (
+                    <Tr key={quiz.id}>
+                      <Td textColor="#5B8FB9">{quiz.title}</Td>
+                      <Td textColor="#5B8FB9">{quiz.createdBy}</Td>
+                      <Td textColor="#5B8FB9">{quiz.category}</Td>
+                      <Td textColor="#5B8FB9">{quiz.type}</Td>
+                      <Td textColor="#5B8FB9">{quiz.timeLimit} minutes</Td>
+                      <Td textColor="#5B8FB9">
+                        <NeonButton
+                          text="Edit Quiz"
+                          onClick={() => handleEditQuiz(quiz.id)}
+                        />
+                        <NeonButton
+                          text="Delete Quiz"
+                          onClick={() => handleDeleteQuiz(quiz.id)}
+                        />
+                      </Td>
+                    </Tr>
+                  ))}
+                </Tbody>
+              </Table>
             </Box>
           )}
         </Stack>
       </Box>
-      <Box
-        w="30%"
-        ml={"2%"}
-        mr={"2%"}
-        align="center"
-        rounded="lg"
-        boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.5)"
-        bg="rgba(255, 255, 255, 0.3)"
-        p={8}
-        backdropFilter="blur(5px)"
-      >
+      <Box w="100%" align="center" p={8}>
         <Stack spacing={4}>
           <Input
-            focusBorderColor="brand.blue"
+            focusBorderColor="#FFFFC7"
             placeholder="Search by username, email or name ..."
             type="text"
-            bg="#FFD580"
+            bg="#B6EADA"
             onChange={(e) => setQuery(e.target.value)}
           />
-          <Button
-            display={{ base: "none", md: "inline-flex" }}
-            fontSize={"sm"}
-            fontWeight={600}
-            color={"#332C30"}
-            bg={"#DE6F3A"}
-            textDecoration={"none"}
-            cursor={"pointer"}
-            onClick={handleSearch}
-            _hover={{
-              bg: "#efa00b",
-              color: "#332C30",
-            }}
-          >
-            Search for User
-          </Button>
+
+          <NeonButton text="Search for User" onClick={handleSearch} />
 
           {searchResults.length > 0 && (
             <Box mt={4}>
-              <Text fontSize="lg" fontWeight="bold">
+              <Text fontSize="lg" fontWeight="bold" color="#FFFFC7">
                 Search Results:
               </Text>
-              <Stack>
-                {searchResults.map((result) => (
-                  <Box key={result.uid}>
-                    <Text>Username: {result.userName}</Text>
-                    <Text>
-                      Full Name: {result.firstName} {result.lastName}
-                    </Text>
-                    <Text>Email: {result.email}</Text>
-                    <Text>Status: {result.status}</Text>
-                    <Button
-                      bg={"#DE6F3A"}
-                      _hover={{
-                        bg: "#efa00b",
-                      }}
-                      onClick={() =>
-                        updateUserStatus(
-                          result.uid,
-                          result.status === "active" ? "blocked" : "active"
-                        )
-                      }
-                    >
-                      {result.status === "active" ? "Block" : "Unblock"}
-                    </Button>
-                  </Box>
-                ))}
-              </Stack>
+              <Table variant="striped" colorScheme="black" size="sm">
+                <Thead>
+                  <Tr>
+                    <Th textColor="#5B8FB9">Username</Th>
+                    <Th textColor="#5B8FB9">Full Name</Th>
+                    <Th textColor="#5B8FB9">Email</Th>
+                    <Th textColor="#5B8FB9">Status</Th>
+                    <Th textColor="#5B8FB9">Action</Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {searchResults.map((result) => (
+                    <Tr key={result.uid}>
+                      <Td textColor="#5B8FB9">{result.userName}</Td>
+                      <Td textColor="#5B8FB9">{`${result.firstName} ${result.lastName}`}</Td>
+                      <Td textColor="#5B8FB9">{result.email}</Td>
+                      <Td textColor="#5B8FB9">{result.status}</Td>
+                      <Td textColor="#5B8FB9">
+                        <NeonButton
+                          text={
+                            result.status === "active" ? "Block" : "Unblock"
+                          }
+                          onClick={() =>
+                            updateUserStatus(
+                              result.uid,
+                              result.status === "active" ? "blocked" : "active"
+                            )
+                          }
+                        />
+                      </Td>
+                    </Tr>
+                  ))}
+                </Tbody>
+              </Table>
             </Box>
           )}
         </Stack>

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import {
   Box,
-  Button,
+  // Button,
   Text,
   VStack,
   Textarea,
@@ -11,6 +11,9 @@ import {
 import { useParams } from "react-router-dom";
 import { ref, get, set } from "firebase/database";
 import { db } from "../../config/firebase-config";
+import { neonBoxShadowPurple } from "../../components/BoxShadowsConts/boxshadows";
+import NeonButton from "../../components/NeonButton/NeonButton";
+
 
 const StudentResults = () => {
   const toast = useToast();
@@ -105,16 +108,25 @@ const StudentResults = () => {
   };
 
   return (
-    <VStack color="white" align="stretch" spacing={4} p={4}>
-      <Heading>Provide feedback to {userName} </Heading>
+    <VStack
+      color="white"
+      align="stretch"
+      spacing={4}
+      p={{ base: 2, md: 4, lg: 6 }}
+      bg="#03001C"
+      boxShadow={neonBoxShadowPurple}
+    >
+      <Heading color="#FFFFC7" fontSize={{ base: "xl", md: "2xl", lg: "3xl" }}>
+        Provide feedback to {userName}
+      </Heading>
       {attempts.length > 0 ? (
         attempts.map((attempt) => (
-          <Box key={attempt.quizId}>
-            <Text fontSize="xl" fontWeight="bold" mb={2}></Text>
-            <Text>Quiz Title: {attempt.title}</Text>
-            <Text>Student Score: {attempt.score}</Text>
-
-            <Text fontSize="xl" fontWeight="bold" mb={2}>
+          <Box key={attempt.quizId} width="100%">
+            <Text fontSize={{ base: "lg", md: "xl", lg: "2xl" }} fontWeight="bold" mb={2}>
+              Quiz Title: {attempt.title}
+            </Text>
+            <Text fontSize={{ base: "md", md: "lg", lg: "xl" }}>Student Score: {attempt.score.toFixed(2)}</Text>
+            <Text fontSize={{ base: "lg", md: "xl", lg: "2xl" }} fontWeight="bold" mb={2}>
               Provide Feedback:
             </Text>
             <Textarea
@@ -126,18 +138,21 @@ const StudentResults = () => {
                 }))
               }
               placeholder="Enter your feedback here..."
+              _placeholder={{ color: "black" }}
+              textColor="black"
               size="md"
+              bg="#5B8FB9"
             />
-            <Button
+            <NeonButton
               onClick={() => handleProvideFeedback(attempt.quizId)}
-              colorScheme="blue"
-            >
-              Submit Feedback
-            </Button>
+              text="Submit Feedback"
+            />
           </Box>
         ))
       ) : (
-        <Text>No attempts for feedback available.</Text>
+        <Text fontSize={{ base: "md", md: "lg", lg: "xl" }}>
+          No attempts for feedback available.
+        </Text>
       )}
     </VStack>
   );

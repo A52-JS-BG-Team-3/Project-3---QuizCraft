@@ -1,17 +1,16 @@
 import "./Home.css";
-import { VStack, Flex, Image, } from "@chakra-ui/react";
+import { VStack, Flex, Image } from "@chakra-ui/react";
 import quizImage from "../../assets/quiz.png";
 import LengthiestQuizzes from "../../components/LengthiestQuizzes/LengthiestQuizzes";
 import DidYouKnow from "../../components/DidYouKnow/DidYouKnow";
 import SampleAPublicQuiz from "../../components/SampleAPublicQuiz/SampleAPublicQuiz";
 import GlobalScoreboard from "./GlobalScoreboard";
 
-
 export default function Home() {
   return (
-    <VStack  spacing={4} align="center" className="image-container" pt="10%">
-    
-      <Flex alignItems="center" justify="space-around" width="100%" >
+    <VStack spacing={4} align="center" className="image-container">
+
+      <Flex alignItems="center" justify="space-around" width="100%">
         <LengthiestQuizzes />
         <Image src={quizImage} alt="quiz" className="centered-image" />
         <SampleAPublicQuiz />
@@ -24,6 +23,7 @@ export default function Home() {
       <Flex width="100%">
         <GlobalScoreboard />
       </Flex>
+      
     </VStack>
   );
 }

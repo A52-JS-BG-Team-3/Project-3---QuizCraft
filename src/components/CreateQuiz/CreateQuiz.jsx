@@ -178,7 +178,9 @@ const CreateQuiz = () => {
               value={quizTitle}
               onChange={(e) => setQuizTitle(e.target.value)}
               placeholder="Enter quiz title"
-              textColor={3 < quizTitle.length < 30 ? "white" : "red.500"}
+              _placeholder={{ color: "black" }}
+              textColor={3 < quizTitle.length < 30 ? "black" : "red.500"}
+              bg="#5B8FB9"
             />
           </FormControl>
           <FormControl isRequired>
@@ -190,11 +192,11 @@ const CreateQuiz = () => {
               value={quizCategory}
               onChange={(e) => setQuizCategory(e.target.value)}
               placeholder="Select quiz category"
-              color={"white"}
-              bg="transparent"
               borderRadius="md"
               borderColor="gray.200"
               _focus={{ borderColor: "blue.300" }}
+              textColor="black"
+              bg="#5B8FB9"
             >
               {combinedQuizCategories.map((category, index) => (
                 <option key={index} value={category}>
@@ -225,6 +227,8 @@ const CreateQuiz = () => {
               value={quizType}
               onChange={(e) => setQuizType(e.target.value)}
               placeholder="Select quiz type"
+              bg="#5B8FB9"
+              textColor="black"
             >
               <option value="open">Open</option>
               <option value="closed">Closed</option>
@@ -238,6 +242,8 @@ const CreateQuiz = () => {
                 type="datetime-local"
                 value={startTime}
                 onChange={(e) => setStartTime(e.target.value)}
+                textColor="black"
+                bg="#5B8FB9"
               />
             </FormControl>
 
@@ -250,6 +256,8 @@ const CreateQuiz = () => {
                 type="datetime-local"
                 value={endTime}
                 onChange={(e) => setEndTime(e.target.value)}
+                textColor="black"
+                bg="#5B8FB9"
               />
             </FormControl>
           </FormControl>
@@ -262,7 +270,9 @@ const CreateQuiz = () => {
               value={timeLimit}
               onChange={(e) => setTimeLimit(e.target.value)}
               placeholder="Enter time limit"
+              _placeholder={{ color: "black" }}
               textColor={timeLimit.length > 0 ? "white" : "red.500"}
+              bg="#5B8FB9"
             />
           </FormControl>
           <QuizForm onAddQuestion={handleAddQuestion} />

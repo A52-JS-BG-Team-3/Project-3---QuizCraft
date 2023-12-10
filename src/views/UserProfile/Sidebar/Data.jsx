@@ -58,8 +58,7 @@ const Data = () => {
         borderBottomWidth={1}
         borderColor="#5B8FB9"
       >
-        <Text color="#5B8FB9">Quiz score :</Text>
-        <Text color="#5B8FB9" fontWeight="bold"></Text>
+        
       </Box>
       <Box
         as="li"

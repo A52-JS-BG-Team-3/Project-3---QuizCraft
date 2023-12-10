@@ -42,9 +42,6 @@ const QuizHistory = () => {
 
   return (
     <VStack color="white" align="stretch" spacing={4} p={4}>
-      <Text fontSize="xl" fontWeight="bold" mb={2}>
-        Quiz History
-      </Text>
       {quizAttempts.map((attempt, index) => (
         <Box key={index}>
           <Text>Quiz Title: {attempt.title}</Text>

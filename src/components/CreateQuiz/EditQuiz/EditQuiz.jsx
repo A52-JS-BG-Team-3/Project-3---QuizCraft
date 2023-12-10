@@ -16,15 +16,22 @@ import {
   Radio,
   RadioGroup,
   HStack,
-  
+  Table,
+  Thead,
+  Tr,
+  Th,
+  Td,
+  Tbody,
 } from "@chakra-ui/react";
+import { neonBoxShadowPurple } from "../../BoxShadowsConts/boxshadows";
+import NeonButton from "../../NeonButton/NeonButton";
 
 const EditQuiz = () => {
   const [quiz, setQuiz] = useState({ questions: [] });
   const [loading, setLoading] = useState(true);
-  const [quizStatus, setQuizStatus] = useState(quiz.status || 'ongoing');
-  const [startTime, setStartTime] = useState(quiz.startTime || '');
-  const [endTime, setEndTime] = useState(quiz.endTime || '');
+  const [quizStatus, setQuizStatus] = useState(quiz.status || "ongoing");
+  const [startTime, setStartTime] = useState(quiz.startTime || "");
+  const [endTime, setEndTime] = useState(quiz.endTime || "");
 
   const { quizId } = useParams();
   const navigate = useNavigate();
@@ -36,7 +43,7 @@ const EditQuiz = () => {
       if (snapshot.exists()) {
         setQuiz(snapshot.val());
       } else {
-        navigate("/userquizzes"); 
+        navigate("/userquizzes");
       }
       setLoading(false);
     };
@@ -52,11 +59,12 @@ const EditQuiz = () => {
 
   const handleCorrectAnswerChange = (index, selectedOptionLetter) => {
     const updatedQuiz = { ...quiz };
-    const correctAnswerValue = updatedQuiz.questions[index][`option${selectedOptionLetter}`];
+    const correctAnswerValue =
+      updatedQuiz.questions[index][`option${selectedOptionLetter}`];
     updatedQuiz.questions[index].correctAnswer = correctAnswerValue;
     setQuiz(updatedQuiz);
   };
-  
+
   const handleUpdateQuiz = async () => {
     try {
       const quizRef = ref(db, `quizzes/${quizId}`);
@@ -104,153 +112,152 @@ const EditQuiz = () => {
 
   return (
     <Flex align="center" justify="center" pt={{ base: "100px", md: "850px" }}>
-      <Box bg="white" p={5} borderRadius="lg" boxShadow="xl">
-      <Heading as="h1" size="xl" color="blue.600" mb={4}>Edit Quiz</Heading>
+      <Box bg="#03001C" p={5} borderRadius="lg" boxShadow={neonBoxShadowPurple}>
+        <Heading as="h1" size="xl" mb={4} textColor="#FFFFC7">
+          Edit Quiz
+        </Heading>
         <Divider my={4} />
         <FormControl>
-        <Text fontSize="lg" fontWeight="bold" color="blue.600" mb={2}>Status</Text>
-  <Select value={quizStatus} onChange={(e) => setQuizStatus(e.target.value)}>
-    <option value="ongoing">Ongoing</option>
-    <option value="finished">Finished</option>
-  </Select>
-</FormControl>
-<FormControl>
-  <FormLabel>Start Time</FormLabel>
-  <Input
-    type="datetime-local"
-    value={startTime}
-    onChange={(e) => setStartTime(e.target.value)}
-  />
-</FormControl>
-
-<FormControl>
-  <FormLabel>End Time</FormLabel>
-  <Input
-    type="datetime-local"
-    value={endTime}
-    onChange={(e) => setEndTime(e.target.value)}
-  />
-  <Divider my={4} />
-</FormControl>
-        {quiz &&
-          quiz.questions &&
-          quiz.questions.map((question, index) => (
-            <FormControl key={index} my={4}>
-              <FormLabel htmlFor={`questionText-${index}`}>
-                Question {index + 1}
-              </FormLabel>
-
-              <Input
-                id={`questionText-${index}`}
-                type="text"
-                value={question.questionText}
-                onChange={(e) =>
-                  handleQuestionChange(index, "questionText", e.target.value)
-                }
-              />
-              <FormLabel htmlFor={`optionA-${index}`}>Answer A</FormLabel>
-              <Input
-                id={`optionA-${index}`}
-                type="text"
-                value={question.optionA}
-                onChange={(e) =>
-                  handleQuestionChange(index, "optionA", e.target.value)
-                }
-              />
-              <FormLabel htmlFor={`optionB-${index}`}>Answer B</FormLabel>
-              <Input
-                id={`optionB-${index}`}
-                type="text"
-                value={question.optionB}
-                onChange={(e) =>
-                  handleQuestionChange(index, "optionB", e.target.value)
-                }
-              />
-              <FormLabel htmlFor={`optionC-${index}`}>Answer C</FormLabel>
-              <Input
-                id={`optionC-${index}`}
-                type="text"
-                value={question.optionC}
-                onChange={(e) =>
-                  handleQuestionChange(index, "optionC", e.target.value)
-                }
-              />
-              <FormLabel htmlFor={`optionD-${index}`}>Answer D</FormLabel>
-              <Input
-                id={`optionD-${index}`}
-                type="text"
-                value={question.optionD}
-                onChange={(e) =>
-                  handleQuestionChange(index, "optionD", e.target.value)
-                }
-              />
-              <FormControl as="fieldset">
-
-              <FormLabel htmlFor={`correctAnswer-${index}`}>
-      Correct Answer
-    </FormLabel>
-          <Input 
-            id={`correctAnswer-${index}`}
-            type="text"
-            value={question.correctAnswer}
-            onChange={(e) =>
-              handleQuestionChange(index, "correctAnswer", e.target.value)
-            }
-          />
-
-    <RadioGroup
-      name={`correctAnswer-${index}`}
-      value={question.correctAnswer}
-      onChange={(selectedLetter) => handleCorrectAnswerChange(index, selectedLetter)}
-    >
-      <HStack spacing="24px">
-        {["A", "B", "C", "D"].map((option) => (
-          <Radio key={option} value={option}>
-            {option}
-          </Radio>
-              ))}
-            </HStack>
-          </RadioGroup>
+          <Text fontSize="lg" fontWeight="bold" textColor="#5B8FB9" mb={2}>
+            Status
+          </Text>
+          <Select
+            value={quizStatus}
+            onChange={(e) => setQuizStatus(e.target.value)}
+            textColor="black"
+            bg="#B6EADA"
+          >
+            <option value="ongoing">Ongoing</option>
+            <option value="finished">Finished</option>
+          </Select>
         </FormControl>
-          
-              <Button
-                onClick={() => handleDeleteQuestion(index)}
-                colorScheme="red"
-                mt={4}
-                ml={4}
-                size={'sm'}
-              >
-                Delete Question
-              </Button>
-            </FormControl>
-          ))}
-          <Button 
-                onClick={() => handleAddQuestion()}
-                colorScheme="green"
-                mt={4}
-                ml={4}
-                size={'sm'}
-              >
-                Add Question
-              </Button>
-          <Button
-                onClick={() => handleUpdateQuiz()}
-                colorScheme="blue"
-                mt={4}
-                ml={4}
-                size={'sm'}
-              >
-                Save Changes
-              </Button>
-           <Button
-                onClick={() => handleDeleteQuiz()}
-                colorScheme="red"
-                mt={4}
-                ml={4}
-                size={'sm'}
-              >
-                Delete Quiz
-              </Button>
+        <FormControl>
+          <FormLabel textColor="#5B8FB9">Start Time</FormLabel>
+          <Input
+            type="datetime-local"
+            value={startTime}
+            onChange={(e) => setStartTime(e.target.value)}
+            bg="#B6EADA"
+          />
+        </FormControl>
+        <FormControl>
+          <FormLabel textColor="#5B8FB9">End Time</FormLabel>
+          <Input
+            type="datetime-local"
+            value={endTime}
+            onChange={(e) => setEndTime(e.target.value)}
+            bg="#B6EADA"
+          />
+          <Divider my={4} />
+        </FormControl>
+        <Table variant="striped" colorScheme="black">
+          <Thead>
+            <Tr>
+              <Th textColor="#5B8FB9">Question</Th>
+              <Th textColor="#5B8FB9">Answer A</Th>
+              <Th textColor="#5B8FB9">Answer B</Th>
+              <Th textColor="#5B8FB9">Answer C</Th>
+              <Th textColor="#5B8FB9">Answer D</Th>
+              <Th textColor="#5B8FB9">Correct Answer</Th>
+              <Th textColor="#5B8FB9">Action</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {quiz &&
+              quiz.questions &&
+              quiz.questions.map((question, index) => (
+                <Tr key={index} textColor="#5B8FB9">
+                  <Td>
+                    <Input
+                      type="text"
+                      value={question.questionText}
+                      onChange={(e) =>
+                        handleQuestionChange(
+                          index,
+                          "questionText",
+                          e.target.value
+                        )
+                      }
+                    />
+                  </Td>
+                  <Td>
+                    <Input
+                      type="text"
+                      value={question.optionA}
+                      onChange={(e) =>
+                        handleQuestionChange(index, "optionA", e.target.value)
+                      }
+                    />
+                  </Td>
+                  <Td>
+                    <Input
+                      type="text"
+                      value={question.optionB}
+                      onChange={(e) =>
+                        handleQuestionChange(index, "optionB", e.target.value)
+                      }
+                    />
+                  </Td>
+                  <Td>
+                    <Input
+                      type="text"
+                      value={question.optionC}
+                      onChange={(e) =>
+                        handleQuestionChange(index, "optionC", e.target.value)
+                      }
+                    />
+                  </Td>
+                  <Td>
+                    <Input
+                      type="text"
+                      value={question.optionD}
+                      onChange={(e) =>
+                        handleQuestionChange(index, "optionD", e.target.value)
+                      }
+                    />
+                  </Td>
+                  <Td>
+                    <Input
+                      type="text"
+                      value={question.correctAnswer}
+                      onChange={(e) =>
+                        handleQuestionChange(
+                          index,
+                          "correctAnswer",
+                          e.target.value
+                        )
+                      }
+                    />
+                    <RadioGroup
+                      name={`correctAnswer-${index}`}
+                      value={question.correctAnswer}
+                      onChange={(selectedLetter) =>
+                        handleCorrectAnswerChange(index, selectedLetter)
+                      }
+                    >
+                      <HStack spacing="24px">
+                        {["A", "B", "C", "D"].map((option) => (
+                          <Radio key={option} value={option}>
+                            {option}
+                          </Radio>
+                        ))}
+                      </HStack>
+                    </RadioGroup>
+                  </Td>
+                  <Td>
+                    
+                    <NeonButton 
+                    onClick={() => handleDeleteQuestion(index)}
+                    text="Delete"
+                    />
+                  </Td>
+                </Tr>
+              ))}
+          </Tbody>
+        </Table>
+        <NeonButton onClick={() => handleUpdateQuiz()} text="Save Changes" />
+        <NeonButton onClick={() => handleDeleteQuiz()} text="Delete Quiz" />
+        <NeonButton onClick={() => handleAddQuestion()} text="Add Question" />
       </Box>
     </Flex>
   );
