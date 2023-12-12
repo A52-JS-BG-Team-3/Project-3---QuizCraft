@@ -1,4 +1,4 @@
-import { Box, Text, HStack, useToast, Button, Heading, Image } from "@chakra-ui/react";
+import { Box, Text, HStack, useToast, Button } from "@chakra-ui/react";
 import { ref, get, update, remove } from "firebase/database";
 import { db } from "../../config/firebase-config";
 import { useEffect, useState } from "react";
@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import QuizHistory from "./QuizHistory";
 import { neonBoxShadowTurquoise } from "../../components/BoxShadowsConts/boxshadows";
 import { neonBoxShadowPurple } from "../../components/BoxShadowsConts/boxshadows";
+import { fetchUserName } from "../../services/user.service";
+import { auth } from "../../config/firebase-config";
 
 const StudentsProfile = () => {
   const [invitations, setInvitations] = useState([]);
@@ -34,7 +36,8 @@ const StudentsProfile = () => {
 
   const fetchFeedback = async () => {
     try {
-      const feedbackRef = ref(db, `feedback`);
+      const currentUsername = await fetchUserName(auth.currentUser.uid);
+      const feedbackRef = ref(db, `feedback/${currentUsername}`);
       const feedbackSnapshot = await get(feedbackRef);
 
       if (feedbackSnapshot.exists()) {
@@ -44,8 +47,9 @@ const StudentsProfile = () => {
           ...feedbackData[key],
         }));
 
-        setFeedback(feedback);
-        console.log(feedbackList)
+        setFeedback(feedbackList);
+      } else {
+        setFeedback([]);
       }
     } catch (error) {
       console.error("Error fetching feedback:", error);
@@ -56,17 +60,17 @@ const StudentsProfile = () => {
     try {
       const invitationRef = ref(db, `invitations/${invitation.key}`);
       await update(invitationRef, { status: "accepted" });
-  
+
       const quizzesRef = ref(db, "quizzes");
       const quizSnapshot = await get(quizzesRef);
-  
+
       if (quizSnapshot.exists()) {
         const quizUid = Object.keys(quizSnapshot.val())[0];
         navigate(`/quiz/${quizUid}`);
-  
+
         const deletedInvitationRef = ref(db, `invitations/${invitation.key}`);
         await remove(deletedInvitationRef);
-  
+
         toast({
           title: "Invitation Accepted",
           description: `You have accepted the invitation for Quiz ${invitation.quizId}`,
@@ -76,12 +80,10 @@ const StudentsProfile = () => {
         });
       } else {
         console.error("Quiz not found for quizId:", invitation.quizId);
-        
       }
       fetchFeedback();
     } catch (error) {
       console.error("Error accepting invitation:", error);
-      
     }
   };
 
@@ -91,37 +93,31 @@ const StudentsProfile = () => {
   }, []);
 
   return (
-    <HStack spacing={{ base: 4, md: 8 }} border="solid" bg="#03001C" pt="5%" pb="5%" pl="5%" pr="5%" boxShadow={neonBoxShadowPurple}>
-      <Image src="src\assets\did_you_know.png" h="200px" />
+    <HStack
+      spacing={4}
+      border="solid"
+      bg="#03001C"
+      pt="5%"
+      pb="5%"
+      pl="5%"
+      pr="5%"
+      boxShadow={neonBoxShadowPurple}
+    >
       <Box p={4} boxShadow={neonBoxShadowTurquoise}>
-       <Heading
-          as="h1"
-          size="xl"
-          mb={6}
-          textAlign="center"
-          className="glowing-heading"
-          style={{ fontFamily: "'Lobster', cursive" }}
-        >
-          Quiz History 
-        </Heading>
+        <Text color="green">Quiz History</Text>
         <QuizHistory />
       </Box>
       <Box p={4} boxShadow={neonBoxShadowTurquoise}>
-      <Heading
-          as="h1"
-          size="xl"
-          mb={6}
-          textAlign="center"
-          className="glowing-heading"
-          style={{ fontFamily: "'Lobster', cursive" }}
-        >
-         Invitations
-        </Heading>
+        <Text color="green">Invitations</Text>
         {invitations.map((invitation) => (
-          <Box key={invitation.key} p={2} mb={2} border="1px" borderRadius="md">
-            <Text color="white">
-              Quiz: {invitation.quizId}
-            </Text>
+          <Box
+            key={invitation.key}
+            p={2}
+            mb={2}
+            border="1px"
+            borderRadius="md"
+          >
+            <Text color="white">Quiz: {invitation.quizId}</Text>
             {invitation.status === "pending" && (
               <Button
                 colorScheme="blue"
@@ -135,32 +131,25 @@ const StudentsProfile = () => {
         ))}
       </Box>
       <Box p={4} boxShadow={neonBoxShadowTurquoise}>
-      <Heading
-          as="h1"
-          size="xl"
-          mb={6}
-          textAlign="center"
-          className="glowing-heading"
-          style={{ fontFamily: "'Lobster', cursive" }}
-        >
-         Feedback
-        </Heading>
-        {feedback.map((feedbackItem) => (
-          <Box key={feedbackItem.key} p={2} mb={2} border="1px" borderRadius="md">
+        <Text color="green">Feedback</Text>
+        {feedback.map((userFeedback) => (
+          <Box
+            key={userFeedback.key}
+            p={2}
+            mb={2}
+            border="1px"
+            borderRadius="md"
+          >
+            <Text color="white">Quiz Title: {userFeedback.title}</Text>
             <Text color="white">
-              Quiz Title: {feedbackItem.title}
+              Student Score: {userFeedback.score !== null ? userFeedback.score : "Score not available"}
             </Text>
-            <Text color="white">
-              Student Score: {feedbackItem.score !== null ? feedbackItem.score : "Score not available"}
-            </Text>
-            <Text color="white">
-              Feedback: {feedbackItem.feedback}
-            </Text>
+            <Text color="white">Feedback: {userFeedback.feedback}</Text>
           </Box>
         ))}
       </Box>
-      <Image src="src\assets\quiz_time.png" h="290px" />
     </HStack>
   );
 };
+
 export default StudentsProfile;
