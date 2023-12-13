@@ -1,5 +1,5 @@
 import { Box, Text, HStack, useToast, Button } from "@chakra-ui/react";
-import { ref, get, update, remove } from "firebase/database";
+import { ref, get, remove } from "firebase/database";
 import { db } from "../../config/firebase-config";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -58,30 +58,37 @@ const StudentsProfile = () => {
 
   const acceptInvitation = async (invitation) => {
     try {
-      const invitationRef = ref(db, `invitations/${invitation.key}`);
-      await update(invitationRef, { status: "accepted" });
-
       const quizzesRef = ref(db, "quizzes");
       const quizSnapshot = await get(quizzesRef);
-
+  
       if (quizSnapshot.exists()) {
-        const quizUid = Object.keys(quizSnapshot.val())[0];
-        navigate(`/quiz/${quizUid}`);
-
-        const deletedInvitationRef = ref(db, `invitations/${invitation.key}`);
-        await remove(deletedInvitationRef);
-
-        toast({
-          title: "Invitation Accepted",
-          description: `You have accepted the invitation for Quiz ${invitation.quizId}`,
-          status: "success",
-          duration: 3000,
-          isClosable: true,
-        });
+        const quizzesData = quizSnapshot.val();
+        const matchingQuiz = Object.entries(quizzesData).find(
+          ([, quiz]) => quiz.title === invitation.quizId
+        );
+  
+        if (matchingQuiz) {
+          const [quizUid] = matchingQuiz;
+          navigate(`/quiz/${quizUid}`);
+  
+          const deletedInvitationRef = ref(db, `invitations/${invitation.key}`);
+          await remove(deletedInvitationRef);
+  
+          toast({
+            title: "Invitation Accepted",
+            description: `You have accepted the invitation for Quiz ${invitation.quizId}`,
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+          });
+        } else {
+          console.error("Quiz not found for quiz title:", invitation.quizId);
+        }
       } else {
-        console.error("Quiz not found for quizId:", invitation.quizId);
+        console.error("No quizzes found");
       }
-      fetchFeedback();
+  
+      fetchFeedback(); 
     } catch (error) {
       console.error("Error accepting invitation:", error);
     }
