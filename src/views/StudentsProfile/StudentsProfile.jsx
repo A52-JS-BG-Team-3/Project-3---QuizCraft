@@ -142,7 +142,7 @@ const StudentsProfile = () => {
           >
             <Text color="white">Quiz Title: {userFeedback.title}</Text>
             <Text color="white">
-              Student Score: {userFeedback.score !== null ? userFeedback.score : "Score not available"}
+              Student Score: {userFeedback.score !== null ? userFeedback.score.toFixed(2) : "Score not available"}
             </Text>
             <Text color="white">Feedback: {userFeedback.feedback}</Text>
           </Box>

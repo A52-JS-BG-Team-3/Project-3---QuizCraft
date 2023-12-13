@@ -33,6 +33,7 @@ Ready to elevate your quiz experience? Join Quizy Peazy today and unlock the gat
 ## Features
 
 ### Entities
+- **Environment File**: The project includes a .env file, which contains an API key for the Did you know panel. The file must contain a const NINJA_API_KEY = {your pai key from https://api-ninjas.com/}
 
 - **User Authentication**: Handled by Firebase. Users have unique usernames, emails, phone numbers, and photos. Users can be organizers or students.
 
