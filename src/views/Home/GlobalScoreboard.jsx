@@ -10,8 +10,6 @@ const GlobalScoreboard = () => {
   useEffect(() => {
     const fetchGlobalScoreboard = async () => {
       try {
-        console.log("Fetching global scoreboard...");
-
         const attemptedRef = ref(db, "attempted");
 
         const attemptedSnapshot = await get(
@@ -39,8 +37,6 @@ const GlobalScoreboard = () => {
             }))
             .filter((user) => user.totalPoints > 0);
 
-          console.log("Fetched data:", scoreboardArray);
-
           const sortedScoreboard = scoreboardArray.sort(
             (a, b) => b.totalPoints - a.totalPoints
           );
@@ -66,7 +62,13 @@ const GlobalScoreboard = () => {
       width="100%"
       mx="auto"
     >
-      <Text color="#FFFFC7" fontSize="xl" fontWeight="bold" mb="4" textAlign="center">
+      <Text
+        color="#FFFFC7"
+        fontSize="xl"
+        fontWeight="bold"
+        mb="4"
+        textAlign="center"
+      >
         Global Scoreboard
       </Text>
       {scoreboard.length > 0 ? (
