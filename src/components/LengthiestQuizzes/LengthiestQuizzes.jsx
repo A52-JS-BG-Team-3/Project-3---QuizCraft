@@ -3,13 +3,13 @@ import { ref, get, query, orderByChild, limitToLast } from "firebase/database";
 import { db } from "../../config/firebase-config";
 import { Box, Flex, HStack, Heading, Text, Button } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import AppContext from "../../context/context"; // Assuming your user context
+import AppContext from "../../context/context";
 import { neonBoxShadowTurquoise } from "../BoxShadowsConts/boxshadows";
 import NeonButton from "../NeonButton/NeonButton";
 
 export default function LengthiestQuizzes() {
   const [quizzes, setQuizzes] = useState([]);
-  const { user } = useContext(AppContext); // Assuming your user context provides user information
+  const { user } = useContext(AppContext);
 
   useEffect(() => {
     const quizzesRef = ref(db, "quizzes");
@@ -21,10 +21,10 @@ export default function LengthiestQuizzes() {
 
     get(latestQuizzesQuery).then((snapshot) => {
       const quizzesData = snapshot.val();
-      const sortedQuizzes = Object.values(quizzesData)
+      const sortedQuizzes = Object.entries(quizzesData).map(([key, value]) => ({ id: key, ...value }))
         .filter((quiz) => quiz.type === "closed")
         .sort((a, b) => parseInt(b.timeLimit) - parseInt(a.timeLimit))
-        .slice(0, 3); 
+        .slice(0, 3);
 
       setQuizzes(sortedQuizzes);
     });
@@ -40,7 +40,12 @@ export default function LengthiestQuizzes() {
       maxW="80%"
       mx="auto"
     >
-      <Heading color="#FFFFC7" mb={4} fontSize={{ base: "xl", md: "2xl" }} textAlign="center">
+      <Heading
+        color="#FFFFC7"
+        mb={4}
+        fontSize={{ base: "xl", md: "2xl" }}
+        textAlign="center"
+      >
         Our Lengthiest Quizzes
       </Heading>
       <Flex justifyContent="center">
